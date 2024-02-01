@@ -2,9 +2,9 @@
 # [A2] Island ca.mcmaster.se2aa4.island.team120.Explorer
 
 - Authors:
+  - [Shivya, Mehta](mehtas47@mcmaster.ca)
   - [Tvesha, Shah](shaht8@mcmaster.ca) 
   - [Catherine, Yang](yangc137@mcmaster.ca)
-  - [Shivya, Mehta](mehtas47@mcmaster.ca)
 
 ## Product Description
 
