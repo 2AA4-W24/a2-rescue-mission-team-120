@@ -3,8 +3,8 @@
 
 - Authors:
   - [Tvesha, Shah](shaht8@mcmaster.ca) 
-  - [Catherine, Yang](macid@mcmaster.ca)
-  - [Shivya, Mehta](macid@mcmaster.ca)
+  - [Catherine, Yang](yangc137@mcmaster.ca)
+  - [Shivya, Mehta](mehtas47@mcmaster.ca)
 
 ## Product Description
 
