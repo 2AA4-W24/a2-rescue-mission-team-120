@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ExampleTest {
 
-    @Test
+    /*@Test
     public void sampleTest() {
-        assertTrue(1 == 1);
-    }
+        assertTrue(1 == 2);
+    }*/
 
 
 }
