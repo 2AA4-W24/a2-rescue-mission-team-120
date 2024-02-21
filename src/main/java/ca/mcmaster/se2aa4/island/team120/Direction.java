@@ -40,6 +40,26 @@ public enum Direction{
     }
 
     public Direction turnLeft(){
-        return null;
+        // case and return new direction
+        switch (this){
+            case NORTH -> {
+                return WEST;
+            }
+            case EAST -> {
+                return NORTH;
+            }
+            case SOUTH -> {
+                return EAST;
+            }
+            case WEST -> {
+                return SOUTH;
+            }
+        }
+        throw new IllegalStateException("ERROR");
+    }
+
+
+    public boolean isUTurn(){
+        return false;
     }
 }
