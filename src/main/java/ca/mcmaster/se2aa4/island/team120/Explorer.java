@@ -117,20 +117,21 @@ public class Explorer implements IExplorerRaid {
         
         logger.info("COUNTTTTT: " + count_dir);
         
-        //checks if we scanned area below first before outputting if we're on water, creek, or site
-        if(extraInfo.has("creeks")){
-            if(extraInfo.getJSONArray("creeks").length()==0 && extraInfo.getJSONArray("sites").length()==0){
+        PhotoScanner scan= new PhotoScanner();
+
+        
+        if(!scan.isCreek(extraInfo) && !scan.isSite(extraInfo)){
                 logger.info("NOT A CREEK OR EMERGENCY SITE, WE ARE ON WATAHHH!");
-            }
-            else if(extraInfo.getJSONArray("sites").length()==0){
-                logger.info("NOT AN EMERGENCY SITE!");
-                logger.info("MUST BE ON A CREEK");
-            }
-            else{
-                logger.info("NOT A CREEK");
-                logger.info("MUST BE ON AN EMERGENCY SITE!");
-            }
         }
+        else if(!scan.isSite(extraInfo)){
+            logger.info("NOT AN EMERGENCY SITE!");
+            logger.info("MUST BE ON A CREEK");
+        }
+        else{
+            logger.info("NOT A CREEK");
+            logger.info("MUST BE ON AN EMERGENCY SITE!");
+        }
+        
 
     }
 
