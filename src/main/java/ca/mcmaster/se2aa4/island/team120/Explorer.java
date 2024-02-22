@@ -27,6 +27,10 @@ public class Explorer implements IExplorerRaid {
 
         logger.info("The drone is facing {}", currentDirection);
         logger.info("Battery level is {}", batteryLevel);
+        //gather all creek info + emergency site info (rank is closest to furthest)
+        //based on creek 1 - find ur x,y (x,y of creek given)
+        //once you have ur x,y change ur direction as needed and move to creek - is that allowed to do u have to move forward first?
+        // review decsions/actions and rules for them 
     }
 
     @Override
@@ -49,7 +53,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("The cost of the action was {}", cost);
         
         batteryLevel -= cost; 
-        logger.info("Remaining battery{}", batteryLevel);
+        logger.info("Remaining battery {}", batteryLevel);
 
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
