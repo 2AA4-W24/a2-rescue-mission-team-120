@@ -1,45 +1,39 @@
 package ca.mcmaster.se2aa4.island.team120;
 
 public enum Direction{
-    NORTH,
-    EAST,
-    SOUTH,
-    WEST;
+    N,
+    E,
+    S,
+    W;
     // casing for directions on a map
     // test: get back direction.north
     // heading --> request drone to turn right or left by indicating new direction / applies inertia
-    //
 
-    public Direction newDirection(Direction goalDir){
-        //pass goal direction as a parameter, check to turn right
-        //if goal direction is to the left of current direction, call turn left; 
-        //if to the right, turn right; 
-        //if none, just turn right and repeat;
-        //rightDir = turnRight();
-        //leftDir = turnLeft();
-        return null;
-    }
-
-    public Direction turnRight(){
-        // case and return new direction
+    public Direction rightDirection(){
         switch (this){
-            case NORTH -> {
-                return EAST;
-            }
-            case EAST -> {
-                return SOUTH;
-            }
-            case SOUTH -> {
-                return WEST;
-            }
-            case WEST -> {
-                return NORTH;
-            }
+            case N:
+                return E;
+            case E:
+                return S;
+            case S:
+                return W;
+            case W:
+                return N;
         }
-        throw new IllegalStateException("ERROR");
+        throw new IllegalStateException("NO RIGHT DIR");
     }
 
-    public Direction turnLeft(){
-        return null;
+    public Direction leftDirection(){
+        switch (this){
+            case N:
+                return W;
+            case W:
+                return S;
+            case S:
+                return E;
+            case E:
+                return N;
+        }
+        throw new IllegalStateException("NO LEFT DIR");
     }
 }
