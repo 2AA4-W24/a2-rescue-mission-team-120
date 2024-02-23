@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.island.team120;
 
+<<<<<<< HEAD
 import java.io.StringReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,4 +36,8 @@ public class PhotoScanner {
     }
 
 
+=======
+public class PhotoScanner {
+    
+>>>>>>> ac0f23f3acee3708a56014af38e9abfa66ca97af
 }
