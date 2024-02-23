@@ -47,12 +47,18 @@ public class Explorer implements IExplorerRaid {
         
         if(count_dir==0){
             decision.put("action", "scan");
-            count_dir++;
-            return decision.toString();
+            logger.info("** Decision: {}",decision.toString());
+        }
+        else if(count_dir==1){
+            decision.put("action", "heading");
+            parameters.put("direction", "N");
+            decision.put("parameters", parameters);
+            logger.info("** Decision: {}",decision.toString());
         }
         else{
             decision.put("action","stop");
         }
+        count_dir++;
         /* 
         decision.put("action", action); 
         if (count_dir<=30){
