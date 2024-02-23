@@ -14,6 +14,8 @@ public class Explorer implements IExplorerRaid {
     private Integer batteryLevel; //so we can track battery level 
     private String action = "stop"; //set to stop for now 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
+    private String rightDir;
+    private String leftDir;
 
     @Override
     public void initialize(String s) {
@@ -31,6 +33,11 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
+        String rightDir = Direction.right(currentDirection);
+        String leftDir = Direction.left(currentDirection);
+        logger.info(leftDir);
+        logger.info(rightDir);
+
 
         decision.put("action", action); // we stop the exploration immediately
         logger.info("** Decision: {}",decision.toString());
