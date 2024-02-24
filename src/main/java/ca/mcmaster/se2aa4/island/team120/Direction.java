@@ -12,7 +12,7 @@ public class Direction{
             case "W":
                 return "N";
             default:
-                throw new IllegalArgumentException("ERROR READING DIRECTION");
+                throw new IllegalStateException("INVALID DIRECTION");
         }
     }
 
@@ -27,7 +27,7 @@ public class Direction{
             case "E":
                 return "N";
             default:
-                throw new IllegalArgumentException("ERROR READING DIRECTION");
+                throw new IllegalStateException("INVALID DIRECTION");
         }
     }
 }

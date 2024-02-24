@@ -14,8 +14,11 @@ public class Explorer implements IExplorerRaid {
     private Integer batteryLevel; //so we can track battery level 
     private String action = "stop"; //set to stop for now 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
-    private String rightDir;
-    private String leftDir;
+    //private String rightDir;
+    //private String leftDir;
+    private String lastDir;
+    private Integer range;
+    private String newDir;
 
     @Override
     public void initialize(String s) {
@@ -33,14 +36,35 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
+        JSONObject parameters = new JSONObject();
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
         logger.info(leftDir);
         logger.info(rightDir);
 
-
-        decision.put("action", action); // we stop the exploration immediately
+        //echo and check the left direction, then right direction 
+        //NEEDS TO UPDATE HEADING THROUGH ACTION BEFORE ECHOING
+        //if curr dir is changed then update heading first
+        //make echo conditional??
+        decision.put("action", "heading");
+        parameters.put("direction", currentDirection);
+        decision.put("parameters", parameters);
         logger.info("** Decision: {}",decision.toString());
+
+        decision.put("action", "echo");
+        parameters.put("direction", leftDir);
+        decision.put("parameters", parameters);
+        logger.info("** Decision: {}",decision.toString());
+
+        decision.put("action", "echo");
+        parameters.put("direction", rightDir);
+        decision.put("parameters", parameters);
+        logger.info("** Decision: {}",decision.toString());
+        lastDir = rightDir;
+
+        //decision.put("action", action); // we stop the exploration immediately
+        //logger.info("** Decision: {}",decision.toString());
+        logger.info
 
         return decision.toString();
     }
@@ -65,8 +89,24 @@ public class Explorer implements IExplorerRaid {
             deliverFinalReport();
         }
        
+        //check what direction is being echoed in
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
+        logger.info("YUMMY");
+
+        Radar radar = new Radar();
+
+        //if extras spots ground in direction, update dir 
+        if (!radar.checkEcho(extraInfo)){
+            logger.info("OUT OF RANGE");
+
+        }else{
+            range = extraInfo.getInt("range");
+            logger.info("YOU'RE {} AWAY", range);
+            logger.info("SWITCHING DIRECTION...");
+            currentDirection = lastDir;
+            logger.info("NEW DIRECTION {}", currentDirection);
+        }
     }
 
     @Override

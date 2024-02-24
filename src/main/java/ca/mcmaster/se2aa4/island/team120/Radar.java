@@ -14,20 +14,18 @@ import org.json.JSONTokener;
 //{ "cost": 1, "extras": { "range": 0, "found": "OUT_OF_RANGE" }, "status": "OK"
 
 public class Radar{
-    public boolean echoRight(JSONObject echo){
-        if (echo.has("creek")){
-            return true;
+    private final Logger logger = LogManager.getLogger();
+
+    public boolean checkEcho(JSONObject echo){
+        if (echo.has("found")){
+            String found = echo.getString("found");
+            if ("OUT_OF_RANGE".equals(found)){
+                logger.info("YUP");
+                return true;
+            }else{
+                return false;
+            }
         }
-        else{
-            return false; 
-        }
-    }
-    public boolean echoLeft(JSONObject echo){
-        if (echo.has("creek")){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return false;
     }
 }
