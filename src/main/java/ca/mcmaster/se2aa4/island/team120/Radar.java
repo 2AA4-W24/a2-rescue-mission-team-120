@@ -19,7 +19,7 @@ public class Radar{
     public boolean checkEcho(JSONObject echo){
         if (echo.has("found")){
             String found = echo.getString("found");
-            if ("OUT_OF_RANGE".equals(found)){
+            if ("GROUND".equals(found)){
                 logger.info("YUP");
                 return true;
             }else{
