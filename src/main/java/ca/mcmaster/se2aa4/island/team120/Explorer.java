@@ -15,6 +15,15 @@ public class Explorer implements IExplorerRaid {
     private String action = "stop"; //set to stop for now 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
 
+    private JSONObject info;
+    private int count=0;
+    private int count_dir=0;
+
+    private JSONObject decision = new JSONObject();
+    private JSONObject parameters = new JSONObject();
+
+    private tracker tracking; 
+
     @Override
     public void initialize(String s) {
         
@@ -31,16 +40,37 @@ public class Explorer implements IExplorerRaid {
         //based on creek 1 - find ur x,y (x,y of creek given)
         //once you have ur x,y change ur direction as needed and move to creek - is that allowed to do u have to move forward first?
         // review decsions/actions and rules for them 
+
+        tracker tracking = new tracker();
     }
 
     @Override
     public String takeDecision() {
-        JSONObject decision = new JSONObject();
-
+        if(count_dir==0){
+            decision.put("action", "scan");
+            tracking.track(action);
+            logger.info("** Decision: {}",decision.toString());
+        }
+        else if(count_dir==1){
+            decision.put("action", "heading");
+            tracking.track(action);
+            parameters.put("direction", "N");
+            decision.put("parameters", parameters);
+            logger.info("** Decision: {}",decision.toString());
+            
+        }
+        else{
+            decision.put("action","stop");
+            tracking.track(action);
+        }
+        count_dir++;
+        return decision.toString();
+        
+        /*JSONObject decision = new JSONObject();
         decision.put("action", action); // we stop the exploration immediately
         logger.info("** Decision: {}",decision.toString());
 
-        return decision.toString();
+        return decision.toString();*/
     }
 
     @Override
@@ -60,6 +90,7 @@ public class Explorer implements IExplorerRaid {
         
         if (batteryLevel==0){
             action = "stop";
+            tracking.track(action);
             deliverFinalReport();
         }
        
