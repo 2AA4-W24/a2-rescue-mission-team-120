@@ -48,36 +48,51 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
-
-        boolean landfound = false; 
-        int count = 1; 
-
-        while (landfound == false){
-            if (count==1){
-                decision.put("action", "echo");
-                parameters.put("direction", currentDirection);
-
-                logger.info(decision);
-                logger.info(parameters);
-
-                boolean groundFound = radar.checkEcho(parameters);
-
-                if (groundFound) {
-                    logger.info("found land");
-                    landfound=true; 
-                    decision.put("action", "stop");
+    
+        // Check for land in front
+        decision.put("action", "echo");
+        parameters.put("direction", currentDirection);
+    
+        logger.info(decision);
+        logger.info(parameters);
+    
+        boolean groundFound = radar.checkEcho(parameters);
+    
+        if (groundFound) {
+            logger.info("found land in front");
+            decision.put("action", "stop");  // Stop if land is found
+        } else {
+            // Check for land on the left
+            String leftDirection = Direction.turnLeft(currentDirection);
+            parameters.put("direction", leftDirection);
+    
+            logger.info("Checking for land to the left");
+            boolean leftGroundFound = radar.checkEcho(parameters);
+    
+            if (leftGroundFound) {
+                logger.info("found land to the left");
+                decision.put("action", "heading");
+                decision.put("parameters", new JSONObject().put("direction", leftDirection));
+            } else {
+                // Check for land on the right
+                String rightDirection = Direction.turnRight(currentDirection);
+                parameters.put("direction", rightDirection);
+    
+                logger.info("Checking for land to the right");
+                boolean rightGroundFound = radar.checkEcho(parameters);
+    
+                if (rightGroundFound) {
+                    logger.info("found land to the right");
+                    decision.put("action", "heading");
+                    decision.put("parameters", new JSONObject().put("direction", rightDirection));
                 } else {
-                    logger.info("no land");
-                    currentDirection = Direction.turnRight(currentDirection);
-                    count = 2; 
+                    // If no land found anywhere, step forward
+                    logger.info("No land found in current direction, stepping forward");
+                    decision.put("action", "fly");
                 }
-
-            }else if (count==2){
-                decision.put("action", "fly");
-                logger.info("fly");
-                currentDirection = Direction.turnLeft(currentDirection);
             }
         }
+    
         return decision.toString();
     }
     
