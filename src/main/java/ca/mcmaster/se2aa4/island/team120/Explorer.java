@@ -94,7 +94,6 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Response received:\n"+response.toString(2));
         Integer cost = response.getInt("cost");
        
-       
         logger.info("The cost of the action was {}", cost);
         
         batteryLevel -= cost; 
