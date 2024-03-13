@@ -16,6 +16,8 @@ public class Explorer implements IExplorerRaid {
     private String currentDirection; //so we can know from parsing info what our starter direction is 
     private Radar radar = new Radar(); 
 
+    private PhotoScanner scanner = new PhotoScanner(); 
+
     //private JSONObject decision = new JSONObject();
     //private JSONObject parameters = new JSONObject();
 
@@ -48,33 +50,36 @@ public class Explorer implements IExplorerRaid {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 
-        String rightDir = Direction.right(currentDirection);
-        String leftDir = Direction.left(currentDirection);
-        logger.info(leftDir);
-        logger.info(rightDir);
+        //logger.info(leftDir);
+        //logger.info(rightDir);
 
-        boolean MIA = false; 
+        int count = 1; 
 
-
-        while(batteryLevel != 5000 && MIA == false){
+        while(count !=20){
             decision.put("action", "echo"); 
             parameters.put("direction", currentDirection);
             
             logger.info(decision);
             logger.info(radar.checkEcho(parameters));
             logger.info(parameters);
-            
             if (radar.checkEcho(parameters)){
                 logger.info(parameters);
                 logger.info(radar.checkEcho(parameters));
-                decision.put("action", "fly"); 
+                //decision.put("action", "fly"); 
+                logger.info("found land");
+                decision.put("action", "stop"); 
             }else{
-                MIA = true; 
-                logger.info("MIA");
+                currentDirection = Direction.right(currentDirection);
+                decision.put("action", "fly");
+                currentDirection = Direction.left(currentDirection); 
             }
+            count ++; 
         }
+        logger.info("no land");
+        decision.put("action", "stop"); 
         return decision.toString();
     }
+    
 
     @Override
     public void acknowledgeResults(String s) {

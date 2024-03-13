@@ -18,7 +18,7 @@ public class Radar{
     private final Logger logger = LogManager.getLogger();
 
     public boolean checkEcho(JSONObject echo){
-        logger.info("check - reached radar within echo");
+        logger.info(echo);
         if (echo.has("found")){
             String found = echo.getString("found");
             if ("GROUND".equals(found)){
