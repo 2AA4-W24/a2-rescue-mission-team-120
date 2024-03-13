@@ -14,10 +14,11 @@ public class Explorer implements IExplorerRaid {
     private Integer batteryLevel; //so we can track battery level 
     private String action = "stop"; //set to stop for now 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
-    private String lastDir;
     private Integer range;
-    private String newDir;
-    private Integer i = 1;
+    private Integer fly = 1;
+    private Integer echo = 0;
+    private String lastChecked;
+    private Boolean groundFound = false;
 
     @Override
     public void initialize(String s) {
@@ -26,7 +27,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Initialization info:\n {}",info.toString(2));
 
         currentDirection = info.getString("heading");
-        lastDir = currentDirection;
+        lastChecked = currentDirection;
         batteryLevel = info.getInt("budget");
 
         logger.info("The drone is facing {}", currentDirection);
@@ -42,15 +43,52 @@ public class Explorer implements IExplorerRaid {
         logger.info(leftDir);
         logger.info(rightDir);
 
-        //echo and check the left direction, then right direction 
-        //NEEDS TO UPDATE HEADING THROUGH ACTION BEFORE ECHOING
-        //if curr dir is changed then update heading first
-        //make echo conditional?? echo should be called when 
-        //setting up decisions so that the drone scans first; if its ocean itll echo
-        //echo from all sides and fly until ground is found; 
-        //once ground is found start scanning for creeks
-        //if scan is ocean again, start echoing for land again 
+        if (groundFound){
+            decision.put("action", "heading");
+            parameters.put("direction", currentDirection);
+            decision.put("parameters", parameters);
+            logger.info("** Decision: {}",decision.toString());
+            groundFound = false;
+        }
+        else if (echo == 0 && fly == 1){
+            if (lastChecked == currentDirection){
+                decision.put("action", "echo");
+                parameters.put("direction", rightDir);
+                decision.put("parameters", parameters);
+                logger.info("** Decision: {}",decision.toString());
+                lastChecked = rightDir;
+                echo = 1;
+                fly = 0;
+            }
+            else if (lastChecked == rightDir){
+                decision.put("action", "echo");
+                parameters.put("direction", leftDir);
+                decision.put("parameters", parameters);
+                logger.info("** Decision: {}",decision.toString());
+                lastChecked = leftDir;
+                echo = 1;
+                fly = 0;
+            }
+            else if (lastChecked == leftDir){
+                decision.put("action", "echo");
+                parameters.put("direction", currentDirection);
+                decision.put("parameters", parameters);
+                logger.info("** Decision: {}",decision.toString());
+                lastChecked = currentDirection;
+                echo = 1;
+                fly = 0;
+            }
+        }
+
+        else if (echo == 1 && fly == 0){
+            decision.put("action", "fly");
+            logger.info("** Decision: {}",decision.toString());
+            lastChecked = currentDirection;
+            fly = 1;
+            echo = 0;
+        }
         
+        /* 
         if (i==1){
             decision.put("action", "echo");
             parameters.put("direction", leftDir);
@@ -70,6 +108,7 @@ public class Explorer implements IExplorerRaid {
             logger.info("** Decision: {}",decision.toString());
         }
         i++;
+        */
 
         //decision.put("action", action); // we stop the exploration immediately
         //logger.info("** Decision: {}",decision.toString());
@@ -111,8 +150,9 @@ public class Explorer implements IExplorerRaid {
             range = extraInfo.getInt("range");
             logger.info("YOU'RE {} AWAY", range);
             logger.info("SWITCHING DIRECTION...");
-            currentDirection = lastDir;
+            currentDirection = lastChecked;
             logger.info("NEW DIRECTION {}", currentDirection);
+            groundFound = true; 
         }
     }
 
