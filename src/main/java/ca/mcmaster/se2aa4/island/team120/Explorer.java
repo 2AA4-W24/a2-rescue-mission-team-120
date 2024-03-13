@@ -9,7 +9,9 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 public class Explorer implements IExplorerRaid {
-
+    private int x;
+    private int y; 
+    
     private final Logger logger = LogManager.getLogger();
     private Integer batteryLevel; //so we can track battery level 
     //private String action; 
