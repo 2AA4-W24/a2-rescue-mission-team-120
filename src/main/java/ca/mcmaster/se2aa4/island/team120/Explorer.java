@@ -19,6 +19,7 @@ public class Explorer implements IExplorerRaid {
     private Integer echo = 0;
     private String lastChecked;
     private Boolean groundFound = false;
+    private String newDirection;
 
     @Override
     public void initialize(String s) {
@@ -43,7 +44,8 @@ public class Explorer implements IExplorerRaid {
         logger.info(leftDir);
         logger.info(rightDir);
 
-        if (groundFound){
+        if (groundFound && newDirection != currentDirection){
+            currentDirection = newDirection;
             decision.put("action", "heading");
             parameters.put("direction", currentDirection);
             decision.put("parameters", parameters);
@@ -83,32 +85,10 @@ public class Explorer implements IExplorerRaid {
         else if (echo == 1 && fly == 0){
             decision.put("action", "fly");
             logger.info("** Decision: {}",decision.toString());
-            lastChecked = currentDirection;
+            //lastChecked = currentDirection;
             fly = 1;
             echo = 0;
         }
-        
-        /* 
-        if (i==1){
-            decision.put("action", "echo");
-            parameters.put("direction", leftDir);
-            decision.put("parameters", parameters);
-            logger.info("** Decision: {}",decision.toString());
-            lastDir = leftDir;
-        }else if(i==2){
-            decision.put("action", "echo");
-            parameters.put("direction", rightDir);
-            decision.put("parameters", parameters);
-            logger.info("** Decision: {}",decision.toString());
-            lastDir = rightDir;
-        }else if(i==3){ //NEED TO UPDATE DIRECTION AFTER TURNING 
-            decision.put("action", "heading");
-            parameters.put("direction", currentDirection);
-            decision.put("parameters", parameters);
-            logger.info("** Decision: {}",decision.toString());
-        }
-        i++;
-        */
 
         //decision.put("action", action); // we stop the exploration immediately
         //logger.info("** Decision: {}",decision.toString());
@@ -145,13 +125,15 @@ public class Explorer implements IExplorerRaid {
         //if extras spots ground in direction, update dir 
         if (!radar.checkEcho(extraInfo)){
             logger.info("OUT OF RANGE");
-
+            logger.info(currentDirection);
+            logger.info("HOLY {}",lastChecked);
         }else{
             range = extraInfo.getInt("range");
             logger.info("YOU'RE {} AWAY", range);
             logger.info("SWITCHING DIRECTION...");
-            currentDirection = lastChecked;
-            logger.info("NEW DIRECTION {}", currentDirection);
+            newDirection = lastChecked;
+            //currentDirection = lastChecked;
+            logger.info("NEW DIRECTION {}", newDirection);
             groundFound = true; 
         }
     }
