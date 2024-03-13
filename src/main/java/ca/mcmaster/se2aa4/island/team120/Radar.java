@@ -28,33 +28,4 @@ public class Radar{
         }
         return false;
     }
-
-    /*public boolean verifyScan(JSONObject scan){
-        // check for biome, if ocean then false
-        if (scan.has("biomes")){
-            String biomes = scan.getString("biomes");
-            if ("OCEAN".equals(biomes)){
-                return false;
-            }
-            else{
-                return true;
-            }
-        }
-        else{
-            return false;
-        }
-    }
-
-    public boolean checkScan(JSONObject scan){
-        if (scan.has("creeks")){
-            String creeks = scan.getString("creeks");
-            if ("".equals(creeks)){
-                return false;
-            }
-            else{
-                return true;
-            }
-        }
-        return false;
-    }*/
 }
