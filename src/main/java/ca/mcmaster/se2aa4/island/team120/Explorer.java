@@ -121,6 +121,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("YUMMY");
 
         Radar radar = new Radar();
+        PhotoScanner scan= new PhotoScanner(extraInfo);
 
         //if extras spots ground in direction, update dir 
         if (!radar.checkEcho(extraInfo)){
@@ -136,6 +137,22 @@ public class Explorer implements IExplorerRaid {
             logger.info("NEW DIRECTION {}", newDirection);
             groundFound = true; 
         }
+
+        if(scan.isScanned()){
+            if(!scan.isCreek() && !scan.isSite()){
+                logger.info("NOT A CREEK OR EMERGENCY SITE, WE ARE ON WATAHHH!");
+            }
+            else if(!scan.isSite()){
+                logger.info("NOT AN EMERGENCY SITE!");
+                logger.info("MUST BE ON A CREEK");
+            }
+            else{
+                logger.info("NOT A CREEK");
+                logger.info("MUST BE ON AN EMERGENCY SITE!");
+            }
+        
+        }
+        
     }
 
     @Override
