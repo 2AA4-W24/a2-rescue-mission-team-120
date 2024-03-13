@@ -13,21 +13,42 @@ import java.util.HashMap;
 public class tracker{
     static Map<String, Integer> x_coords = new HashMap<>(); //#love 2c03 
     static Map<String, Integer> y_coords = new HashMap<>();
-
     private final Logger logger = LogManager.getLogger();
     
+    private int creek_counter = 0; 
+    private Coordinates coords = new Coordinates(); 
+    
     public void track(JSONObject scan){
-        //get response string from scanner 
-        
+        //get response string from scanner - parse in the input
+
+        // if type creek:
+        //increment creek
+        //call POI to add into hasmap 
+
+        //if type emergency: 
+        //call POI to add into hasmap 
+
 
     }
 
-    public void POI(String type,int x, int y){
+    public void POI(String type){
         //add code to track all important points
         //need to be able to sort points - maybe through if statments - so we know all creek points, all emergency, etc
         
         //maybe create a list, 2d array or dictionary (decided data structure later) that will keep track of decsion number and action
         //maybe have it be canonical (like in maze) where you can multiply if you go straight 4 times
         //dicstionary best for this but not sure how it i will track of order of moves)
+        
+        int x = coords.x_coords(); 
+        int y = coords.y_coords(); 
+
+        if (type == "Creek"){
+            x_coords.put("Creek"+creek_counter, x);
+            y_coords.put("Creek"+creek_counter, y);
+        }else{
+            x_coords.put("Emergency", x);
+            y_coords.put("Emergency", y);
+        }
+
     }
 }
