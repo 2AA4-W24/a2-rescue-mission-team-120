@@ -8,26 +8,34 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 public class PhotoScanner {
 
+    private JSONObject response;
+    
+    public PhotoScanner(JSONObject response){
+        this.response= response;
+    }
+
     //checks if scan action has been executed
-    public boolean isScanned(JSONObject scan){
-        if(scan.has("creeks")){
+    public boolean isScanned(){
+        if(response.has("creeks")){
             return true;
         }
         return false;
     }
 
-    public boolean isCreek(JSONObject scan){
-        if(isScanned(scan)){
-            if(scan.getJSONArray("creeks").length()!=0){
+
+    public boolean isCreek(){
+        if(isScanned()){
+            if(response.getJSONArray("creeks").length()!=0){
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isSite(JSONObject scan){
-        if(isScanned(scan)){
-            if(scan.getJSONArray("sites").length()!=0){
+    
+    public boolean isSite(){
+        if(isScanned()){
+            if(response.getJSONArray("sites").length()!=0){
                 return true;
             }
         }
