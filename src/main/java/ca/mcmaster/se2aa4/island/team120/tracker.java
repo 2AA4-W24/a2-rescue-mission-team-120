@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 
+//CHANGE  this file to store ID's and seperate hash map for emergency 
 
 //overall goal of this class; 1 track what moves made, 2 keep track of all POI found, 3 check distance from start to all creeks (so we know closest creek)
 public class tracker{
