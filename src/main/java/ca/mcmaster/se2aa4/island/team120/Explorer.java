@@ -21,6 +21,10 @@ public class Explorer implements IExplorerRaid {
     private Boolean groundFound = false;
     private String newDirection;
 
+
+    private JSONObject decision = new JSONObject();
+    private JSONObject parameters = new JSONObject();
+
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
