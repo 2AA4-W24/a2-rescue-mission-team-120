@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.island.team120;
 
 public class Direction{
+
     public static String right(String currDir){
         switch (currDir){
             case "N":
@@ -26,6 +27,21 @@ public class Direction{
                 return "E";
             case "E":
                 return "N";
+            default:
+                throw new IllegalStateException("INVALID DIRECTION");
+        }
+    }
+
+    public static String UTurn(String currDir){
+        switch (currDir){
+            case "N":
+                return "S";
+            case "W":
+                return "E";
+            case "S":
+                return "N";
+            case "E":
+                return "W";
             default:
                 throw new IllegalStateException("INVALID DIRECTION");
         }

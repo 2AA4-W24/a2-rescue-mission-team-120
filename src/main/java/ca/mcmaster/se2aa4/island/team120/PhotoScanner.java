@@ -6,7 +6,10 @@ import org.apache.logging.log4j.Logger;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
 public class PhotoScanner {
+
+    private tracker track= new tracker(); 
 
     //checks if scan action has been executed
     public boolean isScanned(JSONObject scan){
@@ -19,6 +22,7 @@ public class PhotoScanner {
     public boolean isCreek(JSONObject scan){
         if(isScanned(scan)){
             if(scan.getJSONArray("creeks").length()!=0){
+                track.POI("Creek");
                 return true;
             }
         }
@@ -28,6 +32,7 @@ public class PhotoScanner {
     public boolean isSite(JSONObject scan){
         if(isScanned(scan)){
             if(scan.getJSONArray("sites").length()!=0){
+                track.POI("Emergency");
                 return true;
             }
         }

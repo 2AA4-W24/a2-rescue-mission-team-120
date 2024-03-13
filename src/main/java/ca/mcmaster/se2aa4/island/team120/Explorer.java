@@ -9,24 +9,21 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 public class Explorer implements IExplorerRaid {
-
+    private int x;
+    private int y; 
+    
     private final Logger logger = LogManager.getLogger();
     private Integer batteryLevel; //so we can track battery level 
-    private String action = "stop"; //set to stop for now 
+    //private String action; 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
-    private String lastDir;
-    private Integer range;
-    private String newDir;
-    private Integer i = 1;
+    private Radar radar = new Radar(); 
 
-    private JSONObject info;
-    private int count=0;
-    private int count_dir=0;
+    private PhotoScanner scanner = new PhotoScanner(); 
 
-    private JSONObject decision = new JSONObject();
-    private JSONObject parameters = new JSONObject();
+    //private JSONObject decision = new JSONObject();
+    //private JSONObject parameters = new JSONObject();
 
-    private tracker tracking; 
+    //private tracker tracking; 
 
     @Override
     public void initialize(String s) {
@@ -36,88 +33,71 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Initialization info:\n {}",info.toString(2));
 
         currentDirection = info.getString("heading");
-        lastDir = currentDirection;
         batteryLevel = info.getInt("budget");
 
         logger.info("The drone is facing {}", currentDirection);
         logger.info("Battery level is {}", batteryLevel);
+
         //gather all creek info + emergency site info (rank is closest to furthest)
         //based on creek 1 - find ur x,y (x,y of creek given)
         //once you have ur x,y change ur direction as needed and move to creek - is that allowed to do u have to move forward first?
         // review decsions/actions and rules for them 
 
-        tracker tracking = new tracker();
+        //tracker tracking = new tracker();
     }
 
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
-        String rightDir = Direction.right(currentDirection);
-        String leftDir = Direction.left(currentDirection);
-        logger.info(leftDir);
-        logger.info(rightDir);
-      
-        if(count_dir==0){
-            decision.put("action", "scan");
-            tracking.track(action);
-            logger.info("** Decision: {}",decision.toString());
+    
+        // Check for land in front
+        decision.put("action", "echo");
+        parameters.put("direction", currentDirection);
+    
+        logger.info(decision);
+        logger.info(parameters);
+    
+        boolean groundFound = radar.checkEcho(parameters);
+    
+        if (groundFound) {
+            logger.info("found land in front");
+            decision.put("action", "stop");  // Stop if land is found
+        } else {
+            // Check for land on the left
+            String leftDirection = Direction.turnLeft(currentDirection);
+            parameters.put("direction", leftDirection);
+    
+            logger.info("Checking for land to the left");
+            boolean leftGroundFound = radar.checkEcho(parameters);
+    
+            if (leftGroundFound) {
+                logger.info("found land to the left");
+                decision.put("action", "heading");
+                decision.put("parameters", new JSONObject().put("direction", leftDirection));
+            } else {
+                // Check for land on the right
+                String rightDirection = Direction.turnRight(currentDirection);
+                parameters.put("direction", rightDirection);
+    
+                logger.info("Checking for land to the right");
+                boolean rightGroundFound = radar.checkEcho(parameters);
+    
+                if (rightGroundFound) {
+                    logger.info("found land to the right");
+                    decision.put("action", "heading");
+                    decision.put("parameters", new JSONObject().put("direction", rightDirection));
+                } else {
+                    // If no land found anywhere, step forward
+                    logger.info("No land found in current direction, stepping forward");
+                    decision.put("action", "fly");
+                }
+            }
         }
-        else if(count_dir==1){
-            decision.put("action", "heading");
-            tracking.track(action);
-            parameters.put("direction", "N");
-            decision.put("parameters", parameters);
-            logger.info("** Decision: {}",decision.toString());
-            
-        }
-        else{
-            decision.put("action","stop");
-            tracking.track(action);
-        }
-        count_dir++;
+    
         return decision.toString();
-        
-        /*JSONObject decision = new JSONObject();
-        decision.put("action", action); // we stop the exploration immediately
-        logger.info("** Decision: {}",decision.toString());
-
-        return decision.toString();*/
-
-        //echo and check the left direction, then right direction 
-        //NEEDS TO UPDATE HEADING THROUGH ACTION BEFORE ECHOING
-        //if curr dir is changed then update heading first
-        //make echo conditional?? echo should be called when 
-        //setting up decisions so that the drone scans first; if its ocean itll echo
-        //echo from all sides and fly until ground is found; 
-        //once ground is found start scanning for creeks
-        //if scan is ocean again, start echoing for land again 
-        
-        /* if (i==1){
-            decision.put("action", "echo");
-            parameters.put("direction", leftDir);
-            decision.put("parameters", parameters);
-            logger.info("** Decision: {}",decision.toString());
-            lastDir = leftDir;
-        }else if(i==2){
-            decision.put("action", "echo");
-            parameters.put("direction", rightDir);
-            decision.put("parameters", parameters);
-            logger.info("** Decision: {}",decision.toString());
-            lastDir = rightDir;
-        }else if(i==3){ //NEED TO UPDATE DIRECTION AFTER TURNING 
-            decision.put("action", "heading");
-            parameters.put("direction", currentDirection);
-            decision.put("parameters", parameters);
-            logger.info("** Decision: {}",decision.toString());
-        }
-        i++;
-
-        //decision.put("action", action); // we stop the exploration immediately
-        //logger.info("** Decision: {}",decision.toString());
-        return decision.toString(); */
     }
-
+    
     @Override
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
@@ -134,8 +114,8 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         
         if (batteryLevel==0){
-            action = "stop";
-            tracking.track(action);
+            //action = "stop";
+            //tracking.track(action);
             deliverFinalReport();
         }
        
@@ -149,12 +129,11 @@ public class Explorer implements IExplorerRaid {
         //if extras spots ground in direction, update dir 
         if (!radar.checkEcho(extraInfo)){
             logger.info("OUT OF RANGE");
-
         }else{
-            range = extraInfo.getInt("range");
-            logger.info("YOU'RE {} AWAY", range);
+            //range = extraInfo.getInt("range");
+            //logger.info("YOU'RE {} AWAY", range);
             logger.info("SWITCHING DIRECTION...");
-            currentDirection = lastDir;
+            //currentDirection = lastDir;
             logger.info("NEW DIRECTION {}", currentDirection);
         }
     }
