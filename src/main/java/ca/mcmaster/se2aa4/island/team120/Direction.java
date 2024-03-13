@@ -30,4 +30,19 @@ public class Direction{
                 throw new IllegalStateException("INVALID DIRECTION");
         }
     }
+
+    public static String UTurn(String currDir){
+        switch (currDir){
+            case "N":
+                return "S";
+            case "W":
+                return "E";
+            case "S":
+                return "N";
+            case "E":
+                return "W";
+            default:
+                throw new IllegalStateException("INVALID DIRECTION");
+        }
+    }
 }

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
 public class PhotoScanner {
 
     //checks if scan action has been executed
