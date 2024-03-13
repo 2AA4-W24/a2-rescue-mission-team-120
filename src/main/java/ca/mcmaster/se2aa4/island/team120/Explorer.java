@@ -24,6 +24,10 @@ public class Explorer implements IExplorerRaid {
     private String newDirection;
     private Boolean onGround = false;
 
+    private int x;
+    private int y; 
+    
+
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");

@@ -5,11 +5,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.json.JSONTokener;
+
 public class PhotoScanner {
 
     private JSONObject response;
-    
+    private tracker track= new tracker(); 
+
     public PhotoScanner(JSONObject response){
         this.response= response;
     }
@@ -26,37 +29,43 @@ public class PhotoScanner {
     public boolean isCreek(){
         if(isScanned()){
             if(response.getJSONArray("creeks").length()!=0){
+                track.POI("Creek");
                 return true;
             }
         }
         return false;
     }
 
-    
+
     public boolean isSite(){
         if(isScanned()){
             if(response.getJSONArray("sites").length()!=0){
+                track.POI("Emergency");
                 return true;
             }
         }
         return false;
     }
 
-    public boolean verifyBiome(JSONObject scan){
-        // check for biome, if ocean then false
-        if(isScanned()){
-            for(int i = 0; i < scan.getJSONArray("biomes").length(); i++){
-                if ("OCEAN".equals(i)){
-                    return false;
-                }
-                else{
-                    return true;
-                }
-            }
+
+    public String getCreek(){
+        if(isCreek()){
+            JSONArray id_arr = response.getJSONArray("creeks");
+            String id= id_arr.getString(0);
+            return id;
         }
-        else{
-            return false;
-        }
-        return false;
+        return "no creek";
     }
+
+    public String getSite(){
+        if(isSite()){
+            JSONArray id_arr = response.getJSONArray("sites");
+            String id= id_arr.getString(0);
+            return id;
+        }
+        return "no sites";
+    }
+
+
 }
+
