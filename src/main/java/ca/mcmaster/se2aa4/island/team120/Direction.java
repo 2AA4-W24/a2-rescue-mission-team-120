@@ -46,36 +46,4 @@ public class Direction{
                 throw new IllegalStateException("INVALID DIRECTION");
         }
     }
-
-    public static String turnRight(String currDir){
-        switch (currDir){
-            case "N":
-                return "E"; 
-            case "E":
-                return "S"; 
-            case "S":
-                return "W"; 
-            case "W":
-                return "N"; 
-            default:
-                throw new IllegalStateException("INVALID DIRECTION");
-        }
-        
-    }
-
-    public static String turnLeft(String currDir){
-        switch (currDir){
-            case "N":
-                return "W"; 
-            case "E":
-                return "N"; 
-            case "S":
-                return "E"; 
-            case "W":
-                return "S";
-            default:
-                throw new IllegalStateException("INVALID DIRECTION");
-        }
-
-    }
 }
