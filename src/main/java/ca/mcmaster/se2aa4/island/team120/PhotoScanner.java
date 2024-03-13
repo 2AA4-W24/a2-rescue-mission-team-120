@@ -34,5 +34,22 @@ public class PhotoScanner {
         return false;
     }
 
+    public boolean verifyBiome(JSONObject scan){
+        // check for biome, if ocean then false
 
+        if (scan.has("biomes")){
+            //Array biomes = scan.getJSONArray("biomes");
+            for(int i = 0; i < scan.getJSONArray("biomes").length(); i++){
+                if ("OCEAN".equals(i)){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        }
+        else{
+            return false;
+        }
+        return false;
+    }
 }

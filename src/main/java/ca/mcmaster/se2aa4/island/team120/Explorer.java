@@ -15,11 +15,14 @@ public class Explorer implements IExplorerRaid {
     private String action = "stop"; //set to stop for now 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
     private Integer range;
+    private String creeks;
+    private String biomes;
     private Integer fly = 1;
     private Integer echo = 0;
     private String lastChecked;
     private Boolean groundFound = false;
     private String newDirection;
+    private Boolean onGround = false;
 
     @Override
     public void initialize(String s) {
@@ -52,6 +55,11 @@ public class Explorer implements IExplorerRaid {
             logger.info("** Decision: {}",decision.toString());
             groundFound = false;
         }
+        else if (onGround){
+            decision.put("action","scan");
+            logger.info("** Decision: {}",decision.toString());
+        }
+        //if range is now 0, switch to radaring until a creek is found
         else if (echo == 0 && fly == 1){
             if (lastChecked == currentDirection){
                 decision.put("action", "echo");
@@ -90,6 +98,8 @@ public class Explorer implements IExplorerRaid {
             echo = 0;
         }
 
+
+
         //decision.put("action", action); // we stop the exploration immediately
         //logger.info("** Decision: {}",decision.toString());
         return decision.toString();
@@ -122,13 +132,30 @@ public class Explorer implements IExplorerRaid {
 
         Radar radar = new Radar();
 
-        //if extras spots ground in direction, update dir 
+        //if extras spots ground in direction, update dir
+        /*
+        if (!radar.verifyScan(extraInfo)){
+            logger.info("ON OCEAN");
+        }else{
+            biomes = extraInfo.getString("biomes");
+            if (radar.checkScan(extraInfo)){
+                creeks = extraInfo.getString("creeks");
+
+            }
+            else{
+                logger.info("CREEK NOT FOUND");
+            }
+        } */
+
         if (!radar.checkEcho(extraInfo)){
             logger.info("OUT OF RANGE");
-            logger.info(currentDirection);
-            logger.info("HOLY {}",lastChecked);
+            logger.info("CURR DIR {}", currentDirection);
+            logger.info("LAST CHECKED {}",lastChecked);
         }else{
             range = extraInfo.getInt("range");
+            if (range == 0){
+                onGround = true;
+            }
             logger.info("YOU'RE {} AWAY", range);
             logger.info("SWITCHING DIRECTION...");
             newDirection = lastChecked;

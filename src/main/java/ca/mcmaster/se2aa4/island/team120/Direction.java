@@ -30,38 +30,4 @@ public class Direction{
                 throw new IllegalStateException("INVALID DIRECTION");
         }
     }
-
-    /*public void turnRight(){
-        switch (heading){
-            case "N":
-                this.heading = "E";
-                break;
-            case "E":
-                this.heading = "S";
-                break;
-            case "S":
-                this.heading = "W";
-                break;
-            case "W":
-                this.heading = "N";
-                break;
-        }
-    }
-
-    public void turnLeft(){
-        switch (heading){
-            case "N":
-                this.heading = "W";
-                break;
-            case "E":
-                this.heading = "N";
-                break;
-            case "S":
-                this.heading = "E";
-                break;
-            case "W":
-                this.heading = "S";
-                break;
-        }
-    }*/
 }
