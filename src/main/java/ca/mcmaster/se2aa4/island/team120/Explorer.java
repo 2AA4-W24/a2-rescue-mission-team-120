@@ -46,41 +46,41 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        //set intial action to echo, if the echo is not OUT_OF_RANGE then call photoscanner, 
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 
-        //logger.info(leftDir);
-        //logger.info(rightDir);
-
+        boolean landfound = false; 
         int count = 1; 
 
-        while(count !=20){
-            decision.put("action", "echo"); 
-            parameters.put("direction", currentDirection);
-            
-            logger.info(decision);
-            logger.info(radar.checkEcho(parameters));
-            logger.info(parameters);
-            if (radar.checkEcho(parameters)){
+        while (landfound == false){
+            if (count==1){
+                decision.put("action", "echo");
+                parameters.put("direction", currentDirection);
+
+                logger.info(decision);
                 logger.info(parameters);
-                logger.info(radar.checkEcho(parameters));
-                //decision.put("action", "fly"); 
-                logger.info("found land");
-                decision.put("action", "stop"); 
-            }else{
-                currentDirection = Direction.right(currentDirection);
+
+                boolean groundFound = radar.checkEcho(parameters);
+
+                if (groundFound) {
+                    logger.info("found land");
+                    landfound=true; 
+                    decision.put("action", "stop");
+                } else {
+                    logger.info("no land");
+                    currentDirection = Direction.turnRight(currentDirection);
+                    count = 2; 
+                }
+
+            }else if (count==2){
                 decision.put("action", "fly");
-                currentDirection = Direction.left(currentDirection); 
+                logger.info("fly");
+                currentDirection = Direction.turnLeft(currentDirection);
             }
-            count ++; 
         }
-        logger.info("no land");
-        decision.put("action", "stop"); 
         return decision.toString();
     }
     
-
     @Override
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
@@ -112,7 +112,6 @@ public class Explorer implements IExplorerRaid {
         //if extras spots ground in direction, update dir 
         if (!radar.checkEcho(extraInfo)){
             logger.info("OUT OF RANGE");
-
         }else{
             //range = extraInfo.getInt("range");
             //logger.info("YOU'RE {} AWAY", range);
@@ -128,6 +127,33 @@ public class Explorer implements IExplorerRaid {
     }
 
 }
+/*    public String takeDecision() {
+    JSONObject decision = new JSONObject();
+    JSONObject parameters = new JSONObject();
+    JSONObject echo = new JSONObject(); 
+
+    int count = 0; 
+    while (count != 5000) {
+        decision.put("action", "echo");
+        parameters.put("direction", currentDirection);
+
+        if (echo.has("found")){
+            String found = echo.getString("found");
+            if ("GROUND".equals(found)){
+                logger.info("found land");
+                decision.put("action", "stop");
+            }else{
+                logger.info("no land");
+                currentDirection = Direction.turnRight(currentDirection);
+                decision.put("action", "fly");
+                currentDirection = Direction.turnLeft(currentDirection);
+            }
+        }
+    }   
+    decision.put("action", "stop");
+    return decision.toString();
+}
+ */
 
         /*JSONObject decision = new JSONObject();
         decision.put("action", action); // we stop the exploration immediately
@@ -211,3 +237,28 @@ public class Explorer implements IExplorerRaid {
                 logger.info("** Decision: {}", decision.toString());
             }     
         } */
+
+        /*        int count =0; 
+    
+        while (count!=8000) {
+            decision.put("action", "echo");
+            parameters.put("direction", currentDirection);
+
+            logger.info(decision);
+            logger.info(parameters);
+
+            boolean groundFound = radar.checkEcho(parameters);
+
+            if (groundFound) {
+                logger.info("found land");
+                decision.put("action", "stop");
+                break;
+            } else {
+                logger.info("no land");
+                currentDirection = Direction.turnRight(currentDirection);
+                decision.put("action", "fly");
+                currentDirection = Direction.turnLeft(currentDirection);
+            }
+            count++;
+        }
+ */
