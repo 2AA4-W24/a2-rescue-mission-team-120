@@ -36,6 +36,20 @@ public class PhotoScanner {
         return false;
     }
 
+    public boolean verifyBiome(){
+        // check for biome, if ocean then false
+        if(isScanned()){
+            for(int i = 0; i < response.getJSONArray("biomes").length(); i++){
+                if ("OCEAN".equals(i)){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public boolean isSite(){
         if(isScanned()){
