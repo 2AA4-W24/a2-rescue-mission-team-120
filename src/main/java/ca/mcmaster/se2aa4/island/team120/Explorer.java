@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import eu.ace_design.island.bot.IExplorerRaid;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.json.JSONArray;
 
 public class Explorer implements IExplorerRaid {
 
@@ -23,6 +24,7 @@ public class Explorer implements IExplorerRaid {
     private Boolean groundFound = false;
     private String newDirection;
     private Boolean onGround = false;
+    private Integer scanned = 1;
 
     private int x;
     private int y; 
@@ -64,7 +66,7 @@ public class Explorer implements IExplorerRaid {
             logger.info("** Decision: {}",decision.toString());
         }
         //if range is now 0, switch to radaring until a creek is found
-        else if (echo == 0 && fly == 1){
+        else if (echo == 0 && fly == 1 && scanned == 1){
             if (lastChecked == currentDirection){
                 decision.put("action", "echo");
                 parameters.put("direction", rightDir);
@@ -72,7 +74,8 @@ public class Explorer implements IExplorerRaid {
                 logger.info("** Decision: {}",decision.toString());
                 lastChecked = rightDir;
                 echo = 1;
-                fly = 0;
+                fly = 1;
+                scanned = 0;
             }
             else if (lastChecked == rightDir){
                 decision.put("action", "echo");
@@ -81,7 +84,8 @@ public class Explorer implements IExplorerRaid {
                 logger.info("** Decision: {}",decision.toString());
                 lastChecked = leftDir;
                 echo = 1;
-                fly = 0;
+                fly = 1;
+                scanned = 0;
             }
             else if (lastChecked == leftDir){
                 decision.put("action", "echo");
@@ -90,19 +94,28 @@ public class Explorer implements IExplorerRaid {
                 logger.info("** Decision: {}",decision.toString());
                 lastChecked = currentDirection;
                 echo = 1;
-                fly = 0;
+                fly = 1;
+                scanned = 0;
             }
         }
 
-        else if (echo == 1 && fly == 0){
+        else if (scanned == 0 && echo == 1 && fly == 1){
+            decision.put("action","scan");
+            logger.info("** Decision: {}",decision.toString());
+            //lastChecked = currentDirection;
+            fly = 0;
+            echo = 1;
+            scanned = 1;
+        }
+
+        else if (scanned == 1 && echo == 1 && fly == 0){
             decision.put("action", "fly");
             logger.info("** Decision: {}",decision.toString());
             //lastChecked = currentDirection;
             fly = 1;
             echo = 0;
+            scanned = 1;
         }
-
-
 
         //decision.put("action", action); // we stop the exploration immediately
         //logger.info("** Decision: {}",decision.toString());
@@ -170,6 +183,14 @@ public class Explorer implements IExplorerRaid {
         }
 
         if(scan.isScanned()){
+            if(!scan.verifyBiome()){
+                logger.info("IN THE OCEAN");
+            }
+            else{
+                JSONArray biomes = extraInfo.getJSONArray("biomes");
+                logger.info("YOU'RE ON {}", biomes);
+            }
+
             if(!scan.isCreek() && !scan.isSite()){
                 logger.info("NOT A CREEK OR EMERGENCY SITE, WE ARE ON WATAHHH!");
             }
@@ -181,9 +202,7 @@ public class Explorer implements IExplorerRaid {
                 logger.info("NOT A CREEK");
                 logger.info("MUST BE ON AN EMERGENCY SITE!");
             }
-        
         }
-        
     }
 
     @Override

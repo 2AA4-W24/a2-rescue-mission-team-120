@@ -49,6 +49,24 @@ public class PhotoScanner {
     }
 
 
-}
+    public String getCreek(){
+        if(isCreek()){
+            JSONArray id_arr = response.getJSONArray("creeks");
+            String id= id_arr.getString(0);
+            return id;
+        }
+        return "no creek";
+    }
 
+    public String getSite(){
+        if(isSite()){
+            JSONArray id_arr = response.getJSONArray("sites");
+            String id= id_arr.getString(0);
+            return id;
+        }
+        return "no sites";
+    }
+
+
+}
 
