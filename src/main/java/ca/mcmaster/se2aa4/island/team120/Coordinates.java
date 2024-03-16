@@ -1,6 +1,10 @@
 package ca.mcmaster.se2aa4.island.team120;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Coordinates {
+    private final Logger logger = LogManager.getLogger();
     private static int x = 0; 
     private static int y = 0; 
 
@@ -25,10 +29,12 @@ public class Coordinates {
     } 
 
     public int x_coords(){
+        logger.info(x);
         return x;
     }
 
     public int y_coords(){
+        logger.info(y);
         return y;
     }
 
