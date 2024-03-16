@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -14,12 +15,15 @@ import java.util.HashMap;
 public class tracker{
     static Map<String, Integer> x_coords = new HashMap<>(); //#love 2c03 
     static Map<String, Integer> y_coords = new HashMap<>();
+
+    static int[] emergency = new int[2];
+
     private final Logger logger = LogManager.getLogger();
     
     private static int creek_counter = 0; 
     private Coordinates coords = new Coordinates(); 
 
-    public void POI(String type){
+    public void POI(String type, String id){
         
         int x = coords.x_coords(); 
         int y = coords.y_coords(); 
@@ -27,12 +31,13 @@ public class tracker{
         if (type == "Creek"){
             creek_counter+=1; 
 
-            x_coords.put("Creek"+creek_counter, x);
-            y_coords.put("Creek"+creek_counter, y);
-            logger.info("creek stored");
+            x_coords.put(id, x);
+            y_coords.put(id, y);
+            logger.info("creek stored", creek_counter);
         }else{
-            x_coords.put("Emergency", x);
-            y_coords.put("Emergency", y);
+            emergency[0] = x;
+            emergency[1]= y; 
+            
             logger.info("site stored");
         }
 
