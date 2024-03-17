@@ -110,6 +110,7 @@ public class Explorer implements IExplorerRaid {
 
         else if (scanned == 1 && echo == 1 && fly == 0){
             decision.put("action", "fly");
+            
             logger.info("** Decision: {}",decision.toString());
             //lastChecked = currentDirection;
             fly = 1;

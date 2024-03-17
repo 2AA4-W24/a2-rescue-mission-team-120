@@ -40,6 +40,5 @@ public class tracker{
             
             logger.info("site stored");
         }
-
     }
 }
