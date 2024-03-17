@@ -29,7 +29,8 @@ public class Explorer implements IExplorerRaid {
     private int x;
     private int y; 
     
-
+    Coordinates update= new Coordinates();
+    
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
@@ -110,7 +111,7 @@ public class Explorer implements IExplorerRaid {
 
         else if (scanned == 1 && echo == 1 && fly == 0){
             decision.put("action", "fly");
-            
+            update.location(currentDirection); 
             logger.info("** Decision: {}",decision.toString());
             //lastChecked = currentDirection;
             fly = 1;
