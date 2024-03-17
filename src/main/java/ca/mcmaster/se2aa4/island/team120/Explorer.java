@@ -117,8 +117,6 @@ public class Explorer implements IExplorerRaid {
             scanned = 1;
         }
 
-        //decision.put("action", action); // we stop the exploration immediately
-        //logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
 
@@ -138,7 +136,6 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         
         if (batteryLevel==0){
-            action = "stop";
             deliverFinalReport();
         }
        
