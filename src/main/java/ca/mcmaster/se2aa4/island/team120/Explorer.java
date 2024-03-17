@@ -25,6 +25,7 @@ public class Explorer implements IExplorerRaid {
     private String newDirection;
     private Boolean onGround = false;
     private Integer scanned = 1;
+    private Boolean lost = false;
 
     private int x;
     private int y; 
@@ -55,21 +56,17 @@ public class Explorer implements IExplorerRaid {
         logger.info(rightDir);
 
         //check heading first; if a new direction to land has been found, change heading
-        if (groundFound && newDirection != currentDirection){
+        //should change heading whenever 1. ground is found through echo
+        //2. if plane gets off island
+        if ((groundFound && newDirection != currentDirection) || (lost && newDirection != currentDirection)){
             currentDirection = newDirection;
             decision.put("action", "heading");
             parameters.put("direction", currentDirection);
             decision.put("parameters", parameters);
             logger.info("** Decision: {}",decision.toString());
-            groundFound = false;
+            //groundFound = false;
         }
-        /*
-        else if (onGround){
-            decision.put("action","scan");
-            logger.info("** Decision: {}",decision.toString());
-            echo = 1; // adding signal to stop echoing, start radaring
-        }
-        */
+
         //radar signal echo or scan depending on if you're on ground or not
         //if not on ground, scan in directions
         else if (signal == 0 && fly == 1 && scanned == 1){
@@ -196,8 +193,15 @@ public class Explorer implements IExplorerRaid {
         }
 
         if(scan.isScanned()){
+            //CHECK IF DRONE IS IN AN OCEAN ON SCAN, SET A NEW DIRECTION FOR A LOST
             if(!scan.verifyBiome()){
                 logger.info("IN THE OCEAN");
+                if (onGround){
+                    newDirection = Direction.left(currentDirection);
+                    logger.info("NEW DIRECTION LOST {}", newDirection);
+                    onGround = false;
+                    lost = true;
+                }
             }
             else{
                 JSONArray biomes = extraInfo.getJSONArray("biomes");

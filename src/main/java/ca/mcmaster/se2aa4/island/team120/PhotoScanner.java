@@ -51,15 +51,20 @@ public class PhotoScanner {
 
     public boolean verifyBiome(){
         // check for biome, if ocean then false
+        // IF BIOME IS OCEAN, MANGROVE BUG GETS STUCK IN A CIRCLE. CHECK IF OCEAN IS ONLY ONE AND IF SO FALSE
+        JSONArray biomes = response.getJSONArray("biomes");
+        boolean partOcean = false;
         if(isScanned()){
-            for(int i = 0; i < response.getJSONArray("biomes").length(); i++){
-                if ("OCEAN".equals(i)){
-                    return false;
+            for (int i = 0; i < biomes.length(); i++){
+                String biome = biomes.getString(i);
+                if ("OCEAN".equals(biome)){
+                    partOcean = true;
                 }
                 else{
                     return true;
                 }
             }
+            return (!partOcean);
         }
         return false;
     }
