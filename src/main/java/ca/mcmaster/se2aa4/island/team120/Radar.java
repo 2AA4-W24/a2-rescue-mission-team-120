@@ -25,6 +25,7 @@ public class Radar{
                 logger.info("YUP");
                 return true;
             }else{
+                logger.info("ECHOING");
                 return false;
             }
         }
