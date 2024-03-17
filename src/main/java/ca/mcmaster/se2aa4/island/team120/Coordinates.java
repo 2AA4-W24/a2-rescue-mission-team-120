@@ -8,17 +8,17 @@ public class Coordinates {
     public void location(String CurrentDirection){
         switch (CurrentDirection){
             case "N":
-                y +=1;
+                y +=3;
                 y_coords();
                 
             case "W":
-                x -=1;
+                x -=3;
                 x_coords();
             case "S":
-                y -=1;
+                y -=3;
                 y_coords();
             case "E":
-                x+=1;
+                x+=3;
                 x_coords();
             default:
                 throw new IllegalStateException("INVALID DIRECTION");
@@ -33,16 +33,5 @@ public class Coordinates {
         return y;
     }
 
-    
-    //when called, if moving in left direction, parameter should be negative
-    public void setX(int move){
-        x+=move;
-        
-    }
-
-    //when called, if moving in the downwards direction, parameter should be negative
-    public void setY(int move){
-        y+=move;
-    }
 
 }
