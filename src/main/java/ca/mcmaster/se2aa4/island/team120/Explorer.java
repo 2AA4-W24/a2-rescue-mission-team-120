@@ -64,6 +64,7 @@ public class Explorer implements IExplorerRaid {
         else if (onGround){
             decision.put("action","scan");
             logger.info("** Decision: {}",decision.toString());
+            echo = 1; // adding signal to stop echoing, start radaring
         }
         //if range is now 0, switch to radaring until a creek is found
         else if (echo == 0 && fly == 1 && scanned == 1){
@@ -115,6 +116,10 @@ public class Explorer implements IExplorerRaid {
             fly = 1;
             echo = 0;
             scanned = 1;
+        }
+
+        else if(){
+            
         }
 
         //decision.put("action", action); // we stop the exploration immediately
