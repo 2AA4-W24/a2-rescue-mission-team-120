@@ -9,17 +9,16 @@ public class Coordinates {
         switch (CurrentDirection){
             case "N":
                 y +=1;
-                y_coords();
-                
+                break;
             case "W":
                 x -=1;
-                x_coords();
+                break;
             case "S":
                 y -=1;
-                y_coords();
+                break;
             case "E":
                 x+=1;
-                x_coords();
+                break;
             default:
                 throw new IllegalStateException("INVALID DIRECTION");
         }

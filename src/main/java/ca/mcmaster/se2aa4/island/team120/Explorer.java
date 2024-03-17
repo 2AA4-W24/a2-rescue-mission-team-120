@@ -19,7 +19,7 @@ public class Explorer implements IExplorerRaid {
     private String creeks;
     private String biomes;
     private Integer fly = 1;
-    private Integer echo = 0;
+    private Integer signal = 0;
     private String lastChecked;
     private Boolean groundFound = false;
     private String newDirection;
@@ -29,7 +29,8 @@ public class Explorer implements IExplorerRaid {
     private int x;
     private int y; 
     
-
+    Coordinates update= new Coordinates();
+    
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
@@ -53,6 +54,7 @@ public class Explorer implements IExplorerRaid {
         logger.info(leftDir);
         logger.info(rightDir);
 
+        //check heading first; if a new direction to land has been found, change heading
         if (groundFound && newDirection != currentDirection){
             currentDirection = newDirection;
             decision.put("action", "heading");
@@ -61,69 +63,76 @@ public class Explorer implements IExplorerRaid {
             logger.info("** Decision: {}",decision.toString());
             groundFound = false;
         }
+        /*
         else if (onGround){
             decision.put("action","scan");
             logger.info("** Decision: {}",decision.toString());
             echo = 1; // adding signal to stop echoing, start radaring
         }
-        //if range is now 0, switch to radaring until a creek is found
-        else if (echo == 0 && fly == 1 && scanned == 1){
-            if (lastChecked == currentDirection){
-                decision.put("action", "echo");
-                parameters.put("direction", rightDir);
-                decision.put("parameters", parameters);
+        */
+        //radar signal echo or scan depending on if you're on ground or not
+        //if not on ground, scan in directions
+        else if (signal == 0 && fly == 1 && scanned == 1){
+            if (onGround){
+                decision.put("action","scan");
                 logger.info("** Decision: {}",decision.toString());
-                lastChecked = rightDir;
-                echo = 1;
-                fly = 1;
-                scanned = 0;
+                signal = 1; // adding signal to stop echoing, start radaring
+                fly = 0;
+                scanned = 1;
             }
-            else if (lastChecked == rightDir){
-                decision.put("action", "echo");
-                parameters.put("direction", leftDir);
-                decision.put("parameters", parameters);
-                logger.info("** Decision: {}",decision.toString());
-                lastChecked = leftDir;
-                echo = 1;
-                fly = 1;
-                scanned = 0;
-            }
-            else if (lastChecked == leftDir){
-                decision.put("action", "echo");
-                parameters.put("direction", currentDirection);
-                decision.put("parameters", parameters);
-                logger.info("** Decision: {}",decision.toString());
-                lastChecked = currentDirection;
-                echo = 1;
-                fly = 1;
-                scanned = 0;
+            else{
+                if (lastChecked == currentDirection){
+                    decision.put("action", "echo");
+                    parameters.put("direction", rightDir);
+                    decision.put("parameters", parameters);
+                    logger.info("** Decision: {}",decision.toString());
+                    lastChecked = rightDir;
+                    signal = 1;
+                    fly = 1;
+                    scanned = 0;
+                }
+                else if (lastChecked == rightDir){
+                    decision.put("action", "echo");
+                    parameters.put("direction", leftDir);
+                    decision.put("parameters", parameters);
+                    logger.info("** Decision: {}",decision.toString());
+                    lastChecked = leftDir;
+                    signal = 1;
+                    fly = 1;
+                    scanned = 0;
+                }
+                else if (lastChecked == leftDir){
+                    decision.put("action", "echo");
+                    parameters.put("direction", currentDirection);
+                    decision.put("parameters", parameters);
+                    logger.info("** Decision: {}",decision.toString());
+                    lastChecked = currentDirection;
+                    signal = 1;
+                    fly = 1;
+                    scanned = 0;
+                }
             }
         }
 
-        else if (scanned == 0 && echo == 1 && fly == 1){
+        else if (scanned == 0 && signal == 1 && fly == 1){
             decision.put("action","scan");
             logger.info("** Decision: {}",decision.toString());
             //lastChecked = currentDirection;
             fly = 0;
-            echo = 1;
+            signal = 1;
             scanned = 1;
         }
 
-        else if (scanned == 1 && echo == 1 && fly == 0){
+        else if (scanned == 1 && signal == 1 && fly == 0){
             decision.put("action", "fly");
+            update.location(currentDirection); 
             logger.info("** Decision: {}",decision.toString());
             //lastChecked = currentDirection;
             fly = 1;
-            echo = 0;
+            signal = 0;
             scanned = 1;
         }
 
-        else if(){
-            
-        }
-
-        //decision.put("action", action); // we stop the exploration immediately
-        //logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
 
@@ -143,7 +152,6 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         
         if (batteryLevel==0){
-            action = "stop";
             deliverFinalReport();
         }
        
