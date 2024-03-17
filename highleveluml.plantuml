@@ -1,0 +1,69 @@
+@startuml "Hello world"
+    class Explorer {
+        - logger: Logger
+        - batteryLevel: Integer
+        - action: String
+        - currentDirection: String
+        - range: Integer
+        - creeks: String
+        - biomes: String
+        - fly: Integer
+        - signal: Integer
+        - lastChecked: String
+        - groundFound: Boolean
+        - newDirection: String
+        - onGround: Boolean
+        - scanned: Integer
+        - x: int
+        - y: int
+        - update: Coordinates
+
+        + initialize(s: String): void
+        + takeDecision(): String
+        + acknowledgeResults(s: String): void
+        + deliverFinalReport(): String
+    }
+class Coordinates {
+    -x: Integer
+    -y: Integer
+    location(currentDirection: String)
+    x_coords(): int
+    y_coords(): int
+}
+class Direction {
+    + right(currDir: String): String
+    + left(currDir: String): String
+}
+class PhotoScanner {
+    - response: JSONObject
+    - track: tracker
+
+    + PhotoScanner(response: JSONObject)
+    + isScanned(): boolean
+    + isCreek(): boolean
+    + isSite(): boolean
+    + verifyBiome(): boolean
+}
+class Radar {
+        - logger: Logger
+        + checkEcho(echo: JSONObject): boolean
+    }
+
+class Tracker {
+        - x_coords: Map<String, Integer>
+        - y_coords: Map<String, Integer>
+        - emergency: int[]
+        - logger: Logger
+        - creek_counter: int
+        - coords: Coordinates
+        + POI(type: String, id: String): void
+    }
+    
+Explorer--> Coordinates
+Explorer-->Direction
+Explorer-->PhotoScanner
+Explorer-->Radar
+Explorer-->Tracker
+
+Tracker -- PhotoScanner
+@enduml
