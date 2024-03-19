@@ -10,7 +10,7 @@ public class Actions{
     //use this class instead of calling actions and placing parameters each time 
 
     private final Logger logger = LogManager.getLogger();
-    JSONObject decision= new JSONObject();
+    JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
 
 
@@ -34,13 +34,9 @@ public class Actions{
         return decision.toString();
     }
 
-    /*public String scan(String direction){
+    public String scan(String direction){
         decision.put("action", "scan");
-        parameters.put("direction", direction);
-        decision.put("parameters", parameters);
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
-    }*/
-
-
+    }
 }

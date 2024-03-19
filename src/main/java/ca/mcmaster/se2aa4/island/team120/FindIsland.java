@@ -12,6 +12,7 @@ public class FindIsland {
 
     public String Finder(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost){
         //check heading first; if a new direction to land has been found, change heading
+        Actions task = new Actions();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         String rightDir = Direction.right(currentDirection);
@@ -42,10 +43,11 @@ public class FindIsland {
             }
             else{
                 if (lastChecked == currentDirection){
-                    decision.put("action", "echo");
+                    task.echo(rightDir);
+                    /* decision.put("action", "echo");
                     parameters.put("direction", rightDir);
                     decision.put("parameters", parameters);
-                    logger.info("** Decision: {}",decision.toString());
+                    logger.info("** Decision: {}",decision.toString()); */
                     lastChecked = rightDir;
                     signal = 1;
                     fly = 1;
@@ -93,6 +95,5 @@ public class FindIsland {
             scanned = 1;
         }
         return decision.toString();
-        
     }
 }
