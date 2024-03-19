@@ -13,11 +13,8 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private Integer batteryLevel; //so we can track battery level 
-    private String action = "stop"; //set to stop for now 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
     private Integer range;
-    private String creeks;
-    private String biomes;
     private Integer fly = 1;
     private Integer signal = 0;
     private String lastChecked;
@@ -26,9 +23,6 @@ public class Explorer implements IExplorerRaid {
     private Boolean onGround = false;
     private Integer scanned = 1;
     private Boolean lost = false;
-
-    private int x;
-    private int y; 
     
     //Coordinates update= new Coordinates();
     Actions actions= new Actions();
@@ -56,8 +50,8 @@ public class Explorer implements IExplorerRaid {
         logger.info(leftDir);
         logger.info(rightDir);*/
 
-        FindIsland decisionMaker = new FindIsland();
-        String decision = decisionMaker.Finder(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost);
+        NavigationSystem decisionMaker = new NavigationSystem();
+        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost);
         
         return decision.toString();
     }

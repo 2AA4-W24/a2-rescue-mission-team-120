@@ -37,7 +37,7 @@ public class Actions{
     /*public String scan(String direction){
         decision.put("action", "scan");
         parameters.put("direction", direction);
-        decision.put("parameters", parameters);
+        //decision.put("parameters", parameters);
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }*/
