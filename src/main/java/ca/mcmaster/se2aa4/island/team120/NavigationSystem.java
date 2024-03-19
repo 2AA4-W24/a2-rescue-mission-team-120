@@ -13,7 +13,7 @@ public class NavigationSystem {
         while (!islandTraversed){
             if (!foundIsland){
                 foundIsland = true; 
-                return island.Finder(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost); 
+                return island.Finder(currentDirection, newDirection, onGround, groundFound, lost, lastChecked); 
             }else{
                 islandTraversed = true; 
                 return run.search(); 

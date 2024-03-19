@@ -56,7 +56,7 @@ public class Explorer implements IExplorerRaid {
         logger.info(rightDir);*/
 
         FindIsland decisionMaker = new FindIsland();
-        String decision = decisionMaker.Finder(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost);
+        String decision = decisionMaker.Finder(currentDirection, newDirection, onGround, groundFound, lost, lastChecked);
         
         return decision.toString();
     }
