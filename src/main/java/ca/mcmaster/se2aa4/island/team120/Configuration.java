@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.island.team120;
 
-public class ExplorationContext {
+public class Configuration {
     public Integer batteryLevel;
     public String currentDirection;
     public Integer range;
@@ -14,7 +14,7 @@ public class ExplorationContext {
     public Boolean lost;
 
     // Constructor
-    public ExplorationContext() {
+    public Configuration() {
         // Initialize variables
         batteryLevel = 0;
         currentDirection = "";
