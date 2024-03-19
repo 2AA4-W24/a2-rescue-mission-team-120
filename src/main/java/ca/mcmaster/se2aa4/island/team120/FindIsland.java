@@ -43,15 +43,15 @@ public class FindIsland {
             }
             else{
                 if (lastChecked == currentDirection){
+                    lastChecked = rightDir;
+                    signal = 1;
+                    fly = 1;
+                    scanned = 0;
                     task.echo(rightDir);
                     /* decision.put("action", "echo");
                     parameters.put("direction", rightDir);
                     decision.put("parameters", parameters);
                     logger.info("** Decision: {}",decision.toString()); */
-                    lastChecked = rightDir;
-                    signal = 1;
-                    fly = 1;
-                    scanned = 0;
                 }
                 else if (lastChecked == rightDir){
                     decision.put("action", "echo");
