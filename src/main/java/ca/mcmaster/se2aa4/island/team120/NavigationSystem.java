@@ -12,7 +12,6 @@ public class NavigationSystem {
     public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost){  
         while (!islandTraversed){
             if (!foundIsland){
-                foundIsland = true; 
                 return island.Finder(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost); 
             }else{
                 islandTraversed = true; 

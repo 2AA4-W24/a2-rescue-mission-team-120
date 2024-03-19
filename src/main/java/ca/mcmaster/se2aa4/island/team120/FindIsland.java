@@ -15,7 +15,7 @@ public class FindIsland {
     private Integer scanned = 1;
 
 
-    public String Finder(String currentDirection, String newDirection, boolean onGround, boolean groundFound, boolean lost, String lastChecked){
+    public String Finder(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost){
         //check heading first; if a new direction to land has been found, change heading
         Actions task = new Actions();
         JSONObject decision = new JSONObject();
