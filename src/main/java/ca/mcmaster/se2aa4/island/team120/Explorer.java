@@ -31,6 +31,7 @@ public class Explorer implements IExplorerRaid {
     private int y; 
     
     Coordinates update= new Coordinates();
+    Actions actions= new Actions();
     
     @Override
     public void initialize(String s) {
