@@ -104,7 +104,7 @@ public class Explorer implements IExplorerRaid {
             }
         } */
 
-        if (!radar.checkEcho(extraInfo)){
+        if (!radar.isEchoed(extraInfo)){
             logger.info("OUT OF RANGE");
             logger.info("CURR DIR {}", currentDirection);
             logger.info("LAST CHECKED {}",lastChecked);
