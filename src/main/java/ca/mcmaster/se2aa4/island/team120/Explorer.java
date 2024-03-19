@@ -13,7 +13,6 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private Integer batteryLevel; //so we can track battery level 
-    private String action = "stop"; //set to stop for now 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
     private Integer range;
     private String creeks;
@@ -155,5 +154,4 @@ public class Explorer implements IExplorerRaid {
     public String deliverFinalReport() {//code does not run to this point? how does bot work exactly
         return "no creek found";
     }
-
 }

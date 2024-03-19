@@ -46,4 +46,5 @@ public class Direction{
                 throw new IllegalStateException("INVALID DIRECTION");
         }
     }
+
 }
