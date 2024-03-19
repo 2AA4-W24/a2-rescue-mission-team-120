@@ -13,12 +13,12 @@ public class SimpleAlgo {
     private boolean onGround;
     JSONObject decision= new JSONObject();
     Actions action= new Actions();
-    public SimpleAlgo(boolean onGround){
+    public SimpleAlgo(){
         this.onGround = onGround;
         this.decision= decision;
     }
 
-    public String search(){
+    public String search(boolean onGround){
         while(onGround){
             String decision= action.fly();
             logger.info("** Decision: {}",decision.toString());
