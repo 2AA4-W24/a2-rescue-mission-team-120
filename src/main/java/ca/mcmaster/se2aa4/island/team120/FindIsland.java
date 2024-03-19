@@ -10,36 +10,40 @@ public class FindIsland {
     //once find island going to traverse island using an algo implementation to find POI's 
     Coordinates update= new Coordinates(); 
 
-    public String Finder(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost){
+    private Integer fly = 1;
+    private Integer signal = 0;
+    private Integer scanned = 1;
+
+
+    public String Finder(String currentDirection, String newDirection, boolean onGround, boolean groundFound, boolean lost, String lastChecked){
         //check heading first; if a new direction to land has been found, change heading
         Actions task = new Actions();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
-        logger.info(leftDir);
-        logger.info(rightDir);
+
+        currentDirection = currentDirection;
+        newDirection = newDirection;
+        onGround = onGround;
+        lost = lost;
+        lastChecked = lastChecked;
+        groundFound = groundFound;
 
         //should change heading whenever 1. ground is found through echo
         //2. if plane gets off island
         if ((groundFound && newDirection != currentDirection) || (lost && newDirection != currentDirection)){
-            currentDirection = newDirection;
-            decision.put("action", "heading");
-            parameters.put("direction", currentDirection);
-            decision.put("parameters", parameters);
-            logger.info("** Decision: {}",decision.toString());
-            //groundFound = false;
+            return task.changeDirection(currentDirection);
         }
 
         //radar signal echo or scan depending on if you're on ground or not
         //if not on ground, scan in directions
         else if (signal == 0 && fly == 1 && scanned == 1){
             if (onGround){
-                decision.put("action","scan");
-                logger.info("** Decision: {}",decision.toString());
                 signal = 1; // adding signal to stop echoing, start radaring
                 fly = 0;
                 scanned = 1;
+                return task.scan();
             }
             else{
                 if (lastChecked == currentDirection){
@@ -47,52 +51,38 @@ public class FindIsland {
                     signal = 1;
                     fly = 1;
                     scanned = 0;
-                    task.echo(rightDir);
-                    /* decision.put("action", "echo");
-                    parameters.put("direction", rightDir);
-                    decision.put("parameters", parameters);
-                    logger.info("** Decision: {}",decision.toString()); */
+                    return task.echo(rightDir);
                 }
                 else if (lastChecked == rightDir){
-                    decision.put("action", "echo");
-                    parameters.put("direction", leftDir);
-                    decision.put("parameters", parameters);
-                    logger.info("** Decision: {}",decision.toString());
                     lastChecked = leftDir;
+                    logger.info("LAST CHECKED {},", lastChecked);
                     signal = 1;
                     fly = 1;
                     scanned = 0;
+                    return task.echo(leftDir);
                 }
                 else if (lastChecked == leftDir){
-                    decision.put("action", "echo");
-                    parameters.put("direction", currentDirection);
-                    decision.put("parameters", parameters);
-                    logger.info("** Decision: {}",decision.toString());
                     lastChecked = currentDirection;
                     signal = 1;
                     fly = 1;
                     scanned = 0;
+                    return task.echo(currentDirection);
                 }
             }
         }
 
         else if (scanned == 0 && signal == 1 && fly == 1){
-            decision.put("action","scan");
-            logger.info("** Decision: {}",decision.toString());
-            //lastChecked = currentDirection;
             fly = 0;
             signal = 1;
             scanned = 1;
+            return task.scan();
         }
 
         else if (scanned == 1 && signal == 1 && fly == 0){
-            decision.put("action", "fly");
-            update.location(currentDirection); 
-            logger.info("** Decision: {}",decision.toString());
-            //lastChecked = currentDirection;
             fly = 1;
             signal = 0;
             scanned = 1;
+            return task.fly();
         }
         return decision.toString();
     }
