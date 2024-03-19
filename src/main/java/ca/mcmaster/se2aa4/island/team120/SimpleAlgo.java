@@ -11,9 +11,9 @@ public class SimpleAlgo {
     //NEED TO CREATE INTERFACE FOR ALL ALGOS THAT GO IN NAVIGATION SYSTEM 
     private final Logger logger = LogManager.getLogger();
     private boolean onGround;
-    JSONObject decision;
+    JSONObject decision= new JSONObject();
     Actions action= new Actions();
-    public SimpleAlgo(boolean onGround, JSONObject decision){
+    public SimpleAlgo(boolean onGround){
         this.onGround = onGround;
         this.decision= decision;
     }

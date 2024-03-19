@@ -15,7 +15,7 @@ public class NavigationSystem {
                 return island.Finder(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost); 
             }else{
                 islandTraversed = true; 
-                return run.search(); 
+                return run.search(onGround); 
             }
         }
         return null;
