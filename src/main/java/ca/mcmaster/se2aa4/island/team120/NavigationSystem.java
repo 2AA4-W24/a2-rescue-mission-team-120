@@ -8,6 +8,7 @@ public class NavigationSystem {
     //first call to search for ground
     //then call to search on island to find POI's 
 
+    
     FindIsland island = new FindIsland();
     SimpleAlgo run = new SimpleAlgo();
     
