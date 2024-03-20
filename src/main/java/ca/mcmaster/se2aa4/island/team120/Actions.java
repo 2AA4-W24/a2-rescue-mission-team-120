@@ -16,15 +16,15 @@ public class Actions{
     JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
    
-
+    Tracker track = new Tracker();
     Coordinates coords = new Coordinates(); 
     Data data = new Data(); 
 
 
     public String fly(){
         decision.put("action", "fly");
-       coords.location(data.getCurrDirection()); 
-       logger.info("** Decision: {}",decision.toString());
+        coords.location(data.getCurrDirection()); 
+        logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
     

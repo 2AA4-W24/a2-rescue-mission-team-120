@@ -10,7 +10,7 @@ import org.json.JSONTokener;
 public class PhotoScanner {
 
     private JSONObject response;
-    Tracker track = new Tracker();
+    Tracker track= new Tracker();
 
     public PhotoScanner(JSONObject response){
         this.response= response;

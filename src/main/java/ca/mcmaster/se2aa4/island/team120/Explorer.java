@@ -115,7 +115,6 @@ public class Explorer implements IExplorerRaid {
                 rangeCheck = -1;
                 groundFound = false;
             }
-
         }
 
         if(scan.isScanned()){
@@ -126,8 +125,6 @@ public class Explorer implements IExplorerRaid {
                 if (onGround){
                     newDirection = Direction.left(currentDirection);
                     logger.info("NEW DIRECTION LOST {}", newDirection);
-                    //onGround = false;
-                
                 }
             }
             else{

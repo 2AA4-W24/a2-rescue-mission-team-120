@@ -9,37 +9,29 @@ import org.json.JSONTokener;
 public class SimpleAlgo {
     //going to place our orginal algo for creeks - just going up and down the island no face implementations 
     //NEED TO CREATE INTERFACE FOR ALL ALGOS THAT GO IN NAVIGATION SYSTEM 
+
     private final Logger logger = LogManager.getLogger();
-    private boolean onGround;
-    //JSONObject decision= new JSONObject();
+ 
     Actions action= new Actions();
 
-    int batteryLevel;
-    int changeDir;
-    int count;
+    private int changeDir;
+    private int count;
     Direction direction= new Direction();
     Data data= new Data();
-    int south;
-    int north;
+    private int south;
+    private int north;
 
 
 
-    public String search(boolean onGround, String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel){
+    public String search(String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel){
         String decision="";
-        logger.info("SIMPLEEEE ALGOOOOOO");
-        logger.info("CURRENT DIRECTION: " + currentDirection);
-
-        this.onGround = onGround;
-        this.batteryLevel= batteryLevel;
         this.changeDir= data.getChangeDirAlgo();
         this.count= data.getCountAlgo();
         this.south= data.getSouthAlgo();
         this.north= data.getNorthAlgo();
    
 
-        //once we reach top and want to start search
-
-
+        //once we reach left most island and want to start search
         while(batteryLevel> 0.25*startingBatteryLevel){
             if(count==0 && rangeCheck>=0){
                 decision= action.scan();
@@ -119,6 +111,7 @@ public class SimpleAlgo {
         return decision.toString();
     }
 
+    
 
 
 }
