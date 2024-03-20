@@ -33,21 +33,18 @@ public class Explorer implements IExplorerRaid {
     Data data = new Data();
     Coordinates update = new Coordinates();
 
+
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}",info.toString(2));
 
-        //currentDirection = info.getString("heading");
         data.setCurrDirection(info.getString("heading"));
         data.setLastDirection(data.getCurrDirection());
         data.setFly(1);
         data.setSignal(0);
         data.setScanned(1);
-
-        //Data data = new Data();
-        //lastChecked = currentDirection;
 
         batteryLevel = info.getInt("budget");
         startingBatteryLevel = info.getInt("budget");
@@ -138,7 +135,9 @@ public class Explorer implements IExplorerRaid {
     }
 
     @Override
-    public String deliverFinalReport() {//code does not run to this point? how does bot work exactly
+    public String deliverFinalReport() {
+        logger.info("hello");
+        logger.info(Tracker.getNumCreeks());
         return "no creek found";
     }
 }
