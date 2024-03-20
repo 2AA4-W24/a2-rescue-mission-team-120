@@ -19,8 +19,8 @@ public class Explorer implements IExplorerRaid {
     private String biomes;
     private Integer fly = 1;
     private Integer signal = 0;
-    private String lastChecked;
     private Boolean groundFound = false;
+    private static String lastChecked;
     private String newDirection;
     private Boolean onGround = false;
     private Integer scanned = 1;
@@ -39,7 +39,10 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Initialization info:\n {}",info.toString(2));
 
         currentDirection = info.getString("heading");
+
+        //Data data = new Data();
         lastChecked = currentDirection;
+
         batteryLevel = info.getInt("budget");
 
         logger.info("The drone is facing {}", currentDirection);
@@ -86,6 +89,8 @@ public class Explorer implements IExplorerRaid {
 
         Radar radar = new Radar();
         PhotoScanner scan= new PhotoScanner(extraInfo);
+        //lastChecked = FindIsland.returnLastChecked();
+        logger.info("OH MY GOD NEW {}", lastChecked);
 
         //if extras spots ground in direction, update dir
         /*

@@ -10,9 +10,11 @@ public class FindIsland {
     //once find island going to traverse island using an algo implementation to find POI's 
     Coordinates update= new Coordinates(); 
 
-    private Integer fly = 1;
-    private Integer signal = 0;
-    private Integer scanned = 1;
+    private static Integer fly = 1;
+    private static Integer signal = 0;
+    private static Integer scanned = 1;
+    
+    private static String lastChecked;
 
 
     public String Finder(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost){
@@ -22,16 +24,18 @@ public class FindIsland {
         JSONObject parameters = new JSONObject();
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
-
-        currentDirection = currentDirection;
-        newDirection = newDirection;
-        onGround = onGround;
-        lost = lost;
-        lastChecked = lastChecked;
-        groundFound = groundFound;
+        //newDirection = newDirection;
+        //onGround = onGround;
+        //lost = lost;
+        //lastChecked = lastChecked; //current bug is lastchecked keeps getting updated to the last one
+        //groundFound = groundFound;
 
         //should change heading whenever 1. ground is found through echo
         //2. if plane gets off island
+        if (lastChecked == null){
+            lastChecked = currentDirection;
+        }
+
         if ((groundFound && newDirection != currentDirection) || (lost && newDirection != currentDirection)){
             return task.changeDirection(currentDirection);
         }
@@ -45,9 +49,12 @@ public class FindIsland {
                 scanned = 1;
                 return task.scan();
             }
+
             else{
+                //LAST CHEFCKED ISNTB EING UPDATED BEYON D CLASS
                 if (lastChecked == currentDirection){
                     lastChecked = rightDir;
+                    logger.info("LAST CHECKED MANN {},", lastChecked);
                     signal = 1;
                     fly = 1;
                     scanned = 0;
@@ -55,7 +62,6 @@ public class FindIsland {
                 }
                 else if (lastChecked == rightDir){
                     lastChecked = leftDir;
-                    logger.info("LAST CHECKED {},", lastChecked);
                     signal = 1;
                     fly = 1;
                     scanned = 0;
@@ -86,4 +92,18 @@ public class FindIsland {
         }
         return decision.toString();
     }
+
+    /*public static void updateLastChecked(String lastChecked, String currentDirection, String rightDir, String leftDir){
+        if (lastChecked == currentDirection){
+            lastChecked = rightDir;
+        }else if (lastChecked == rightDir){
+            lastChecked = leftDir;
+        }else{
+            lastChecked = currentDirection;
+        }
+    }
+
+    public static String returnLastChecked{
+        return lastChecked
+    }*/
 }
