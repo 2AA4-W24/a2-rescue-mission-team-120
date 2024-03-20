@@ -11,7 +11,7 @@ public class SimpleAlgo {
     //NEED TO CREATE INTERFACE FOR ALL ALGOS THAT GO IN NAVIGATION SYSTEM 
     private final Logger logger = LogManager.getLogger();
     private boolean onGround;
-    JSONObject decision= new JSONObject();
+    //JSONObject decision= new JSONObject();
     Actions action= new Actions();
 
     int batteryLevel;
