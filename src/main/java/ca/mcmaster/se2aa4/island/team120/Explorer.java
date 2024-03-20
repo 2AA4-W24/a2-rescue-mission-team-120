@@ -40,7 +40,8 @@ public class Explorer implements IExplorerRaid {
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}",info.toString(2));
 
-        currentDirection = info.getString("heading");
+        //currentDirection = info.getString("heading");
+        lastDirection.setCurrDirection(info.getString("heading"));
 
         //Data data = new Data();
         lastChecked = currentDirection;
@@ -53,12 +54,12 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-    
         lastChecked= lastDirection.getLastDirection();
         signal= lastDirection.getSignal();
         fly= lastDirection.getFly();
         scanned= lastDirection.getScanned();
         currentDirection = lastDirection.getCurrDirection();
+
         NavigationSystem decisionMaker = new NavigationSystem();
         String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost, range, batteryLevel, startingBatteryLevel);
         return decision.toString();
@@ -93,26 +94,12 @@ public class Explorer implements IExplorerRaid {
         //lastChecked = FindIsland.returnLastChecked();
         logger.info("OH MY GOD NEW {}", lastChecked);
 
-        //if extras spots ground in direction, update dir
-        /*
-        if (!radar.verifyScan(extraInfo)){
-            logger.info("ON OCEAN");
-        }else{
-            biomes = extraInfo.getString("biomes");
-            if (radar.checkScan(extraInfo)){
-                creeks = extraInfo.getString("creeks");
-
-            }
-            else{
-                logger.info("CREEK NOT FOUND");
-            }
-        } */
-
         if (!radar.isEchoed(extraInfo)){
-            range= -1;
+            //range = -1;
             logger.info("OUT OF RANGE");
             logger.info("CURR DIR {}", currentDirection);
             logger.info("LAST CHECKED {}",lastChecked);
+            //groundFound = false;
         }else{
             range = extraInfo.getInt("range");
             if (range == 0){
@@ -120,7 +107,7 @@ public class Explorer implements IExplorerRaid {
             }
             logger.info("YOU'RE {} AWAY", range);
             logger.info("SWITCHING DIRECTION...");
-            newDirection = lastChecked;
+            newDirection = lastDirection.getLastDirection();
             //currentDirection = lastChecked;
             logger.info("NEW DIRECTION {}", newDirection);
             groundFound = true; 

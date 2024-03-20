@@ -30,6 +30,10 @@ public class FindIsland {
         //2. if plane gets off island
 
         logger.info("POOOOOSIITIONNNN: [" + update.x_coords() + ", " + update.y_coords() + "]");
+        logger.info("GROUND IS FOUND? {}",groundFound);
+        logger.info("NEW DIR {}", newDirection);
+        logger.info("CURR DIR {}", currentDirection);
+
         
         if (lastChecked == null){
             lastChecked = currentDirection;
@@ -40,7 +44,7 @@ public class FindIsland {
 
         if ((groundFound && newDirection != currentDirection) || (lost && newDirection != currentDirection)){
             lastDirection.setCurrDirection(newDirection);
-            return task.changeDirection(currentDirection);
+            return task.changeDirection(lastDirection.getCurrDirection());
         }
 
         //radar signal echo or scan depending on if you're on ground or not
