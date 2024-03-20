@@ -56,6 +56,7 @@ public class SimpleAlgo {
                     decision= action.changeDirection("N");
                 }
                 changeDir=1;
+                logger.info("** Decision: {}",decision.toString());
                 return decision;
             }
             else if(range<0 && changeDir== 1){
@@ -66,7 +67,7 @@ public class SimpleAlgo {
                     decision= action.changeDirection("E");
                 }
                 changeDir=2;
-                
+                logger.info("** Decision: {}",decision.toString());
                 return decision;
             }
             else if(range<0 && changeDir== 2){
