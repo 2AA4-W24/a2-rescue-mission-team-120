@@ -9,14 +9,14 @@ public class FindIsland {
     //algo to find island from start
     //once find island going to traverse island using an algo implementation to find POI's 
 
-    private static Integer fly = 1;
-    private static Integer signal = 0;
-    private static Integer scanned = 1;
+    private static Integer fly;
+    private static Integer signal;
+    private static Integer scanned;
     
     private static String lastChecked;
 
     LastChecked lastDirection= new LastChecked();
-    Coordinates pos= new Coordinates();
+    Coordinates update = new Coordinates();
 
     public String Finder(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost){
         //check heading first; if a new direction to land has been found, change heading
@@ -29,10 +29,13 @@ public class FindIsland {
         //should change heading whenever 1. ground is found through echo
         //2. if plane gets off island
 
-        logger.info("POOOOOSIITIONNNN: [" + pos.x_coords() + ", " + pos.y_coords() + "]");
+        logger.info("POOOOOSIITIONNNN: [" + update.x_coords() + ", " + update.y_coords() + "]");
         
         if (lastChecked == null){
             lastChecked = currentDirection;
+            fly = 1;
+            signal = 0;
+            scanned = 1;
         }
 
         if ((groundFound && newDirection != currentDirection) || (lost && newDirection != currentDirection)){
@@ -89,6 +92,7 @@ public class FindIsland {
         }
 
         else if (scanned == 1 && signal == 1 && fly == 0){
+            update.location(currentDirection);
             lastDirection.setSignal(0); 
             lastDirection.setFly(1);
             lastDirection.setScanned(1);
