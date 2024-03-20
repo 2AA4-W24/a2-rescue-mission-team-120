@@ -9,13 +9,13 @@ public class NavigationSystem {
     boolean foundIsland = false;
     boolean islandTraversed = false; 
 
-    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost){  
+    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost, int range, int batteryLevel, int startingBatteryLevel){  
         while (!islandTraversed){
             if (!foundIsland){
                 return island.Finder(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost); 
             }else{
                 islandTraversed = true; 
-                return run.search(onGround); 
+                return run.search(onGround, currentDirection, range, batteryLevel, startingBatteryLevel); 
             }
         }
         return null;
