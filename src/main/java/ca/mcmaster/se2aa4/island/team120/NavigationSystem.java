@@ -11,7 +11,7 @@ public class NavigationSystem {
     public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost, int range, int batteryLevel, int startingBatteryLevel){  
         while (!islandTraversed){
             if (!onGround){
-                return island.Finder(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost); 
+                return island.Finder(newDirection, onGround, groundFound, lost); 
             }else{
                 return run.search(onGround, currentDirection, range, batteryLevel, startingBatteryLevel); 
             }

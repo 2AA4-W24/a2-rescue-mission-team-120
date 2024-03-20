@@ -14,11 +14,11 @@ public class Explorer implements IExplorerRaid {
     private final Logger logger = LogManager.getLogger();
     private Integer batteryLevel; //so we can track battery level 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
-    private Integer range=0;
+    private Integer range = 0;
     private String creeks;
     private String biomes;
-    private Integer fly = 1;
-    private Integer signal = 0;
+    private Integer fly;
+    private Integer signal;
     private Boolean groundFound = false;
     private String lastChecked;
     private String newDirection;
@@ -31,7 +31,7 @@ public class Explorer implements IExplorerRaid {
     private int y; 
     
     Actions actions = new Actions();
-    LastChecked lastDirection = new LastChecked();
+    Data data = new Data();
     Coordinates update = new Coordinates();
 
     @Override
@@ -41,10 +41,14 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Initialization info:\n {}",info.toString(2));
 
         //currentDirection = info.getString("heading");
-        lastDirection.setCurrDirection(info.getString("heading"));
+        data.setCurrDirection(info.getString("heading"));
+        data.setLastDirection(data.getCurrDirection());
+        data.setFly(1);
+        data.setSignal(0);
+        data.setScanned(1);
 
         //Data data = new Data();
-        lastChecked = currentDirection;
+        //lastChecked = currentDirection;
 
         batteryLevel = info.getInt("budget");
         startingBatteryLevel = info.getInt("budget");
@@ -54,11 +58,11 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        lastChecked= lastDirection.getLastDirection();
-        signal= lastDirection.getSignal();
-        fly= lastDirection.getFly();
-        scanned= lastDirection.getScanned();
-        currentDirection = lastDirection.getCurrDirection();
+        signal= data.getSignal();
+        fly= data.getFly();
+        scanned= data.getScanned();
+        currentDirection = data.getCurrDirection();
+        lastChecked= data.getLastDirection();
 
         NavigationSystem decisionMaker = new NavigationSystem();
         String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost, range, batteryLevel, startingBatteryLevel);
@@ -107,7 +111,7 @@ public class Explorer implements IExplorerRaid {
             }
             logger.info("YOU'RE {} AWAY", range);
             logger.info("SWITCHING DIRECTION...");
-            newDirection = lastDirection.getLastDirection();
+            newDirection = data.getLastDirection();
             //currentDirection = lastChecked;
             logger.info("NEW DIRECTION {}", newDirection);
             groundFound = true; 
