@@ -30,9 +30,9 @@ public class Explorer implements IExplorerRaid {
     private int x;
     private int y; 
     
-    //Coordinates update= new Coordinates();
-    Actions actions= new Actions();
-    LastChecked lastDirection= new LastChecked();
+    Actions actions = new Actions();
+    LastChecked lastDirection = new LastChecked();
+    Coordinates update = new Coordinates();
 
     @Override
     public void initialize(String s) {

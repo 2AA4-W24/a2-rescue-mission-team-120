@@ -8,7 +8,6 @@ public class FindIsland {
      private final Logger logger = LogManager.getLogger();
     //algo to find island from start
     //once find island going to traverse island using an algo implementation to find POI's 
-    Coordinates update= new Coordinates(); 
 
     private static Integer fly = 1;
     private static Integer signal = 0;
@@ -17,6 +16,7 @@ public class FindIsland {
     private static String lastChecked;
 
     LastChecked lastDirection= new LastChecked();
+    Coordinates update = new Coordinates();
 
     public String Finder(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost){
         //check heading first; if a new direction to land has been found, change heading
@@ -25,14 +25,7 @@ public class FindIsland {
         JSONObject parameters = new JSONObject();
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
-        //newDirection = newDirection;
-        //onGround = onGround;
-        //lost = lost;
-        //lastChecked = lastChecked; //current bug is lastchecked keeps getting updated to the last one
-        //groundFound = groundFound;
 
-        //should change heading whenever 1. ground is found through echo
-        //2. if plane gets off island
         if (lastChecked == null){
             lastChecked = currentDirection;
         }
@@ -87,6 +80,7 @@ public class FindIsland {
         }
 
         else if (scanned == 1 && signal == 1 && fly == 0){
+            update.location(currentDirection); 
             fly = 1;
             signal = 0;
             scanned = 1;
@@ -94,18 +88,4 @@ public class FindIsland {
         }
         return decision.toString();
     }
-
-    /*public static void updateLastChecked(String lastChecked, String currentDirection, String rightDir, String leftDir){
-        if (lastChecked == currentDirection){
-            lastChecked = rightDir;
-        }else if (lastChecked == rightDir){
-            lastChecked = leftDir;
-        }else{
-            lastChecked = currentDirection;
-        }
-    }
-
-    public static String returnLastChecked{
-        return lastChecked
-    }*/
 }
