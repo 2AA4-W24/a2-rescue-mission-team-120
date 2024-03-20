@@ -2,6 +2,9 @@ package ca.mcmaster.se2aa4.island.team120;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import scala.annotation.meta.param;
+
 import org.json.JSONArray;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,9 +17,13 @@ public class Actions{
     JSONObject parameters = new JSONObject();
     Data data= new Data();
 
+    Coordinates coords = new Coordinates(); 
+    Data data = new Data(); 
+
 
     public String fly(){
         decision.put("action", "fly");
+       coords.location(data.getCurrDirection()); 
         return decision.toString();
     }
     
