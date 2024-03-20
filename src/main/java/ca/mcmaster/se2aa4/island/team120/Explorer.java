@@ -53,14 +53,11 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        //JSONObject decision = new JSONObject();
-        /*JSONObject parameters = new JSONObject();
-        String rightDir = Direction.right(currentDirection);
-        String leftDir = Direction.left(currentDirection);
-        logger.info(leftDir);
-        logger.info(rightDir);*/
     
         lastChecked= lastDirection.getLastDirection();
+        signal= lastDirection.getSignal();
+        fly= lastDirection.getFly();
+        scanned= lastDirection.getScanned();
         NavigationSystem decisionMaker = new NavigationSystem();
         String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost, range, batteryLevel, startingBatteryLevel);
         return decision.toString();
