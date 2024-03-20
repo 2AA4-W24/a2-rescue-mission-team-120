@@ -15,7 +15,7 @@ public class Actions{
     private final Logger logger = LogManager.getLogger();
     JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
-    Data data= new Data();
+   
 
     Coordinates coords = new Coordinates(); 
     Data data = new Data(); 
