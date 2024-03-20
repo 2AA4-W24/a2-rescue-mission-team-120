@@ -6,6 +6,8 @@ public class Data {
     private static int fly;
     private static int scanned;
     private static String current;
+    private static int count;
+    private static int changeDir;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -47,4 +49,19 @@ public class Data {
         return current;
     }
 
+    public int getCountAlgo(){
+        return count;
+    }
+
+    public void setCountAlgo(int nextCountAlgo){
+        count=nextCountAlgo;
+    }
+
+    public int getChangeDirAlgo(){
+        return changeDir;
+    }
+
+    public void setChangeDirAlgo(int nextChangeDirAlgo){
+        changeDir= nextChangeDirAlgo;
+    }
 }

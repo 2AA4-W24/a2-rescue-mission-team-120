@@ -12,6 +12,7 @@ public class Actions{
     private final Logger logger = LogManager.getLogger();
     JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
+    Data data= new Data();
 
 
     public String fly(){
@@ -23,6 +24,7 @@ public class Actions{
         decision.put("action", "heading");
         parameters.put("direction", direction);
         decision.put("parameters", parameters);
+        data.setCurrDirection(direction);
         return decision.toString();
     }
 
