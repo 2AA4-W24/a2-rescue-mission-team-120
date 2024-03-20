@@ -24,7 +24,7 @@ public class SimpleAlgo {
 
 
 
-    public String search(boolean onGround, String currentDirection, int range, int batteryLevel, int startingBatteryLevel){
+    public String search(boolean onGround, String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel){
         String decision="";
         logger.info("SIMPLEEEE ALGOOOOOO");
         logger.info("CURRENT DIRECTION: " + currentDirection);
@@ -41,26 +41,26 @@ public class SimpleAlgo {
 
 
         while(batteryLevel> 0.25*startingBatteryLevel){
-            if(count==0 && range>=0){
+            if(count==0 && rangeCheck>=0){
                 decision= action.scan();
                 data.setCountAlgo(1);
                 return decision;
             }
-            else if(count==1 && range>=0 && changeDir!=3){
+            else if(count==1 && rangeCheck>=0 && changeDir!=3){
                 decision= action.echo(data.getCurrDirection());
            
             
                 data.setCountAlgo(2);
                 return decision;
             }
-            else if(count==2 && range>=0){
+            else if(count==2 && rangeCheck>=0){
                 decision= action.fly();
                
                 data.setCountAlgo(0);
                 return decision;
             }
         
-            else if(range<0 && changeDir== 0){
+            else if(rangeCheck<0 && changeDir== 0){
                 logger.info("TURN STARTING");
                 if (currentDirection.equals("S")){
                     decision= action.changeDirection("E");
@@ -72,7 +72,7 @@ public class SimpleAlgo {
       
                 return decision;
             }
-            else if(range<0 && changeDir== 1){
+            else if(rangeCheck<0 && changeDir== 1){
                 logger.info("HELLO SECOND DIR STEP");
                 if (currentDirection.equals("E") && south==1){
                     decision= action.changeDirection("N");
@@ -88,14 +88,14 @@ public class SimpleAlgo {
          
                 return decision;
             }
-            else if(range<0 && changeDir== 2){
+            else if(rangeCheck<0 && changeDir== 2){
                 logger.info("THIRD DIR STEP, IN CORRECT POS");
                 decision= action.echo(currentDirection);
                 data.setChangeDirAlgo(3);
                 
                 return decision;
             }
-            else if(range>=0 && changeDir==3){
+            else if(rangeCheck>=0 && changeDir==3){
                 
                 logger.info("TURN SUCCESS");
              
@@ -107,7 +107,7 @@ public class SimpleAlgo {
                 return decision;
             }
 
-            else if(range<0 && changeDir== 3){
+            else if(rangeCheck<0 && changeDir== 3){
             
                 logger.info("BEYOND MAP BOUNDS");
                 decision= action.stop();

@@ -27,7 +27,7 @@ public class NavigationSystem {
     boolean Top = false; 
     boolean turn = false; 
 
-    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int batteryLevel, int startingBatteryLevel){  
+    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int rangeCheck, int batteryLevel, int startingBatteryLevel){  
         if (Top == false){
             logger.info("running top");
             return TopLeft(range, groundFound);

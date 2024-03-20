@@ -26,6 +26,7 @@ public class Explorer implements IExplorerRaid {
     private Integer scanned;
     private Integer startingBatteryLevel;
     private Integer count; 
+    private Integer rangeCheck = 0;
 
     private int x;
     private int y; 
@@ -66,7 +67,7 @@ public class Explorer implements IExplorerRaid {
         lastChecked= data.getLastDirection();
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal,newDirection, onGround,  groundFound, scanned, range,batteryLevel, startingBatteryLevel);
+        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel);
         return decision.toString();
     }
 
@@ -95,6 +96,8 @@ public class Explorer implements IExplorerRaid {
         //check what direction is being echoed in
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
+
+        
        
 
         Radar radar = new Radar(extraInfo);
@@ -116,14 +119,14 @@ public class Explorer implements IExplorerRaid {
                     onGround = true;
                 }
                 range = extraInfo.getInt("range");
-                
+                rangeCheck = 1;
                 newDirection = data.getLastDirection();
                 groundFound = true; 
             }else{
                 // out of range range
                 range = extraInfo.getInt("range");
-                range= -1;
-                groundFound= false;
+                rangeCheck = -1;
+                groundFound = false;
             }
 
         }
