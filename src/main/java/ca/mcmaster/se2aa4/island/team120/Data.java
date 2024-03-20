@@ -6,6 +6,7 @@ public class Data {
     private static int fly;
     private static int scanned;
     private static String current;
+    private static int stage;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -47,4 +48,11 @@ public class Data {
         return current;
     }
 
+    public int getStage(){
+        return stage;
+    }
+
+    public void setStage(int count){
+        stage = count;
+    }
 }
