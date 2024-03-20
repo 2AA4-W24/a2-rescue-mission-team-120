@@ -17,10 +17,22 @@ import org.json.JSONTokener;
 public class Radar{
     private final Logger logger = LogManager.getLogger();
 
-    public boolean isEchoed(JSONObject echo){
-        logger.info(echo);
-        if (echo.has("found")){
-            String found = echo.getString("found");
+    private JSONObject response;
+
+    public Radar(JSONObject response){
+        this.response= response;
+    }
+
+    public boolean isEchoed(){
+        if (response.has("found")){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isGround(){
+        if (isEchoed()){
+            String found= response.getString("found");
             if ("GROUND".equals(found)){
                 logger.info("GROUND FOUND");
                 return true;

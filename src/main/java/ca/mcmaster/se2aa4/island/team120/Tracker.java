@@ -41,5 +41,9 @@ public class Tracker{
             logger.info("site stored");
         }
     }
+
+    public int getNumCreeks(){
+        return creek_counter;
+    }
 }
 

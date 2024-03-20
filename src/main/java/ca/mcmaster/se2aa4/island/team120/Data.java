@@ -7,6 +7,10 @@ public class Data {
     private static int scanned;
     private static String current;
     private static int stage;
+    private static int count;
+    private static int changeDir;
+    private static int north=0;
+    private static int south=1;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -48,6 +52,36 @@ public class Data {
         return current;
     }
 
+    public int getCountAlgo(){
+        return count;
+    }
+
+    public void setCountAlgo(int nextCountAlgo){
+        count=nextCountAlgo;
+    }
+
+    public int getChangeDirAlgo(){
+        return changeDir;
+    }
+
+    public void setChangeDirAlgo(int nextChangeDirAlgo){
+        changeDir= nextChangeDirAlgo;
+    }
+    public int getSouthAlgo(){
+        return south;
+    }
+
+    public void setSouthAlgo(int newSouth){
+        south= newSouth;
+    }
+
+    public int getNorthAlgo(){
+        return north;
+    }
+
+    public void setNorthAlgo(int newNorth){
+        north= newNorth;
+    }
     public int getStage(){
         return stage;
     }

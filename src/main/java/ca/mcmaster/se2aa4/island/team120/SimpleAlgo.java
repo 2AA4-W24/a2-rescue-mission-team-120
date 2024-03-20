@@ -11,92 +11,106 @@ public class SimpleAlgo {
     //NEED TO CREATE INTERFACE FOR ALL ALGOS THAT GO IN NAVIGATION SYSTEM 
     private final Logger logger = LogManager.getLogger();
     private boolean onGround;
-    JSONObject decision= new JSONObject();
+    //JSONObject decision= new JSONObject();
     Actions action= new Actions();
-    int count=0;
+
     int batteryLevel;
-    int changeDir=0;
+    int changeDir;
+    int count;
     Direction direction= new Direction();
-    boolean turned= false;
+    Data data= new Data();
+    int south;
+    int north;
+
 
 
     public String search(boolean onGround, String currentDirection, int range, int batteryLevel, int startingBatteryLevel){
         String decision="";
+        logger.info("SIMPLEEEE ALGOOOOOO");
+        logger.info("CURRENT DIRECTION: " + currentDirection);
 
         this.onGround = onGround;
         this.batteryLevel= batteryLevel;
+        this.changeDir= data.getChangeDirAlgo();
+        this.count= data.getCountAlgo();
+        this.south= data.getSouthAlgo();
+        this.north= data.getNorthAlgo();
+   
 
         //once we reach top and want to start search
+
 
         while(batteryLevel> 0.25*startingBatteryLevel){
             if(count==0 && range>=0){
                 decision= action.scan();
-                logger.info("** Decision: {}",decision.toString());
-                count=1;
+                data.setCountAlgo(1);
                 return decision;
             }
             else if(count==1 && range>=0 && changeDir!=3){
-                decision= action.echo(currentDirection);
-                logger.info("** Decision: {}",decision.toString());
-                count=2;
+                decision= action.echo(data.getCurrDirection());
+           
+            
+                data.setCountAlgo(2);
                 return decision;
             }
             else if(count==2 && range>=0){
                 decision= action.fly();
-                logger.info("** Decision: {}",decision.toString());
-                count=0;
+               
+                data.setCountAlgo(0);
                 return decision;
             }
         
             else if(range<0 && changeDir== 0){
-                
-                if (currentDirection.equals("E")){
-                    decision= action.changeDirection("S");
-                }
-                else if (currentDirection.equals("W")){
-                    decision= action.changeDirection("N");
-                }
-                changeDir=1;
-                logger.info("** Decision: {}",decision.toString());
-                return decision;
-            }
-            else if(range<0 && changeDir== 1){
+                logger.info("TURN STARTING");
                 if (currentDirection.equals("S")){
-                    decision= action.changeDirection("W");
+                    decision= action.changeDirection("E");
                 }
                 else if (currentDirection.equals("N")){
                     decision= action.changeDirection("E");
                 }
-                changeDir=2;
-                logger.info("** Decision: {}",decision.toString());
+                data.setChangeDirAlgo(1);
+      
+                return decision;
+            }
+            else if(range<0 && changeDir== 1){
+                logger.info("HELLO SECOND DIR STEP");
+                if (currentDirection.equals("E") && south==1){
+                    decision= action.changeDirection("N");
+                    data.setNorthAlgo(1);
+                    data.setSouthAlgo(0);
+                }
+                else if (currentDirection.equals("E") && north==1){
+                    decision= action.changeDirection("S");
+                    data.setNorthAlgo(0);
+                    data.setSouthAlgo(1);
+                }
+                data.setChangeDirAlgo(2);
+         
                 return decision;
             }
             else if(range<0 && changeDir== 2){
+                logger.info("THIRD DIR STEP, IN CORRECT POS");
                 decision= action.echo(currentDirection);
-                logger.info("** Decision: {}",decision.toString());
-                changeDir=3;
+                data.setChangeDirAlgo(3);
                 
                 return decision;
             }
-            else if(range>=0 && changeDir==3 && count==0){
-                changeDir=0;
+            else if(range>=0 && changeDir==3){
+                
                 logger.info("TURN SUCCESS");
-                turned= true;
+             
                 decision= action.scan();
-                logger.info("** Decision: {}",decision.toString());
-                count=1;
+
+                data.setCountAlgo(1);
+                data.setChangeDirAlgo(0);
 
                 return decision;
             }
 
             else if(range<0 && changeDir== 3){
-                decision= action.echo(currentDirection);
-                logger.info("** Decision: {}",decision.toString());
-                changeDir=0;
+            
                 logger.info("BEYOND MAP BOUNDS");
                 decision= action.stop();
-                logger.info("** Decision: {}",decision.toString());
-                
                 return decision;
             }
             

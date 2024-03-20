@@ -19,7 +19,7 @@ public class NavigationSystem {
 
     int x; 
     int y; 
-
+    
     int range_x_right;
     int range_x_left;
     int range_y_below; 
@@ -27,7 +27,7 @@ public class NavigationSystem {
     boolean Top = false; 
     boolean turn = false; 
 
-    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost, int range, int batteryLevel, int startingBatteryLevel){  
+    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int batteryLevel, int startingBatteryLevel){  
         if (Top == false){
             logger.info("running top");
             return TopLeft(range, groundFound);
@@ -35,7 +35,7 @@ public class NavigationSystem {
         else{
             if (!onGround){
                 logger.info("running island");
-                return island.Finder(newDirection, onGround, groundFound, lost); 
+                return island.Finder(newDirection, onGround, groundFound); 
             }else{
                 return run.search(onGround, currentDirection, range, batteryLevel, startingBatteryLevel); 
             }
@@ -44,41 +44,37 @@ public class NavigationSystem {
     }
 
     public String TopLeft(int range, boolean groundFound){
-        //int x = coords.x_coords(); 
-        //int y = coords.y_coords(); 
-    
-        //current position = 0,0 
-        //echo up
-        //echo down
-        //echo left
-        //echo right 
-        //int turn = 0; 
-        
         logger.info("for");
         logger.info("flag");
 
         int count = data.getStage(); 
+        logger.info(count);
 
         updateRanges(count, range, groundFound);
-
-        // Continue actions based on the current count
         switch (count) {
             case 0:
+                logger.info(count);
+
                 return action.echo(data.getCurrDirection());
             case 1:
+                logger.info(count);
                 return action.echo(Direction.left(data.getCurrDirection()));
             case 2:
+                logger.info(count);
                 return action.echo(Direction.right(data.getCurrDirection()));
             case 3:
+                logger.info(count);
                 String current = Direction.left(data.getCurrDirection());
                 data.setCurrDirection(current);
                 logger.info("I am here", current);
                 return action.changeDirection(current);
             case 4:
+                logger.info(count);
                 logger.info("I am here2");
                 return action.echo(Direction.left(data.getCurrDirection()));
                     
             case 5:
+                logger.info(count);
                 range_x_left += range;
                 logger.info("Range_x_left: {}", range_x_left);
 
@@ -90,15 +86,9 @@ public class NavigationSystem {
                 }else{
                     logger.info("Done");
                     Top = true;
+                    return null; 
                 }
-        }return null;
-            
-        //range in echo up + down = y
-        //range in echo left + right = x 
-
-        //from spot keep fly up for range 
-        //from spot keep fly left/east for range 
-        //update coords 
+            }
     }
 
     private void updateRanges(int count, int range, boolean groundFound) {
@@ -108,7 +98,28 @@ public class NavigationSystem {
             range_y_above += range;
         } else if (count == 3 && !groundFound) {
             range_y_below += range;
+        }else if (count ==4 && !groundFound){
+            range_x_left += range;
         }
-
+        
+        int range_x = range_x_left + range_x_right;
+        int range_y = range_y_above + range_y_below; 
     }
 }
+
+        //int x = coords.x_coords(); 
+        //int y = coords.y_coords(); 
+    
+        //current position = 0,0 
+        //echo up
+        //echo down
+        //echo left
+        //echo right 
+        //int turn = 0; 
+                // Continue actions based on the current count
+             //range in echo up + down = y
+        //range in echo left + right = x 
+
+        //from spot keep fly up for range 
+        //from spot keep fly left/east for range 
+        //update coords 

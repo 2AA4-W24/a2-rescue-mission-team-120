@@ -23,10 +23,9 @@ public class Explorer implements IExplorerRaid {
     private String lastChecked;
     private String newDirection;
     private Boolean onGround = false;
-    private Integer scanned = 1;
-    private Boolean lost = false;
+    private Integer scanned;
     private Integer startingBatteryLevel;
-    int count = 0; 
+    private Integer count; 
 
     private int x;
     private int y; 
@@ -47,6 +46,7 @@ public class Explorer implements IExplorerRaid {
         data.setFly(1);
         data.setSignal(0);
         data.setScanned(1);
+        data.setStage(0);
 
         //Data data = new Data();
         //lastChecked = currentDirection;
@@ -66,7 +66,7 @@ public class Explorer implements IExplorerRaid {
         lastChecked= data.getLastDirection();
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost, range, batteryLevel, startingBatteryLevel);
+        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal,newDirection, onGround,  groundFound, scanned, range,batteryLevel, startingBatteryLevel);
         return decision.toString();
     }
 
@@ -84,7 +84,7 @@ public class Explorer implements IExplorerRaid {
 
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
-
+        count = data.getStage();
         data.setStage(count++);
         logger.info("COUNT VALUE {}", count);
         
@@ -95,14 +95,15 @@ public class Explorer implements IExplorerRaid {
         //check what direction is being echoed in
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
-        logger.info("YUMMY");
+       
 
-        Radar radar = new Radar();
+        Radar radar = new Radar(extraInfo);
         PhotoScanner scan= new PhotoScanner(extraInfo);
         //lastChecked = FindIsland.returnLastChecked();
-        logger.info("OH MY GOD NEW {}", lastChecked);
+    
 
-        if (!radar.isEchoed(extraInfo)){
+
+        if (!radar.isEchoed()){
             //range = -1;
             range = extraInfo.getInt("range");
             logger.info("OUT OF RANGE");
@@ -110,16 +111,21 @@ public class Explorer implements IExplorerRaid {
             logger.info("LAST CHECKED {}",lastChecked);
             groundFound = false;
         }else{
-            range = extraInfo.getInt("range");
-            if (range == 0){
-                onGround = true;
+            if(radar.isGround()){
+                if (range == 0){
+                    onGround = true;
+                }
+                range = extraInfo.getInt("range");
+                
+                newDirection = data.getLastDirection();
+                groundFound = true; 
+            }else{
+                // out of range range
+                range = extraInfo.getInt("range");
+                range= -1;
+                groundFound= false;
             }
-            logger.info("YOU'RE {} AWAY", range);
-            logger.info("SWITCHING DIRECTION...");
-            newDirection = data.getLastDirection();
-            //currentDirection = lastChecked;
-            logger.info("NEW DIRECTION {}", newDirection);
-            groundFound = true; 
+
         }
 
         if(scan.isScanned()){
@@ -130,25 +136,13 @@ public class Explorer implements IExplorerRaid {
                 if (onGround){
                     newDirection = Direction.left(currentDirection);
                     logger.info("NEW DIRECTION LOST {}", newDirection);
-                    onGround = false;
-                    lost = true;
+                    //onGround = false;
+                
                 }
             }
             else{
                 JSONArray biomes = extraInfo.getJSONArray("biomes");
                 logger.info("YOU'RE ON {}", biomes);
-            }
-
-            if(!scan.isCreek() && !scan.isSite()){
-                logger.info("NOT A CREEK OR EMERGENCY SITE, WE ARE ON WATAHHH!");
-            }
-            else if(!scan.isSite()){
-                logger.info("NOT AN EMERGENCY SITE!");
-                logger.info("MUST BE ON A CREEK");
-            }
-            else{
-                logger.info("NOT A CREEK");
-                logger.info("MUST BE ON AN EMERGENCY SITE!");
             }
         }
     }
