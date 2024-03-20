@@ -90,30 +90,32 @@ public class Explorer implements IExplorerRaid {
         //check what direction is being echoed in
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
-        logger.info("YUMMY");
+       
 
-        Radar radar = new Radar();
+        Radar radar = new Radar(extraInfo);
         PhotoScanner scan= new PhotoScanner(extraInfo);
         //lastChecked = FindIsland.returnLastChecked();
-        logger.info("OH MY GOD NEW {}", lastChecked);
+    
 
-        if (!radar.isEchoed(extraInfo)){
-            //range = -1;
-            logger.info("OUT OF RANGE");
-            logger.info("CURR DIR {}", currentDirection);
-            logger.info("LAST CHECKED {}",lastChecked);
-            //groundFound = false;
+
+        if (!radar.isEchoed()){
+            groundFound = false;
         }else{
-            range = extraInfo.getInt("range");
-            if (range == 0){
-                onGround = true;
+            if(radar.isGround()){
+                if (range == 0){
+                    onGround = true;
+                }
+                range = extraInfo.getInt("range");
+                
+                newDirection = data.getLastDirection();
+                groundFound = true; 
+            }else{
+                // out of range range
+                range = extraInfo.getInt("range");
+                range= -1;
+                groundFound= false;
             }
-            logger.info("YOU'RE {} AWAY", range);
-            logger.info("SWITCHING DIRECTION...");
-            newDirection = data.getLastDirection();
-            //currentDirection = lastChecked;
-            logger.info("NEW DIRECTION {}", newDirection);
-            groundFound = true; 
+
         }
 
         if(scan.isScanned()){
@@ -121,29 +123,17 @@ public class Explorer implements IExplorerRaid {
             if(!scan.verifyBiome()){
                 logger.info("IN THE OCEAN");
                 //if previously on island but now no longer on the island, update onGround to look for ground again
-                /*if (onGround){
+                if (onGround){
                     newDirection = Direction.left(currentDirection);
                     logger.info("NEW DIRECTION LOST {}", newDirection);
-                    onGround = false;
-                    lost = true;
-                }*/
+                    //onGround = false;
+                
+                }
             }
             else{
                 JSONArray biomes = extraInfo.getJSONArray("biomes");
                 logger.info("YOU'RE ON {}", biomes);
             }
-
-            // if(!scan.isCreek() && !scan.isSite()){
-            //     logger.info("NOT A CREEK OR EMERGENCY SITE, WE ARE ON WATAHHH!");
-            // }
-            // else if(!scan.isSite()){
-            //     logger.info("NOT AN EMERGENCY SITE!");
-            //     logger.info("MUST BE ON A CREEK");
-            // }
-            // else{
-            //     logger.info("NOT A CREEK");
-            //     logger.info("MUST BE ON AN EMERGENCY SITE!");
-            // }
         }
     }
 
