@@ -14,13 +14,13 @@ public class Explorer implements IExplorerRaid {
     private final Logger logger = LogManager.getLogger();
     private Integer batteryLevel; //so we can track battery level 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
-    private Integer range;
+    private Integer range = 0;
     private String creeks;
     private String biomes;
     private Integer fly = 1;
     private Integer signal = 0;
     private Boolean groundFound = false;
-    private static String lastChecked;
+    private String lastChecked;
     private String newDirection;
     private Boolean onGround = false;
     private Integer scanned = 1;
@@ -60,7 +60,7 @@ public class Explorer implements IExplorerRaid {
         logger.info(rightDir);*/
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost,range, batteryLevel, startingBatteryLevel);
+        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost, range, batteryLevel, startingBatteryLevel);
         return decision.toString();
     }
 
