@@ -24,7 +24,6 @@ public class Explorer implements IExplorerRaid {
     private String newDirection;
     private Boolean onGround = false;
     private Integer scanned = 1;
-    private Boolean lost = false;
     private Integer startingBatteryLevel;
 
     private int x;
@@ -65,7 +64,7 @@ public class Explorer implements IExplorerRaid {
         lastChecked= data.getLastDirection();
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost, range, batteryLevel, startingBatteryLevel);
+        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, range, batteryLevel, startingBatteryLevel);
         return decision.toString();
     }
 
@@ -122,12 +121,12 @@ public class Explorer implements IExplorerRaid {
             if(!scan.verifyBiome()){
                 logger.info("IN THE OCEAN");
                 //if previously on island but now no longer on the island, update onGround to look for ground again
-                if (onGround){
+                /*if (onGround){
                     newDirection = Direction.left(currentDirection);
                     logger.info("NEW DIRECTION LOST {}", newDirection);
                     onGround = false;
                     lost = true;
-                }
+                }*/
             }
             else{
                 JSONArray biomes = extraInfo.getJSONArray("biomes");

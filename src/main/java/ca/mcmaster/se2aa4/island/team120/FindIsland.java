@@ -15,7 +15,7 @@ public class FindIsland {
     Data data = new Data();
     Coordinates update = new Coordinates();
 
-    public String Finder(String newDirection, boolean onGround, boolean groundFound, boolean lost){
+    public String Finder(String newDirection, boolean onGround, boolean groundFound){
         Actions task = new Actions();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -34,7 +34,7 @@ public class FindIsland {
         // new algo: echo in all directions and if nothing found fly and scan, if something found, 
         //set foundground to true and start flying in that direction repeatedly until on ground
 
-        if ((groundFound && newDirection != currentDirection) || (lost && newDirection != currentDirection)){
+        if ((groundFound && newDirection != currentDirection)){
             data.setCurrDirection(newDirection);
             return task.changeDirection(data.getCurrDirection());
         }

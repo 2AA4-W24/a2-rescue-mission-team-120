@@ -19,15 +19,14 @@ public class NavigationSystem {
     int range_x;
     int range_y; 
 
-    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost, int range, int batteryLevel, int startingBatteryLevel){  g
+    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int batteryLevel, int startingBatteryLevel){ 
         TopLeft();
 
         if (!onGround){
-            return island.Finder(newDirection, onGround, groundFound, lost); 
+            return island.Finder(newDirection, onGround, groundFound); 
         }else{
             return run.search(onGround, currentDirection, range, batteryLevel, startingBatteryLevel); 
         }
-        return null;
     }
 
     public String TopLeft(){
@@ -60,14 +59,12 @@ public class NavigationSystem {
                 }
             }
         }
+        return null;
         //range in echo up + down = y
         //range in echo left + right = x 
 
         //from spot keep fly up for range 
         //from spot keep fly left/east for range 
         //update coords 
-
-
     }
-
 }
