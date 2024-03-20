@@ -133,17 +133,17 @@ public class Explorer implements IExplorerRaid {
                 logger.info("YOU'RE ON {}", biomes);
             }
 
-            if(!scan.isCreek() && !scan.isSite()){
-                logger.info("NOT A CREEK OR EMERGENCY SITE, WE ARE ON WATAHHH!");
-            }
-            else if(!scan.isSite()){
-                logger.info("NOT AN EMERGENCY SITE!");
-                logger.info("MUST BE ON A CREEK");
-            }
-            else{
-                logger.info("NOT A CREEK");
-                logger.info("MUST BE ON AN EMERGENCY SITE!");
-            }
+            // if(!scan.isCreek() && !scan.isSite()){
+            //     logger.info("NOT A CREEK OR EMERGENCY SITE, WE ARE ON WATAHHH!");
+            // }
+            // else if(!scan.isSite()){
+            //     logger.info("NOT AN EMERGENCY SITE!");
+            //     logger.info("MUST BE ON A CREEK");
+            // }
+            // else{
+            //     logger.info("NOT A CREEK");
+            //     logger.info("MUST BE ON AN EMERGENCY SITE!");
+            // }
         }
     }
 

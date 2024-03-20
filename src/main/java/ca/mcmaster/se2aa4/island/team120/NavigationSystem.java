@@ -1,4 +1,7 @@
 package ca.mcmaster.se2aa4.island.team120;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class NavigationSystem {
     //place where we keep steps
@@ -15,6 +18,8 @@ public class NavigationSystem {
 
     int x; 
     int y; 
+    private final Logger logger = LogManager.getLogger();
+    
 
     int range_x;
     int range_y; 
@@ -25,6 +30,7 @@ public class NavigationSystem {
         if (!onGround){
             return island.Finder(newDirection, onGround, groundFound); 
         }else{
+                logger.info("algorithm hit");
             return run.search(onGround, currentDirection, range, batteryLevel, startingBatteryLevel); 
         }
     }

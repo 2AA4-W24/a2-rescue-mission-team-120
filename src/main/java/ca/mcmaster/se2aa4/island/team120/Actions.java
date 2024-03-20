@@ -15,6 +15,7 @@ public class Actions{
     private final Logger logger = LogManager.getLogger();
     JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
+   
 
     Coordinates coords = new Coordinates(); 
     Data data = new Data(); 
@@ -30,6 +31,7 @@ public class Actions{
         decision.put("action", "heading");
         parameters.put("direction", direction);
         decision.put("parameters", parameters);
+        data.setCurrDirection(direction);
         return decision.toString();
     }
 
