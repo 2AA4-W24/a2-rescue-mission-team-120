@@ -78,7 +78,7 @@ public class SimpleAlgo {
             }
             else if(range>=0 && changeDir==3 && count==0){
                 changeDir=0;
-                logger.info("TURN SUCESS");
+                logger.info("TURN SUCCESS");
                 turned= true;
                 decision= action.scan();
                 logger.info("** Decision: {}",decision.toString());
