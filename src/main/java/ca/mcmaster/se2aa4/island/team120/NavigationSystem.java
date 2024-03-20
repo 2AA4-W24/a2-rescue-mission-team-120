@@ -72,5 +72,10 @@ public class NavigationSystem {
         //from spot keep fly up for range 
         //from spot keep fly left/east for range 
         //update coords 
+<<<<<<< HEAD
+=======
+        return "";
+
+>>>>>>> 72ced82e0be50ec63ba1e2e0641969485cb271d8
     }
 }
