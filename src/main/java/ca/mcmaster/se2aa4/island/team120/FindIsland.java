@@ -16,6 +16,7 @@ public class FindIsland {
     
     private static String lastChecked;
 
+    LastChecked lastDirection= new LastChecked();
 
     public String Finder(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost){
         //check heading first; if a new direction to land has been found, change heading
@@ -37,6 +38,7 @@ public class FindIsland {
         }
 
         if ((groundFound && newDirection != currentDirection) || (lost && newDirection != currentDirection)){
+            currentDirection= newDirection;
             return task.changeDirection(currentDirection);
         }
 
@@ -53,22 +55,22 @@ public class FindIsland {
             else{
                 //LAST CHEFCKED ISNTB EING UPDATED BEYON D CLASS
                 if (lastChecked == currentDirection){
-                    lastChecked = rightDir;
-                    logger.info("LAST CHECKED MANN {},", lastChecked);
+                    lastDirection.setLastDirection(rightDir);
+                    logger.info("LAST CHECKED MANN {},", lastDirection.getLastDirection());
                     signal = 1;
                     fly = 1;
                     scanned = 0;
                     return task.echo(rightDir);
                 }
                 else if (lastChecked == rightDir){
-                    lastChecked = leftDir;
+                    lastDirection.setLastDirection(leftDir);
                     signal = 1;
                     fly = 1;
                     scanned = 0;
                     return task.echo(leftDir);
                 }
                 else if (lastChecked == leftDir){
-                    lastChecked = currentDirection;
+                    lastDirection.setLastDirection(currentDirection);
                     signal = 1;
                     fly = 1;
                     scanned = 0;
