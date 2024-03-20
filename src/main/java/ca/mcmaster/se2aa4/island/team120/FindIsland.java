@@ -31,6 +31,9 @@ public class FindIsland {
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
 
+
+        
+
         // new algo: echo in all directions and if nothing found fly and scan, if something found, 
         //set foundground to true and start flying in that direction repeatedly until on ground
 

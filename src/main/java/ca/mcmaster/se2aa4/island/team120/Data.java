@@ -8,6 +8,8 @@ public class Data {
     private static String current;
     private static int count;
     private static int changeDir;
+    private static int north=0;
+    private static int south=1;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -63,5 +65,20 @@ public class Data {
 
     public void setChangeDirAlgo(int nextChangeDirAlgo){
         changeDir= nextChangeDirAlgo;
+    }
+    public int getSouthAlgo(){
+        return south;
+    }
+
+    public void setSouthAlgo(int newSouth){
+        south= newSouth;
+    }
+
+    public int getNorthAlgo(){
+        return north;
+    }
+
+    public void setNorthAlgo(int newNorth){
+        north= newNorth;
     }
 }

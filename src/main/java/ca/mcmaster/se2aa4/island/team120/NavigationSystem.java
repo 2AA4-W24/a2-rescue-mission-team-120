@@ -29,9 +29,10 @@ public class NavigationSystem {
         TopLeft();
 
         if (!onGround){
+            logger.info("POOOOOSIITIONNNN: [" + coords.x_coords() + ", " + coords.y_coords() + "]");
             return island.Finder(newDirection, onGround, groundFound); 
         }else{
-                logger.info("algorithm hit");
+                logger.info("POOOOOSIITIONNNN: [" + coords.x_coords() + ", " + coords.y_coords() + "]");
             return run.search(onGround, currentDirection, range, batteryLevel, startingBatteryLevel); 
         }
     }
