@@ -14,7 +14,7 @@ public class Explorer implements IExplorerRaid {
     private final Logger logger = LogManager.getLogger();
     private Integer batteryLevel; //so we can track battery level 
     private String currentDirection; //so we can know from parsing info what our starter direction is 
-    private Integer range = 0;
+    private Integer range=0;
     private String creeks;
     private String biomes;
     private Integer fly = 1;
@@ -32,7 +32,8 @@ public class Explorer implements IExplorerRaid {
     
     //Coordinates update= new Coordinates();
     Actions actions= new Actions();
-    
+    LastChecked lastDirection= new LastChecked();
+
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
@@ -58,7 +59,8 @@ public class Explorer implements IExplorerRaid {
         String leftDir = Direction.left(currentDirection);
         logger.info(leftDir);
         logger.info(rightDir);*/
-
+    
+        lastChecked= lastDirection.getLastDirection();
         NavigationSystem decisionMaker = new NavigationSystem();
         String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost, range, batteryLevel, startingBatteryLevel);
         return decision.toString();

@@ -19,6 +19,7 @@ public class SimpleAlgo {
     Direction direction= new Direction();
     boolean turned= false;
 
+
     public String search(boolean onGround, String currentDirection, int range, int batteryLevel, int startingBatteryLevel){
         String decision="";
 
