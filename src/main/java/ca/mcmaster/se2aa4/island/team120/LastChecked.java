@@ -5,6 +5,7 @@ public class LastChecked {
     private static int signal;
     private static int fly;
     private static int scanned;
+    private static String current;
 
     public void setLastDirection(String lastDirection){
         last= lastDirection;
@@ -36,5 +37,13 @@ public class LastChecked {
 
     public int getScanned(){
         return scanned;
+    }
+
+    public void setCurrDirection(String currentDirection){
+        current = currentDirection;
+    }
+
+    public String getCurrDirection(){
+        return current;
     }
 }

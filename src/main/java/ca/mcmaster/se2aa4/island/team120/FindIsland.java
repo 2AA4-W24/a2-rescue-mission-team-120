@@ -12,10 +12,10 @@ public class FindIsland {
     private static Integer fly;
     private static Integer signal;
     private static Integer scanned;
-    
     private static String lastChecked;
+    private static String currentDirection;
 
-    LastChecked lastDirection= new LastChecked();
+    LastChecked lastDirection = new LastChecked();
     Coordinates update = new Coordinates();
 
     public String Finder(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost){
@@ -39,7 +39,7 @@ public class FindIsland {
         }
 
         if ((groundFound && newDirection != currentDirection) || (lost && newDirection != currentDirection)){
-            currentDirection= newDirection;
+            lastDirection.setCurrDirection(newDirection);
             return task.changeDirection(currentDirection);
         }
 
