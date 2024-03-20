@@ -25,7 +25,7 @@ public class NavigationSystem {
     int range_x;
     int range_y; 
 
-    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int batteryLevel, int startingBatteryLevel){ 
+    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int rangeCheck, int batteryLevel, int startingBatteryLevel){ 
         TopLeft();
 
         if (!onGround){
@@ -33,7 +33,7 @@ public class NavigationSystem {
             return island.Finder(newDirection, onGround, groundFound); 
         }else{
                 logger.info("POOOOOSIITIONNNN: [" + coords.x_coords() + ", " + coords.y_coords() + "]");
-            return run.search(onGround, currentDirection, range, batteryLevel, startingBatteryLevel); 
+            return run.search(onGround, currentDirection, rangeCheck, batteryLevel, startingBatteryLevel); 
         }
     }
 
