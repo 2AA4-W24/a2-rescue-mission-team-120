@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Queue;
 
+//IMPLEMENTATION OF DIFFERENT ALGORITHMS 
+
 public class BFS {
     private final Logger logger = LogManager.getLogger();
     
     //JSONObject decision= new JSONObject();
-    Actions action= new Actions();
+    /*Actions action= new Actions();
     Direction direction= new Direction();
     LastChecked data = new LastChecked();
     
@@ -27,17 +29,15 @@ public class BFS {
     private Coordinates coords; 
     private Queue<int[]> Queue; 
     //private boolean onGround;
-    private String curr = data.getCurrDirection();
-    
-
+    private String curr = data.getCurrDirection();*/ 
     
 
     public String search(int batteryLevel, int startingBatteryLevel){
-        String decision="";
+        return null; 
+        /*String decision="";
 
         //this.onGround = onGround;
         this.batteryLevel= batteryLevel;
-        
 
         //curr = data.setCurrDirection(newDirection); 
         
@@ -115,7 +115,7 @@ public class BFS {
                 
             }
         }
-        return decision; 
+        return decision; */
     }
     /*check_east();
                 check_north(); 
