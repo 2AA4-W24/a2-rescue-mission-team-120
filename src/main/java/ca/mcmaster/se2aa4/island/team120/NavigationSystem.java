@@ -8,6 +8,8 @@ public class NavigationSystem {
     SimpleAlgo run = new SimpleAlgo();
     boolean foundIsland = false;
     boolean islandTraversed = false; 
+    int x; 
+    int y; 
 
     public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, boolean lost, int range, int batteryLevel, int startingBatteryLevel){  
         while (!islandTraversed){
@@ -19,4 +21,5 @@ public class NavigationSystem {
         }
         return null;
     }
+
 }

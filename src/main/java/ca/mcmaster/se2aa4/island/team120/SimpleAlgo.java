@@ -102,7 +102,7 @@ public class SimpleAlgo {
             
         }
         
-        return decision;
+        return decision.toString();
     }
 
 
