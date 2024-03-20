@@ -25,6 +25,7 @@ public class Explorer implements IExplorerRaid {
     private Boolean onGround = false;
     private Integer scanned = 1;
     private Boolean lost = false;
+    private Integer startingBatteryLevel;
 
     private int x;
     private int y; 
@@ -44,7 +45,7 @@ public class Explorer implements IExplorerRaid {
         lastChecked = currentDirection;
 
         batteryLevel = info.getInt("budget");
-
+        startingBatteryLevel = info.getInt("budget");
         logger.info("The drone is facing {}", currentDirection);
         logger.info("Battery level is {}", batteryLevel);
     }
@@ -59,7 +60,7 @@ public class Explorer implements IExplorerRaid {
         logger.info(rightDir);*/
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost);
+        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, lost,range, batteryLevel, startingBatteryLevel);
         return decision.toString();
     }
 
@@ -108,6 +109,7 @@ public class Explorer implements IExplorerRaid {
         } */
 
         if (!radar.isEchoed(extraInfo)){
+            range= -1;
             logger.info("OUT OF RANGE");
             logger.info("CURR DIR {}", currentDirection);
             logger.info("LAST CHECKED {}",lastChecked);

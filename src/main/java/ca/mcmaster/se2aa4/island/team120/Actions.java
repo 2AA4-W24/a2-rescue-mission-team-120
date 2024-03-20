@@ -39,4 +39,10 @@ public class Actions{
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
+
+    public String stop(){
+        decision.put("action", "stop");
+        logger.info("** Decision: {}",decision.toString());
+        return decision.toString();
+    }
 }
