@@ -28,45 +28,41 @@ public class StartPoint{
     public String FourCorners(int range, boolean groundFound){
         int count = data.getStage(); 
         logger.info(count);  
-        logger.info(data.getCurrDirection());
 
         if(count==0){
-            if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'N')){
-                logger.info(data.getCurrDirection());
+            if((data.getCurrDirection().charAt(0) != 'W')){
                 return action.echo("E");
             }else{
-                logger.info(data.getCurrDirection());
-                logger.info(count); 
                 return action.scan();
             }
         }else if (count==1){
-            if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'N')){
+            if((data.getCurrDirection().charAt(0) != 'W')){
                 data.setRange_x_right(range);
             }
 
-            if((data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'N')){
+            if((data.getCurrDirection().charAt(0) != 'E')){
                 return action.echo("W"); //TURN RANGE INTO DATA POINT!!
             }else{
                 return action.scan();
             }
 
         }else if (count == 2){
-            if((data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'N')){
+            if((data.getCurrDirection().charAt(0) != 'E')){
                 data.setRange_x_left(range);
             }
 
-            if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'N')){
+            if((data.getCurrDirection().charAt(0) != 'S')){
                 return action.echo("N");
             }else{
                 return action.scan();
             }
 
         }else if (count ==3){
-            if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'N')){
+            if((data.getCurrDirection().charAt(0) != 'S')){
                 data.setRange_y_above(range);
             }
 
-            if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'W')){
+            if((data.getCurrDirection().charAt(0) != 'N')){
                 return action.echo("S");
             }else{
                 return action.scan();
@@ -74,10 +70,13 @@ public class StartPoint{
 
         }else if (count == 4){
 
-            if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'W')){
+            if((data.getCurrDirection().charAt(0) != 'N')){
                 data.setRange_y_below(range);
             }
-            
+
+            return Inwards(range_x_left, range_x_right, range_y_above, range_y_below);
+
+        }else if (count == 5){
             int range_x_right = data.getRange_x_right();
             int range_x_left = data.getRange_x_left();
             int range_y_below = data.getRange_y_below(); 
@@ -107,7 +106,6 @@ public class StartPoint{
                     return BotRight(range, groundFound);
                 }
             }
-
         }
         return null;
     }
@@ -157,8 +155,11 @@ public class StartPoint{
                         data.setRange_x_left(range_x_left--); 
                         return action.fly(); 
                     }
+                    if(range_x_left==1){
+                        return action.changeDirection("N");
+                    }
                     data.setTop();
-                    return action.changeDirection("S");
+                    return action.changeDirection("E");
                 }
             }
         }
@@ -204,8 +205,11 @@ public class StartPoint{
                         data.setRange_x_right(range_x_right--); 
                         return action.fly(); 
                     }
+                    if(range_x_right==1){
+                        return action.changeDirection("N");
+                    }
                     data.setTop();
-                    return action.changeDirection("S");
+                    return action.changeDirection("W");
                 }
             }
         }
@@ -251,8 +255,11 @@ public class StartPoint{
                         data.setRange_x_right(range_x_right--); 
                         return action.fly(); 
                     }
+                    if(range_x_right==1){
+                        return action.changeDirection("S");
+                    }
                     data.setTop();
-                    return action.changeDirection("N");
+                    return action.changeDirection("W");
                 }
             }
         }
@@ -297,17 +304,61 @@ public class StartPoint{
                         data.setRange_x_left(range_x_left--); 
                         return action.fly(); 
                     }
+                    if(range_x_left==1){
+                        return action.changeDirection("S");
+                    }
                     data.setTop();
-                    return action.changeDirection("N");
+                    return action.changeDirection("E");
                 }
             }
         }
         return null;
     }
-    
-    private void updateRanges(int range_x_left,int range_x_right,int range_y_above, int range_y_below) { 
-        x_size = range_x_left + range_x_right;
-        y_size = range_y_above + range_y_below; 
+
+    public String Inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
+        if((range_x_left ==0 && range_y_above ==0) || (range_x_left ==0 && range_y_below ==0)){
+            if(data.getCurrDirection().charAt(0) != 'E'){
+                return action.changeDirection("E");
+            }else{
+                return action.scan();
+            }
+
+        }else if (range_x_right ==0 && range_y_above ==0 || range_x_right ==0 && range_y_below ==0){
+            if(data.getCurrDirection().charAt(0) != 'W'){
+                return action.changeDirection("W");
+            }else{
+                return action.scan();
+            }
+
+        }else if (range_x_left == 0){
+            if(data.getCurrDirection().charAt(0) != 'E'){
+                return action.changeDirection("E");
+            }else{
+                return action.scan();
+            }
+
+        }else if (range_x_right ==0){
+            if(data.getCurrDirection().charAt(0) != 'W'){
+                return action.changeDirection("W");
+            }else{
+                return action.scan();
+            }
+
+        }else if (range_y_above ==0){
+            if(data.getCurrDirection().charAt(0) != 'S'){
+                return action.changeDirection("S");
+            }else{
+                return action.scan();
+            }
+
+        }else if (range_y_below ==0){
+            if(data.getCurrDirection().charAt(0) != 'N'){
+                return action.changeDirection("N");
+            }else{
+                return action.scan();
+            }
+        }
+        return null; 
     }
 }
 
