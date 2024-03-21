@@ -20,6 +20,7 @@ public class Explorer implements IExplorerRaid {
     private Integer fly;
     private Integer signal;
     private Boolean groundFound = false;
+    private Boolean reachGround;
     private String lastChecked;
     private String newDirection;
     private Boolean onGround;
@@ -64,6 +65,7 @@ public class Explorer implements IExplorerRaid {
         currentDirection = data.getCurrDirection();
         lastChecked= data.getLastDirection();
         onGround = data.getOnGround();
+        reachGround = data.getReachGround();
 
         NavigationSystem decisionMaker = new NavigationSystem();
         String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel);
@@ -103,13 +105,19 @@ public class Explorer implements IExplorerRaid {
             groundFound = groundFound;
         }else{
             if(radar.isGround()){
-                if (range == 0){
-                    data.setOnGround(true);
-                }
+                // refactor by putting boolean checkers in classes 
+
                 range = extraInfo.getInt("range");
                 rangeCheck = 1;
                 newDirection = data.getLastDirection();
                 groundFound = true; 
+                data.setReachGround(false);
+                //data.setOnGround(false);
+                if (range == 0){
+                    data.setOnGround(true);
+                    data.setReachGround(true);
+                    logger.info("REACHED ZERO");
+                }
             }else{
                 // out of range range
                 range = extraInfo.getInt("range");
@@ -126,6 +134,7 @@ public class Explorer implements IExplorerRaid {
                 if (onGround){
                     //newDirection = Direction.left(currentDirection);
                     logger.info("NEW DIRECTION LOST {}", newDirection);
+                    //data.setOnGround(false);
                     //onGround = false;
                 
                 }

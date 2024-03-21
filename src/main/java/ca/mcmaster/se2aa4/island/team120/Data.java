@@ -12,6 +12,7 @@ public class Data {
     private static int south=1;
     private static boolean turn = false;
     private static boolean ground = false;
+    private static boolean reached = false;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -98,5 +99,13 @@ public class Data {
 
     public void setOnGround(boolean onGround){
         ground = onGround;
+    }
+
+    public boolean getReachGround(){
+        return reached;
+    }
+
+    public void setReachGround(boolean reachGround){
+        reached = reachGround;
     }
 }

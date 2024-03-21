@@ -41,7 +41,7 @@ public class NavigationSystem {
             logger.info("inter hey {}", onGround);
             logger.info("inter say {}", interTurn);
             logger.info("INTERLACE TURN {}", interTurn);
-            return interlace.Turn(newDirection, onGround, groundFound);
+            return interlace.Turn(newDirection, groundFound);
         }
         else{
             foundIsland = true; 

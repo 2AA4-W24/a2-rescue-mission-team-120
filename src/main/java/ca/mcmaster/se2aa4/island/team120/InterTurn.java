@@ -12,6 +12,8 @@ public class InterTurn{
     private static String lastChecked;
     private static String currentDirection;
     private static Integer count;
+    private static boolean onGround;
+    private static boolean reachGround;
 
     /* 
     turning mechanism for interlacing after done traversing once
@@ -29,10 +31,17 @@ public class InterTurn{
     3. then final phase 
     */
 
+    /*
+    new mechanism
+    1. phase 1:echo left and right, if land to leftdir set lastchecked to rightdir
+    3. turn lastchecked dir (rightdir) 3x
+    2. phase 2: fly 3x and turn right again
+    */
+
     Data data = new Data();
     Coordinates update = new Coordinates();
 
-    public String Turn(String newDirection, boolean onGround, boolean groundFound){
+    public String Turn(String newDirection, boolean groundFound){
         Actions task = new Actions();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -44,12 +53,15 @@ public class InterTurn{
         signal = data.getSignal();
         scanned = data.getScanned();
         count = data.getCountAlgo();
+        reachGround = data.getReachGround();
+        onGround = data.getOnGround();
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
         
         //phase 1 of turning... checks for ref point to start get back in pos
         //echo and flying
+        
         if (signal == 0 && fly == 1 && scanned == 1){
             logger.info("CHICKEN {}",currentDirection);
             if(groundFound){
@@ -129,9 +141,23 @@ public class InterTurn{
                 logger.info("CURR DIRECTION after second change {}", currentDirection);
 
                 data.setCountAlgo(4);
+                logger.info("ON GROUND? {}", onGround);
+                return task.echo(currentDirection);
+            }
+            else if (count == 4){
+                logger.info("reached? {}",reachGround);
+                if (reachGround){
+                    data.setCountAlgo(5);
+                    return task.fly();
+                }
+                data.setCountAlgo(3);
+                return task.fly();
+            }
+            else if(count ==5){
+                data.setCountAlgo(6);
                 return task.scan();
             }
-            else if (onGround){
+            else if(count ==6){
                 data.setInterTurn(false);
                 return task.stop();
             }
@@ -139,6 +165,7 @@ public class InterTurn{
         // if last direction is left of curr direction then it should turn left again...
         // if its right of it then it should turn right but idk how to make it different
         // when you turn to the last checked, maybe echo both ways and get a new last checked value to turn to
+         
         return decision.toString();
     }
 }
