@@ -24,8 +24,6 @@ public class StartPoint{
     int range_x_left = 0;
     int range_y_below = 0; 
     int range_y_above = 0; 
-    boolean Top = false; 
-    boolean turn = false; 
     
     public String FourCorners(int range, boolean groundFound){
         //call initial echo in directions 
@@ -50,9 +48,9 @@ public class StartPoint{
                 return action.scan();
             }
         }else if (count==1){
-            range_x_right = range; 
-            logger.info(range_x_right);//as long as current direction not east
-            logger.info(data.getCurrDirection());
+            if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'N')){
+                range_x_right = range; 
+            }
 
             if((data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'N')){
                 return action.echo("W"); //TURN RANGE INTO DATA POINT!!
@@ -61,8 +59,10 @@ public class StartPoint{
             }
 
         }else if (count == 2){
-            range_x_left = range;//no echo so no rescan
-            logger.info(range_x_left);
+            if((data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'N')){
+                range_x_left = range;//no echo so no rescan
+                logger.info(range_x_left);
+            }
 
             if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'N')){
                 return action.echo("N");//as long as current direction not south
@@ -71,7 +71,9 @@ public class StartPoint{
             }
 
         }else if (count ==3){
-            range_y_above = range;
+            if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'N')){
+                range_y_above = range;
+            }
 
             if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'W')){
                 return action.echo("S");//as long as current direction not north 
@@ -80,14 +82,19 @@ public class StartPoint{
             }
 
         }else if (count == 4){
-            range_y_below = range; //get final range 
+
+            if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'W')){
+                range_y_below = range; //get final range 
+            }
+
+
             logger.info(range_y_above);
             logger.info(range_x_left);
             logger.info(range_y_below);
             logger.info(range_x_right);
 
-            if (range_x_right > range_x_left){
-                if (range_y_below > range_y_above){
+            if (range_x_right >= range_x_left){
+                if (range_y_below >= range_y_above){
                     data.setStage(0); 
                     return TopLeft(range, groundFound);
                 }else{
@@ -130,7 +137,8 @@ public class StartPoint{
         if (range_y_above == 0 && range_x_left ==0){
             logger.info(range_y_above);
             logger.info ("hi!");
-            return null;
+            data.setTop();
+            return action.scan();
         }else{ 
             if (data.getCurrDirection() == "E"){
                 //turn north fly up turn back east - stop one before edge 
