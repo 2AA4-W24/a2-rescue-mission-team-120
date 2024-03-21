@@ -38,6 +38,7 @@ public class Top{
         //if same go left 
         int count = data.getStage(); 
         logger.info(count);
+        //GET ECHO UNTURN SO NEED WAY TO CHECK TURN ECHO AND THEN COME BACK FOR ALL 
 
         if(count==0){
             return action.echo("E");
