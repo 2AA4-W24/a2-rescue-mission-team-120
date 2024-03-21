@@ -26,6 +26,7 @@ public class Explorer implements IExplorerRaid {
     private Integer scanned = 1;
     private Integer startingBatteryLevel;
     private Integer rangeCheck = 0;
+    private Boolean checkDone;
 
     private int x;
     private int y; 
@@ -60,9 +61,9 @@ public class Explorer implements IExplorerRaid {
         scanned= data.getScanned();
         currentDirection = data.getCurrDirection();
         lastChecked= data.getLastDirection();
-
+        checkDone= data.getCheckDone();
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel);
+        String decision = decisionMaker.run(currentDirection, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel, checkDone);
         return decision.toString();
     }
 

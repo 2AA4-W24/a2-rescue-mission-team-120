@@ -10,6 +10,7 @@ public class Data {
     private static int changeDir;
     private static int north=0;
     private static int south=1;
+    private static boolean checkDone= false;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -88,6 +89,15 @@ public class Data {
 
     public void setNorthAlgo(int newNorth){
         north= newNorth;
+    }
+
+
+    public boolean getCheckDone(){
+        return checkDone;
+    }
+
+    public void setCheckDone(boolean newCheckDone){
+        checkDone= newCheckDone;
     }
 
 }

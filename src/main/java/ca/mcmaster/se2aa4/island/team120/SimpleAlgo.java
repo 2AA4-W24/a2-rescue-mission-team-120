@@ -22,16 +22,18 @@ public class SimpleAlgo {
     private int north;
 
     private boolean left;
+    private boolean checkDone;
 
 
 
-    public String search(String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean left){
+    public String search(String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean left, boolean checkDone){
         String decision="";
         this.changeDir= data.getChangeDirAlgo();
         this.count= data.getCountAlgo();
         this.south= data.getSouthAlgo();
         this.north= data.getNorthAlgo();
         this.left= left;
+        this.checkDone= checkDone;
    
 
         //once we reach left most island and want to start search
@@ -53,8 +55,34 @@ public class SimpleAlgo {
                 data.setCountAlgo(0);
                 return decision;
             }
+
+            //fly ahead once
+            //scan left if facing up
+            //scan right if facing down
         
-            else if(rangeCheck<0 && changeDir== 0 && left){
+            else if(rangeCheck<0 && changeDir== 0 &&  && !checkDone){
+                logger.info("PREPARING FOR TURN. MOVING AHEAD")
+                decision= action.fly();
+                return decision;
+            }
+            else if(rangeCheck<0 && changeDir== 1 && south==1 && !checkDone){
+                logger.info("PREPARING FOR SCANNING LEFT.")
+                decision= action.echo(Direction.left(currentDirection));
+                return decision;
+            }
+            else if(rangeCheck<0 && changeDir== 1 && north==1 && !checkDone){
+                logger.info("PREPARING FOR SCANNING LEFT.")
+                decision= action.echo(Direction.right(currentDirection));
+                return decision;
+            }
+            else if(rangeCheck<0 && changeDir== 2 && south==1 && !checkDone){
+                logger.info("CHECK SCAN")
+                decision= action.echo(Direction.right(currentDirection));
+                return decision;
+            }
+
+
+            else if(rangeCheck<0 && changeDir== 0 && left && checkDone){
                 logger.info("TURN STARTING");
                 decision= action.changeDirection("E");
                 data.setChangeDirAlgo(1);
@@ -126,7 +154,7 @@ public class SimpleAlgo {
         return action.stop();
     }
 
-
+    
     
 
 
