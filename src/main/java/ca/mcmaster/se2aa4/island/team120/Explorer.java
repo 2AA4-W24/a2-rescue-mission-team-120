@@ -132,14 +132,6 @@ public class Explorer implements IExplorerRaid {
             //CHECK IF DRONE IS IN AN OCEAN ON SCAN, SET A NEW DIRECTION FOR A LOST
             if(!scan.verifyBiome()){
                 logger.info("IN THE OCEAN");
-                //if previously on island but now no longer on the island, update onGround to look for ground again
-                if (onGround){
-                    //newDirection = Direction.left(currentDirection);
-                    logger.info("NEW DIRECTION LOST {}", newDirection);
-                    //data.setOnGround(false);
-                    //onGround = false;
-                
-                }
             }
             else{
                 JSONArray biomes = extraInfo.getJSONArray("biomes");

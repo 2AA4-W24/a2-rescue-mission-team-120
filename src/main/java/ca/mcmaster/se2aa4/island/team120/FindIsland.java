@@ -38,7 +38,6 @@ public class FindIsland {
         //set foundground to true and start flying in that direction repeatedly until on ground
 
         if ((groundFound && newDirection != currentDirection)){
-            logger.info("TAPEM");
             data.setCurrDirection(newDirection);
             return task.changeDirection(data.getCurrDirection());
         }
@@ -51,70 +50,11 @@ public class FindIsland {
                 data.setScanned(0);
                 return task.fly();
             }
-
             else{
-                //update signal command
-
-                if (lastChecked == currentDirection){
-                    data.setLastDirection(rightDir);
-                    return task.echo(rightDir);
-                }
-                else if (lastChecked == rightDir){
-                    data.setLastDirection(leftDir);
-                    return task.echo(leftDir);
-                }
-                else if (lastChecked == leftDir){
-                    data.setLastDirection(currentDirection);
-                    data.setSignal(0); 
-                    data.setFly(1);
-                    data.setScanned(0);
-                    return task.echo(currentDirection);
-                }
+                //update signal command to chekc for ground
+                return checkGround(task, rightDir, leftDir);
             }
         }
-        /*else if (signal == 1 && fly == 1 && scanned == 0){
-            /* error where it skips first column 
-             1.  
-             if lastchecked turned right, gosouth and set call to turn west
-             2. fly
-             3. turn back to south
-            
-            if (count > 4){
-                data.setSignal(1); // start flying
-                data.setFly(0);
-                data.setScanned(0);
-                return task.fly();
-            }
-            else{
-                logger.info("INIT {}", count);
-                if (count == 0){
-                    data.setCountAlgo(1);
-                    data.setNewDirection(rightDir);
-                    return task.scan();
-                }
-                else if (count == 1){
-                    data.setCountAlgo(2);
-                    return task.fly();
-                }
-                else if (count == 2){
-                    data.setCountAlgo(3);
-                    data.setNewDirection(leftDir);
-                    return task.scan();
-                }
-                else if (count == 3){
-                    data.setCountAlgo(4);
-                    data.setNewDirection(leftDir);
-                    return task.scan();
-                }
-                else if (count == 4){
-                    data.setCountAlgo(10);
-                    logger.info("FUCK YOU {}",count);
-                    data.setNewDirection(rightDir);
-                    return task.scan();
-                }
-            }
-        }*/
-
         else if (signal == 0 && fly == 1 && scanned == 0){
             data.setSignal(1); 
             data.setFly(0);
@@ -139,5 +79,24 @@ public class FindIsland {
             return task.fly();
         }*/
         return decision.toString();
+    }
+
+    public String checkGround(Actions task, String rightDir, String leftDir){
+        if (lastChecked == currentDirection){
+            data.setLastDirection(rightDir);
+            return task.echo(rightDir);
+        } 
+        else if (lastChecked == rightDir){
+            data.setLastDirection(leftDir);
+            return task.echo(leftDir);
+        } 
+        else if (lastChecked == leftDir){
+            data.setLastDirection(currentDirection);
+            data.setSignal(0);
+            data.setFly(1);
+            data.setScanned(0);
+            return task.echo(currentDirection);
+        }
+        return "";
     }
 }

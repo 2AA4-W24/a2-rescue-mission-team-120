@@ -32,15 +32,15 @@ public class Radar{
 
     public boolean isGround(){
         if (isEchoed()){
-            String found= response.getString("found");
+            String found = response.getString("found");
             if ("GROUND".equals(found)){
-                logger.info("GROUND FOUND");
                 return true;
             }else{
-                logger.info("NO GROUND");
                 return false;
             }
         }
         return false;
     }
 }
+
+
