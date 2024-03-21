@@ -11,14 +11,14 @@ public class NavigationSystem {
 
     FindIsland island = new FindIsland();
     SimpleAlgo run = new SimpleAlgo();
-    Top start = new Top(); 
+    StartPoint start = new StartPoint(); 
     Data data = new Data(); 
 
     public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int rangeCheck, int batteryLevel, int startingBatteryLevel){  
             
         if(!(data.getTop())){
             logger.info("running top");
-            return start.RightOrLeft(range, groundFound);
+            return start.FourCorners(range, groundFound);
         }
         else if (!onGround){
             logger.info("running island");

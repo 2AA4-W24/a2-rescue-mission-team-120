@@ -99,22 +99,25 @@ public class Explorer implements IExplorerRaid {
         logger.info("Additional information received: {}", extraInfo);
 
         
-
         Radar radar = new Radar(extraInfo);
         PhotoScanner scan= new PhotoScanner(extraInfo);
+        logger.info("I am here");
         //lastChecked = FindIsland.returnLastChecked();
     
 
 
         if (!radar.isEchoed()){
             //range = -1;
-            range = extraInfo.getInt("range");
+            logger.info("in echo 1");
+            //range = extraInfo.getInt("range");
             logger.info("OUT OF RANGE");
             logger.info("CURR DIR {}", currentDirection);
             logger.info("LAST CHECKED {}",lastChecked);
             groundFound = false;
         }else{
+            logger.info("in echo 2");
             if(radar.isGround()){
+                logger.info("in echo 3");
                 if (range == 0){
                     onGround = true;
                 }
@@ -123,6 +126,7 @@ public class Explorer implements IExplorerRaid {
                 newDirection = data.getLastDirection();
                 groundFound = true; 
             }else{
+                logger.info("in echo 4");
                 // out of range range
                 range = extraInfo.getInt("range");
                 rangeCheck = -1;
@@ -130,6 +134,7 @@ public class Explorer implements IExplorerRaid {
             }
 
         }
+        logger.info("past echo");
 
         if(scan.isScanned()){
             //CHECK IF DRONE IS IN AN OCEAN ON SCAN, SET A NEW DIRECTION FOR A LOST
