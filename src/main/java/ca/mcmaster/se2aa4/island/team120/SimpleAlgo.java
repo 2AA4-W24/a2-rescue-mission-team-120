@@ -108,14 +108,13 @@ public class SimpleAlgo {
             }
 
             else if(rangeCheck<0 && changeDir== 3){
-            
+                data.setInterTurn(true);
+                data.setOnGround(false);
                 logger.info("BEYOND MAP BOUNDS");
-                decision= action.stop();
+                decision = action.scan();
                 return decision;
             }
-            
         }
-        
         return decision.toString();
     }
 

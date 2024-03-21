@@ -95,6 +95,9 @@ public class InterTurn{
                 //to finish the traversing just add the boolean for onGround and switch phases in navsys
                 task.fly();
             }
+            else if (onGround){
+                data.setInterTurn(false);
+            }
             else if (count == 0){
                 return task.changeDirection(lastChecked);
             }

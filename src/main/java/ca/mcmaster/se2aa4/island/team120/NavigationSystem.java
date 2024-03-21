@@ -11,6 +11,7 @@ public class NavigationSystem {
 
     FindIsland island = new FindIsland();
     SimpleAlgo run = new SimpleAlgo();
+    InterTurn interlace = new InterTurn();
     
     Actions action= new Actions();
     Coordinates coords = new Coordinates(); 
@@ -19,20 +20,31 @@ public class NavigationSystem {
 
     int x; 
     int y; 
+    boolean interTurn;
     private final Logger logger = LogManager.getLogger();
     
-
+    boolean foundIsland;
     int range_x;
     int range_y; 
 
     public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int rangeCheck, int batteryLevel, int startingBatteryLevel){ 
+        interTurn = data.getInterTurn();
+        onGround = data.getOnGround();
         TopLeft();
 
-        if (!onGround){
-            logger.info("POOOOOSIITIONNNN: [" + coords.x_coords() + ", " + coords.y_coords() + "]");
+        if (!onGround && !interTurn){
+            logger.info("OCEAN: [" + coords.x_coords() + ", " + coords.y_coords() + "]");
             return island.Finder(newDirection, onGround, groundFound); 
-        }else{
-                logger.info("POOOOOSIITIONNNN: [" + coords.x_coords() + ", " + coords.y_coords() + "]");
+        }
+        else if(!onGround && interTurn){
+            logger.info("INTERLACE TURN");
+            return interlace.Turn(newDirection, onGround, groundFound);
+        }
+        else{
+            foundIsland = true; 
+            logger.info("ISLAND: [" + coords.x_coords() + ", " + coords.y_coords() + "]");
+            logger.info("hey {}", onGround);
+            logger.info("say {}", interTurn);
             return run.search(onGround, currentDirection, rangeCheck, batteryLevel, startingBatteryLevel); 
         }
     }

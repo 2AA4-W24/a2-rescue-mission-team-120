@@ -22,7 +22,7 @@ public class Explorer implements IExplorerRaid {
     private Boolean groundFound = false;
     private String lastChecked;
     private String newDirection;
-    private Boolean onGround = false;
+    private Boolean onGround;
     private Integer scanned = 1;
     private Integer startingBatteryLevel;
     private Integer rangeCheck = 0;
@@ -63,6 +63,7 @@ public class Explorer implements IExplorerRaid {
         scanned= data.getScanned();
         currentDirection = data.getCurrDirection();
         lastChecked= data.getLastDirection();
+        onGround = data.getOnGround();
 
         NavigationSystem decisionMaker = new NavigationSystem();
         String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel);
@@ -103,7 +104,7 @@ public class Explorer implements IExplorerRaid {
         }else{
             if(radar.isGround()){
                 if (range == 0){
-                    onGround = true;
+                    data.setOnGround(true);
                 }
                 range = extraInfo.getInt("range");
                 rangeCheck = 1;

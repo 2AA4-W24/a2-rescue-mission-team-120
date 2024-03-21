@@ -83,6 +83,7 @@ public class FindIsland {
             return task.scan();
         }
         else if (scanned == 1 && signal == 1 && fly == 1){
+            data.setInterTurn(true);
             data.setSignal(0); 
             data.setFly(1);
             data.setScanned(1);
