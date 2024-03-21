@@ -20,10 +20,10 @@ public class StartPoint{
     public int x_size; 
     public int y_size; 
 
-    int range_x_right = 0;
-    int range_x_left = 0;
-    int range_y_below = 0; 
-    int range_y_above = 0; 
+    int range_x_right;
+    int range_x_left;
+    int range_y_below; 
+    int range_y_above; 
     
     public String FourCorners(int range, boolean groundFound){
         //call initial echo in directions 
@@ -49,7 +49,8 @@ public class StartPoint{
             }
         }else if (count==1){
             if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'N')){
-                range_x_right = range; 
+                //range_x_right = range; 
+                data.setRange_x_right(range);
             }
 
             if((data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'N')){
@@ -60,8 +61,9 @@ public class StartPoint{
 
         }else if (count == 2){
             if((data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'N')){
-                range_x_left = range;//no echo so no rescan
-                logger.info(range_x_left);
+                //range_x_left = range;//no echo so no rescan
+                //logger.info(range_x_left);
+                data.setRange_x_left(range);
             }
 
             if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'N')){
@@ -72,7 +74,8 @@ public class StartPoint{
 
         }else if (count ==3){
             if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'W') || (data.getCurrDirection().charAt(0) == 'N')){
-                range_y_above = range;
+                //range_y_above = range;
+                data.setRange_y_above(range);
             }
 
             if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'W')){
@@ -84,17 +87,22 @@ public class StartPoint{
         }else if (count == 4){
 
             if((data.getCurrDirection().charAt(0) == 'E') || (data.getCurrDirection().charAt(0) == 'S') || (data.getCurrDirection().charAt(0) == 'W')){
-                range_y_below = range; //get final range 
+                //range_y_below = range; //get final range 
+                data.setRange_y_below(range);
             }
-
+            
+            int range_x_right = data.getRange_x_right();
+            int range_x_left = data.getRange_x_left();
+            int range_y_below = data.getRange_y_below(); 
+            int range_y_above = data.getRange_y_above(); 
 
             logger.info(range_y_above);
             logger.info(range_x_left);
             logger.info(range_y_below);
             logger.info(range_x_right);
 
-            if (range_x_right >= range_x_left){
-                if (range_y_below >= range_y_above){
+            if (range_x_right > range_x_left){
+                if (range_y_below > range_y_above){
                     data.setStage(0); 
                     return TopLeft(range, groundFound);
                 }else{
@@ -130,10 +138,12 @@ public class StartPoint{
 
         logger.info("Top Left");
         int count = data.getStage(); 
-        logger.info(count);
-        logger.info(range_y_above);
-        logger.info(range_x_left);
-        
+
+        //int range_x_right = data.getRange_x_right();
+        int range_x_left = data.getRange_x_left();
+        //int range_y_below = data.getRange_y_below(); 
+        int range_y_above = data.getRange_y_above(); 
+
         if (range_y_above == 0 && range_x_left ==0){
             logger.info(range_y_above);
             logger.info ("hi!");
@@ -148,9 +158,7 @@ public class StartPoint{
                 }else{
                     logger.info(count);
                     while(range_y_above > 1){
-                        logger.info(range_y_above);
-                        range_y_above--;
-                        logger.info(range_y_above);
+                        data.setRange_y_below(range_y_above--); 
                         return action.fly(); 
                     }
                     logger.info(range_y_above);
@@ -163,12 +171,9 @@ public class StartPoint{
                     action.changeDirection("W");
                 }else{
                     while(range_x_left> 1){
-                        logger.info(range_x_left);
-                        range_x_left--;
-                        logger.info(range_x_left);
+                        data.setRange_x_left(range_x_left--); 
                         return action.fly(); 
                     }
-                    logger.info(range_x_left);
                     data.setTop();
                     return action.changeDirection("S");
                 }
@@ -209,46 +214,10 @@ public class StartPoint{
 
         return null; 
     }
+    
     private void updateRanges(int range_x_left,int range_x_right,int range_y_above, int range_y_below) { 
         x_size = range_x_left + range_x_right;
         y_size = range_y_above + range_y_below; 
     }
 }
 
-/*        switch (count) {
-            case 0:
-                logger.info(count);
-                return action.echo(data.getCurrDirection());
-            case 1:
-                logger.info(count);
-                return action.echo(Direction.left(data.getCurrDirection()));
-            case 2:
-                logger.info(count);
-                return action.echo(Direction.right(data.getCurrDirection()));
-            case 3:
-                logger.info(count);
-                String current = Direction.left(data.getCurrDirection());
-                data.setCurrDirection(current);
-                logger.info("I am here", current);
-                return action.changeDirection(current);
-            case 4:
-                logger.info(count);
-                logger.info("I am here2");
-                return action.echo(Direction.left(data.getCurrDirection()));
-                    
-            case 5:
-                logger.info(count);
-                range_x_left += range;
-                logger.info("Range_x_left: {}", range_x_left);
-
-            default: 
-                if (count < range_y_below + 5) {
-                    logger.info("Fly");
-                    logger.info("Count: {}", count);
-                    return action.fly();
-                }else{
-                    logger.info("Done");
-                    Top = true;
-                    return null; 
-                }
-        } */
