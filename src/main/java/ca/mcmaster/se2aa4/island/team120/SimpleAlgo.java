@@ -43,7 +43,7 @@ public class SimpleAlgo {
                 data.setCountAlgo(1);
                 return decision;
             }
-            else if(count==1 && rangeCheck>=0 && changeDir!=3){
+            else if(count==1 && rangeCheck>=0 && changeDir!=6){
                 decision= action.echo(data.getCurrDirection());
            
                 data.setCountAlgo(2);
@@ -60,43 +60,71 @@ public class SimpleAlgo {
             //scan left if facing up
             //scan right if facing down
         
-            else if(rangeCheck<0 && changeDir== 0 &&  && !checkDone){
-                logger.info("PREPARING FOR TURN. MOVING AHEAD")
+            else if(rangeCheck<0 && changeDir== 0 && !checkDone){
+                logger.info("PREPARING FOR TURN. MOVING AHEAD");
                 decision= action.fly();
+                data.setChangeDirAlgo(1);
                 return decision;
             }
-            else if(rangeCheck<0 && changeDir== 1 && south==1 && !checkDone){
-                logger.info("PREPARING FOR SCANNING LEFT.")
-                decision= action.echo(Direction.left(currentDirection));
-                return decision;
-            }
-            else if(rangeCheck<0 && changeDir== 1 && north==1 && !checkDone){
-                logger.info("PREPARING FOR SCANNING LEFT.")
-                decision= action.echo(Direction.right(currentDirection));
+            else if(rangeCheck<0 && changeDir== 1 && !checkDone){
+                logger.info("SCAN CAN NEW TILE");
+                decision= action.scan();
+                data.setChangeDirAlgo(2);
                 return decision;
             }
             else if(rangeCheck<0 && changeDir== 2 && south==1 && !checkDone){
-                logger.info("CHECK SCAN")
-                decision= action.echo(Direction.right(currentDirection));
+                logger.info("PREPARING FOR ECHOING LEFT.");
+                decision= action.echo(Direction.left(currentDirection));
+                data.setChangeDirAlgo(3);
                 return decision;
             }
-
-
-            else if(rangeCheck<0 && changeDir== 0 && left && checkDone){
+            else if(rangeCheck<0 && changeDir== 2 && north==1 && !checkDone){
+                logger.info("PREPARING FOR ECHOING RIGHT.");
+                decision= action.echo(Direction.right(currentDirection));
+                data.setChangeDirAlgo(3);
+                
+                return decision;
+            }
+            else if(rangeCheck>=0 && changeDir== 3 && south==1 && !checkDone){
+                logger.info("CHECK ECHO");
+                decision= action.fly();
+                data.setChangeDirAlgo(1);
+                return decision;
+            }
+            else if(rangeCheck<0 && changeDir== 3 && south==1 && left && !checkDone){
+                logger.info("CHECK ECHO");
+                data.setCheckDone(true);
                 logger.info("TURN STARTING");
                 decision= action.changeDirection("E");
-                data.setChangeDirAlgo(1);
-      
+                data.setChangeDirAlgo(4);
                 return decision;
             }
-            else if (rangeCheck<0 && changeDir== 0 && !(left)){
+            else if(rangeCheck<0 && changeDir== 3 && south==1 && !(left) && !checkDone){
+                logger.info("CHECK SCAN");
+                data.setCheckDone(true);
                 logger.info("TURN STARTING");
                 decision= action.changeDirection("W");
-                data.setChangeDirAlgo(1);
-
+                data.setChangeDirAlgo(4);
                 return decision;
             }
-            else if(rangeCheck<0 && changeDir== 1){
+
+
+            // else if(rangeCheck<0 && changeDir== 0 && left && checkDone){
+            //     logger.info("TURN STARTING");
+            //     decision= action.changeDirection("E");
+            //     data.setChangeDirAlgo(1);
+      
+            //     return decision;
+            // }
+            // else if (rangeCheck<0 && changeDir== 0 && !(left)){
+            //     logger.info("TURN STARTING");
+            //     decision= action.changeDirection("W");
+            //     data.setChangeDirAlgo(1);
+
+            //     return decision;
+            // }
+
+            else if(rangeCheck<0 && changeDir== 4){
                 logger.info("HELLO SECOND DIR STEP");
                 if (currentDirection.equals("E") && south==1){
                     decision= action.changeDirection("N");
@@ -119,18 +147,18 @@ public class SimpleAlgo {
                     data.setSouthAlgo(1);
                 }
                 
-                data.setChangeDirAlgo(2);
+                data.setChangeDirAlgo(5);
          
                 return decision;
             }
-            else if(rangeCheck<0 && changeDir== 2){
+            else if(rangeCheck<0 && changeDir== 5){
                 logger.info("THIRD DIR STEP, IN CORRECT POS");
                 decision= action.echo(currentDirection);
-                data.setChangeDirAlgo(3);
+                data.setChangeDirAlgo(6);
                 
                 return decision;
             }
-            else if(rangeCheck>=0 && changeDir==3){
+            else if(rangeCheck>=0 && changeDir==6){
                 
                 logger.info("TURN SUCCESS");
              
@@ -138,11 +166,12 @@ public class SimpleAlgo {
 
                 data.setCountAlgo(1);
                 data.setChangeDirAlgo(0);
+                data.setCheckDone(false);
 
                 return decision;
             }
 
-            else if(rangeCheck<0 && changeDir== 3){
+            else if(rangeCheck<0 && changeDir== 6){
                 logger.info("BEYOND MAP BOUNDS");
                 decision= action.stop();
                 return decision;
