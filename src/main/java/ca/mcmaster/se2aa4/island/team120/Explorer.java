@@ -25,7 +25,7 @@ public class Explorer implements IExplorerRaid {
     private Boolean onGround = false;
     private Integer scanned;
     private Integer startingBatteryLevel;
-    private Integer count; 
+    private Integer count = 0; 
     private Integer rangeCheck = 0;
 
     private int x;
@@ -85,20 +85,20 @@ public class Explorer implements IExplorerRaid {
 
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
-        count = data.getStage();
-        data.setStage(count++);
-        logger.info("COUNT VALUE {}", count);
+
+        count ++; 
+        data.setStage(count);
+        logger.info("COUNT VALUE {}", data.getStage());
         
         if (batteryLevel==0){
             deliverFinalReport();
         }
-        //count += 1; 
+
         //check what direction is being echoed in
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
         
-       
 
         Radar radar = new Radar(extraInfo);
         PhotoScanner scan= new PhotoScanner(extraInfo);

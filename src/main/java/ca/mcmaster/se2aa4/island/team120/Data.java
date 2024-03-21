@@ -11,6 +11,7 @@ public class Data {
     private static int changeDir;
     private static int north=0;
     private static int south=1;
+    private static boolean top = false;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -88,5 +89,12 @@ public class Data {
 
     public void setStage(int count){
         stage = count;
+    }
+
+    public boolean getTop(){
+        return top; 
+    }
+    public void setTop(){
+        top = true; 
     }
 }

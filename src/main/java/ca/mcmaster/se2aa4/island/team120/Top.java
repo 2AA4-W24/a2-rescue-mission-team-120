@@ -37,14 +37,18 @@ public class Top{
         //if more space needed to go to right then go to left 
         //if same go left 
         int count = data.getStage(); 
+        logger.info(count);
+
         if(count==0){
             return action.echo("E");
         }else if (count==1){
             range_x_right = range; 
+            logger.info(range_x_right);
             return action.echo("W"); //TURN RANGE INTO DATA POINT!!
 
-        }else if (count ==2){
+        }else if (count == 2){
             range_x_left = range;
+            logger.info(range_x_left);
             return action.echo("N");
 
         }else if (count ==3){
@@ -53,11 +57,14 @@ public class Top{
 
         }else if (count == 4){
             range_y_below = range; 
-            if (range_x_right> range_x_left){
+
+            if (range_x_right > range_x_left){
                 return TopLeft(range, groundFound);
+
             }else{
                 return TopRight(range, groundFound);
             }
+
         }
         return null;
     }
@@ -68,12 +75,30 @@ public class Top{
         //if echo was not 0, make sure direction is west and move that many - 1 steps (then turn north)
 
         logger.info("Top Left");
-
-        data.setStage(0); 
-        int count = data.getStage(0); 
+        int count = data.getStage(); 
         logger.info(count);
 
+        if (range_x_left ==0){
 
+            if (data.getCurrDirection() == "E"){
+                range_y_above--;
+                logger.info(range_y_above);
+                return action.changeDirection("N");
+            }
+            logger.info(range_y_above);
+            while(range_y_above > 1){
+                range_y_above--;
+                logger.info(range_y_above);
+                return action.fly(); 
+            }
+            logger.info(range_y_above);
+            data.setTop();
+            return action.changeDirection("E");
+
+        }else{
+            logger.info ("hi!");
+            return null; 
+        } 
     }
     
     
