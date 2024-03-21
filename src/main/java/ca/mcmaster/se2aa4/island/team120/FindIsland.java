@@ -92,6 +92,7 @@ public class FindIsland {
             data.setScanned(1);
             return task.echo(currentDirection);
         }
+        
         /*else if(scanned == 1 && signal == 1 && fly == 1){
             return task.fly();
         }*/

@@ -62,7 +62,7 @@ public class Explorer implements IExplorerRaid {
         lastChecked= data.getLastDirection();
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel);
+        String decision = decisionMaker.run(currentDirection, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel);
         return decision.toString();
     }
 

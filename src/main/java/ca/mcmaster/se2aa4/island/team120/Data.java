@@ -17,6 +17,7 @@ public class Data {
     public String getLastDirection(){
         return last;
     }
+    
 
     public void setSignal(int lastSignal){
         signal= lastSignal;
@@ -35,6 +36,7 @@ public class Data {
         return fly;
     }
 
+
     public void setScanned(int lastScanned){
         scanned= lastScanned;
     }
@@ -42,6 +44,7 @@ public class Data {
     public int getScanned(){
         return scanned;
     }
+
 
     public void setCurrDirection(String currentDirection){
         current = currentDirection;
@@ -51,6 +54,7 @@ public class Data {
         return current;
     }
 
+
     public int getCountAlgo(){
         return count;
     }
@@ -59,6 +63,7 @@ public class Data {
         count=nextCountAlgo;
     }
 
+
     public int getChangeDirAlgo(){
         return changeDir;
     }
@@ -66,6 +71,8 @@ public class Data {
     public void setChangeDirAlgo(int nextChangeDirAlgo){
         changeDir= nextChangeDirAlgo;
     }
+
+
     public int getSouthAlgo(){
         return south;
     }
@@ -74,6 +81,7 @@ public class Data {
         south= newSouth;
     }
 
+
     public int getNorthAlgo(){
         return north;
     }
@@ -81,4 +89,5 @@ public class Data {
     public void setNorthAlgo(int newNorth){
         north= newNorth;
     }
+
 }

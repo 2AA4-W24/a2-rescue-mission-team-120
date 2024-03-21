@@ -115,16 +115,17 @@ public class SimpleAlgo {
             }
 
             else if(rangeCheck<0 && changeDir== 3){
-            
                 logger.info("BEYOND MAP BOUNDS");
                 decision= action.stop();
                 return decision;
             }
             
         }
-        
-        return decision.toString();
+
+        logger.info("BATTER LEVEL BELOW THRESHOLD");
+        return action.stop();
     }
+
 
     
 
