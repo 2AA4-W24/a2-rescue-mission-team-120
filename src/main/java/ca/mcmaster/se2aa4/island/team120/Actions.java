@@ -22,7 +22,7 @@ public class Actions{
 
 
     public String fly(){
-        decision.put("action", "fly");
+       decision.put("action", "fly");
        coords.location(data.getCurrDirection()); 
        logger.info("** Decision: {}",decision.toString());
         return decision.toString();
