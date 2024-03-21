@@ -13,6 +13,8 @@ public class Data {
     private static boolean turn = false;
     private static boolean ground = false;
     private static boolean reached = false;
+    private static boolean goNorth = false;
+    private static boolean goSouth = false;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -107,5 +109,22 @@ public class Data {
 
     public void setReachGround(boolean reachGround){
         reached = reachGround;
+    }
+
+
+    public boolean getGoNorth(){
+        return goNorth;
+    }
+
+    public void setGoNorth(boolean north){
+        goNorth = north;
+    }
+
+    public boolean getGoSouth(){
+        return goSouth;
+    }
+
+    public void setGoSouth(boolean south){
+        goSouth = south;
     }
 }

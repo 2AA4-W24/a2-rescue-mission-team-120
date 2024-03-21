@@ -14,6 +14,8 @@ public class InterTurn{
     private static Integer count;
     private static boolean onGround;
     private static boolean reachGround;
+    private static boolean goSouth;
+    private static boolean goNorth;
 
     /* 
     turning mechanism for interlacing after done traversing once
@@ -55,6 +57,8 @@ public class InterTurn{
         count = data.getCountAlgo();
         reachGround = data.getReachGround();
         onGround = data.getOnGround();
+        goNorth = data.getGoNorth();
+        goSouth = data.getGoSouth();
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
@@ -70,6 +74,12 @@ public class InterTurn{
                 data.setSignal(1);
                 data.setFly(0);
                 data.setScanned(1);
+                if (lastChecked == leftDir){
+                    data.setGoNorth(true);
+                }
+                else if(lastChecked == rightDir){
+                    data.setGoSouth(true);
+                }
                 return task.fly();
             }
             else if(lastChecked == leftDir){
@@ -83,6 +93,7 @@ public class InterTurn{
                 return task.echo(leftDir);
             }
         }
+        //IF LAST DIRECTION CHECKED WAS LEFT, THEN SHOULD TURN IN THAT DIRECTION
         else if (signal == 1 && fly == 0 && scanned == 1){
             //THIS finally sees that you're back at the starting place, and initiates process to turn and
             //get into interlacing position
@@ -115,25 +126,32 @@ public class InterTurn{
         //taking last direction should let you go either east or west depending on where land was detected :pp
         else if (signal == 1 && fly == 1 && scanned == 1){
             logger.info("STARTING CHANGING");
-            if (groundFound && !(onGround)){
-                //to finish the traversing just add the boolean for onGround and switch phases in navsys
-                task.fly();
-            }
-            else if (count == 0){
-                logger.info("PHASE 1");
+
+             if (count == 0){
+                logger.info("PHASE 1 CHANGE DIRECTION");
                 data.setCountAlgo(1);
                 return task.changeDirection(lastChecked);
             }
             else if(count == 1){
-                logger.info("PHASE 2");
+                logger.info("PHASE 2 FLY");
+                data.setLastDirection(currentDirection);
                 data.setCountAlgo(2);
                 return task.fly();
             }
             else if (count ==2){
-                logger.info("PHASE 3");
-                logger.info("CURR DIRECTION after first change {}", currentDirection);
+                logger.info("north {}", goNorth);
+                logger.info("south {}", goSouth);
                 data.setCountAlgo(3);
-                return task.changeDirection(leftDir);
+                if (goNorth){
+                    logger.info("GOING SOUTH");
+                    return task.changeDirection("S");
+
+                }else if(goSouth){
+                    logger.info("GOING NORTH");
+                    return task.changeDirection("N");
+
+                }
+                return task.changeDirection(lastChecked);
             }
             else if (count ==3){
                 //now echo and check if theres land, if so get on the land and terminate/
