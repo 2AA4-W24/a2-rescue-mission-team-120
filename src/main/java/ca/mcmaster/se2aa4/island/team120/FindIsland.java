@@ -11,6 +11,8 @@ public class FindIsland {
     private static Integer scanned;
     private static String lastChecked;
     private static String currentDirection;
+    private static String newDirection;
+    private static Integer count;
 
     Data data = new Data();
     Coordinates update = new Coordinates();
@@ -22,10 +24,12 @@ public class FindIsland {
 
         currentDirection = data.getCurrDirection();
         lastChecked = data.getLastDirection();
+        newDirection = data.getNewDirection();
 
         fly = data.getFly();
         signal = data.getSignal();
         scanned = data.getScanned();
+        count = data.getCountAlgo();
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
@@ -34,6 +38,7 @@ public class FindIsland {
         //set foundground to true and start flying in that direction repeatedly until on ground
 
         if ((groundFound && newDirection != currentDirection)){
+            logger.info("TAPEM");
             data.setCurrDirection(newDirection);
             return task.changeDirection(data.getCurrDirection());
         }
@@ -41,7 +46,7 @@ public class FindIsland {
         //if not on ground, scan in directions
         else if (signal == 0 && fly == 1 && scanned == 1){
             if (groundFound){
-                data.setSignal(1); // adding signal to stop echoing, start radaring
+                data.setSignal(0); // start flying
                 data.setFly(1);
                 data.setScanned(0);
                 return task.fly();
@@ -49,9 +54,6 @@ public class FindIsland {
 
             else{
                 //update signal command
-                data.setSignal(1); 
-                data.setFly(0);
-                data.setScanned(1);
 
                 if (lastChecked == currentDirection){
                     data.setLastDirection(rightDir);
@@ -63,19 +65,64 @@ public class FindIsland {
                 }
                 else if (lastChecked == leftDir){
                     data.setLastDirection(currentDirection);
+                    data.setSignal(0); 
+                    data.setFly(1);
+                    data.setScanned(0);
                     return task.echo(currentDirection);
                 }
             }
         }
+        /*else if (signal == 1 && fly == 1 && scanned == 0){
+            /* error where it skips first column 
+             1.  
+             if lastchecked turned right, gosouth and set call to turn west
+             2. fly
+             3. turn back to south
+            
+            if (count > 4){
+                data.setSignal(1); // start flying
+                data.setFly(0);
+                data.setScanned(0);
+                return task.fly();
+            }
+            else{
+                logger.info("INIT {}", count);
+                if (count == 0){
+                    data.setCountAlgo(1);
+                    data.setNewDirection(rightDir);
+                    return task.scan();
+                }
+                else if (count == 1){
+                    data.setCountAlgo(2);
+                    return task.fly();
+                }
+                else if (count == 2){
+                    data.setCountAlgo(3);
+                    data.setNewDirection(leftDir);
+                    return task.scan();
+                }
+                else if (count == 3){
+                    data.setCountAlgo(4);
+                    data.setNewDirection(leftDir);
+                    return task.scan();
+                }
+                else if (count == 4){
+                    data.setCountAlgo(10);
+                    logger.info("FUCK YOU {}",count);
+                    data.setNewDirection(rightDir);
+                    return task.scan();
+                }
+            }
+        }*/
 
-        else if (signal == 1 && fly == 0 && scanned == 1){
+        else if (signal == 0 && fly == 1 && scanned == 0){
             data.setSignal(1); 
-            data.setFly(1);
+            data.setFly(0);
             data.setScanned(0);
             return task.fly();
         }
 
-        else if (signal == 1 && fly == 1 && scanned == 0){
+        else if (signal == 1 && fly == 0 && scanned == 0){
             update.location(currentDirection);
             data.setSignal(1); 
             data.setFly(1);

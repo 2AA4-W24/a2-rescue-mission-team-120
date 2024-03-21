@@ -43,7 +43,7 @@ public class InterTurn{
     Data data = new Data();
     Coordinates update = new Coordinates();
 
-    public String Turn(String newDirection, boolean groundFound){
+    public String Turn(String newDirection, boolean groundFound, int range){
         Actions task = new Actions();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -98,7 +98,7 @@ public class InterTurn{
             //THIS finally sees that you're back at the starting place, and initiates process to turn and
             //get into interlacing position
             logger.info(groundFound);
-            if (!groundFound){
+            if (range > 2){
                 logger.info("REACHED END TIME TO CHAGNE DIR");
                 data.setCountAlgo(0);
                 data.setSignal(1);

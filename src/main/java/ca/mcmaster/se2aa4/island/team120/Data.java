@@ -8,6 +8,7 @@ public class Data {
     private static String current;
     private static int count;
     private static int changeDir;
+    private static String newDir;
     private static int north=0;
     private static int south=1;
     private static boolean turn = false;
@@ -54,6 +55,14 @@ public class Data {
 
     public String getCurrDirection(){
         return current;
+    }
+
+    public void setNewDirection(String newDirection){
+        newDir = newDirection;
+    }
+
+    public String getNewDirection(){
+        return newDir;
     }
 
     public int getCountAlgo(){

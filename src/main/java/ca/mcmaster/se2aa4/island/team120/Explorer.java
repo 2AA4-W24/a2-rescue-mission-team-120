@@ -44,6 +44,7 @@ public class Explorer implements IExplorerRaid {
         //currentDirection = info.getString("heading");
         data.setCurrDirection(info.getString("heading"));
         data.setLastDirection(data.getCurrDirection());
+        data.setNewDirection(data.getCurrDirection());
         data.setFly(1);
         data.setSignal(0);
         data.setScanned(1);
@@ -64,6 +65,7 @@ public class Explorer implements IExplorerRaid {
         scanned= data.getScanned();
         currentDirection = data.getCurrDirection();
         lastChecked= data.getLastDirection();
+        newDirection = data.getNewDirection();
         onGround = data.getOnGround();
         reachGround = data.getReachGround();
 
@@ -109,7 +111,7 @@ public class Explorer implements IExplorerRaid {
 
                 range = extraInfo.getInt("range");
                 rangeCheck = 1;
-                newDirection = data.getLastDirection();
+                data.setNewDirection(data.getLastDirection());
                 groundFound = true; 
                 data.setReachGround(false);
                 //data.setOnGround(false);
