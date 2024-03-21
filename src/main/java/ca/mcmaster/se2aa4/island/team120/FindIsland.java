@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 public class FindIsland {
-     private final Logger logger = LogManager.getLogger();
+    private final Logger logger = LogManager.getLogger();
     private static Integer fly;
     private static Integer signal;
     private static Integer scanned;
@@ -22,7 +22,6 @@ public class FindIsland {
 
         currentDirection = data.getCurrDirection();
         lastChecked = data.getLastDirection();
-        logger.info(lastChecked);
 
         fly = data.getFly();
         signal = data.getSignal();
@@ -30,9 +29,6 @@ public class FindIsland {
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
-
-
-        
 
         // new algo: echo in all directions and if nothing found fly and scan, if something found, 
         //set foundground to true and start flying in that direction repeatedly until on ground

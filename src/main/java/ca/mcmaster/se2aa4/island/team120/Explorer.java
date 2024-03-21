@@ -87,20 +87,17 @@ public class Explorer implements IExplorerRaid {
         if (batteryLevel==0){
             deliverFinalReport();
         }
+
+        //DecisionBoard updateInfo = new DecisionBoard();
        
         //check what direction is being echoed in
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
-        
-       
-
         Radar radar = new Radar(extraInfo);
-        PhotoScanner scan= new PhotoScanner(extraInfo);
+        PhotoScanner scan = new PhotoScanner(extraInfo);
         //lastChecked = FindIsland.returnLastChecked();
     
-
-
         if (!radar.isEchoed()){
             groundFound = false;
         }else{
@@ -118,7 +115,6 @@ public class Explorer implements IExplorerRaid {
                 rangeCheck = -1;
                 groundFound = false;
             }
-
         }
 
         if(scan.isScanned()){
