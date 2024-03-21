@@ -31,7 +31,8 @@ public class NavigationSystem {
         if (!onGround){
             return island.Finder(newDirection, onGround, groundFound); 
         }else{
-            return run.search(currentDirection, rangeCheck, batteryLevel, startingBatteryLevel); 
+            logger.info("SIMPLE ALGO");
+            return run.search(currentDirection, rangeCheck, batteryLevel, startingBatteryLevel, false); 
         }
     }
 

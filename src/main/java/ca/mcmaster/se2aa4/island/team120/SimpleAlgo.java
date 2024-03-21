@@ -21,14 +21,17 @@ public class SimpleAlgo {
     private int south;
     private int north;
 
+    private boolean left;
 
 
-    public String search(String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel){
+
+    public String search(String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean left){
         String decision="";
         this.changeDir= data.getChangeDirAlgo();
         this.count= data.getCountAlgo();
         this.south= data.getSouthAlgo();
         this.north= data.getNorthAlgo();
+        this.left= left;
    
 
         //once we reach left most island and want to start search
@@ -41,7 +44,6 @@ public class SimpleAlgo {
             else if(count==1 && rangeCheck>=0 && changeDir!=3){
                 decision= action.echo(data.getCurrDirection());
            
-            
                 data.setCountAlgo(2);
                 return decision;
             }
@@ -52,16 +54,18 @@ public class SimpleAlgo {
                 return decision;
             }
         
-            else if(rangeCheck<0 && changeDir== 0){
+            else if(rangeCheck<0 && changeDir== 0 && left){
                 logger.info("TURN STARTING");
-                if (currentDirection.equals("S")){
-                    decision= action.changeDirection("E");
-                }
-                else if (currentDirection.equals("N")){
-                    decision= action.changeDirection("E");
-                }
+                decision= action.changeDirection("E");
                 data.setChangeDirAlgo(1);
       
+                return decision;
+            }
+            else if (rangeCheck<0 && changeDir== 0 && !(left)){
+                logger.info("TURN STARTING");
+                decision= action.changeDirection("W");
+                data.setChangeDirAlgo(1);
+
                 return decision;
             }
             else if(rangeCheck<0 && changeDir== 1){
@@ -76,6 +80,17 @@ public class SimpleAlgo {
                     data.setNorthAlgo(0);
                     data.setSouthAlgo(1);
                 }
+                else if (currentDirection.equals("W") && south==1){
+                    decision= action.changeDirection("N");
+                    data.setNorthAlgo(1);
+                    data.setSouthAlgo(0);
+                }
+                else if (currentDirection.equals("W") && north==1){
+                    decision= action.changeDirection("S");
+                    data.setNorthAlgo(0);
+                    data.setSouthAlgo(1);
+                }
+                
                 data.setChangeDirAlgo(2);
          
                 return decision;
