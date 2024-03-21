@@ -110,6 +110,10 @@ public class SimpleAlgo {
             else if(rangeCheck<0 && changeDir== 3){
                 data.setInterTurn(true);
                 data.setOnGround(false);
+                data.setFly(1);
+                data.setSignal(0);
+                data.setScanned(1);
+                data.setLastDirection(Direction.left(currentDirection));
                 logger.info("BEYOND MAP BOUNDS");
                 decision = action.scan();
                 return decision;

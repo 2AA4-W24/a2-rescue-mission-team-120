@@ -100,7 +100,7 @@ public class Explorer implements IExplorerRaid {
         //lastChecked = FindIsland.returnLastChecked();
     
         if (!radar.isEchoed()){
-            groundFound = false;
+            groundFound = groundFound;
         }else{
             if(radar.isGround()){
                 if (range == 0){
@@ -124,7 +124,7 @@ public class Explorer implements IExplorerRaid {
                 logger.info("IN THE OCEAN");
                 //if previously on island but now no longer on the island, update onGround to look for ground again
                 if (onGround){
-                    newDirection = Direction.left(currentDirection);
+                    //newDirection = Direction.left(currentDirection);
                     logger.info("NEW DIRECTION LOST {}", newDirection);
                     //onGround = false;
                 

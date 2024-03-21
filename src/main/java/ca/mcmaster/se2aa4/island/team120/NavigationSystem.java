@@ -30,14 +30,17 @@ public class NavigationSystem {
     public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int rangeCheck, int batteryLevel, int startingBatteryLevel){ 
         interTurn = data.getInterTurn();
         onGround = data.getOnGround();
-        TopLeft();
+        //TopLeft();
 
         if (!onGround && !interTurn){
             logger.info("OCEAN: [" + coords.x_coords() + ", " + coords.y_coords() + "]");
+            logger.info("what {}", interTurn);
             return island.Finder(newDirection, onGround, groundFound); 
         }
-        else if(!onGround && interTurn){
-            logger.info("INTERLACE TURN");
+        else if(interTurn){
+            logger.info("inter hey {}", onGround);
+            logger.info("inter say {}", interTurn);
+            logger.info("INTERLACE TURN {}", interTurn);
             return interlace.Turn(newDirection, onGround, groundFound);
         }
         else{
