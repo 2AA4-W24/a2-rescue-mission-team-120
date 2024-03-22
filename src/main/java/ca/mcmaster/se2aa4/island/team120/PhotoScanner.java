@@ -28,9 +28,11 @@ public class PhotoScanner {
     public boolean isCreek(){
         if(isScanned()){
             if(response.getJSONArray("creeks").length()!=0){
-                JSONArray id_arr = response.getJSONArray("creeks");
-                String id= id_arr.getString(0);
-                track.POI("Creek", id);
+                for(int i =0; i < (response.getJSONArray("creeks").length()); i++){
+                    JSONArray id_arr = response.getJSONArray("creeks");
+                    String id= id_arr.getString(i);
+                    track.POI("Creek", id);
+                }
                 return true;
             }
         }

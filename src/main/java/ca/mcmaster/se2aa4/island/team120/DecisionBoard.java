@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.island.team120;
+/*package ca.mcmaster.se2aa4.island.team120;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +15,7 @@ public class DecisionBoard {
      * call by hav ing multiple methods
      * 
      * 
-    */
+    
 
     public void MakeDecision(){
         JSONObject extraInfo = response.getJSONObject("extras");
@@ -55,4 +55,4 @@ public class DecisionBoard {
             }
         }
     }
-}
+}*/

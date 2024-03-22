@@ -45,5 +45,10 @@ public class Tracker{
     public int getNumCreeks(){
         return creek_counter;
     }
+
+    public int currentClosest(){
+        return 0;
+        //print out first creek found until emergency site found and then do calculation to find closest creek 
+    }
 }
 

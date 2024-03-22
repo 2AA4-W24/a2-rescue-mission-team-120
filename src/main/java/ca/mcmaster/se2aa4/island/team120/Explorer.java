@@ -23,9 +23,10 @@ public class Explorer implements IExplorerRaid {
     private Boolean reachGround;
     private String lastChecked;
     private String newDirection;
-    private Boolean onGround;
-    private Integer scanned = 1;
+    private Boolean onGround = false;
+    private Integer scanned;
     private Integer startingBatteryLevel;
+    private Integer count = 0; 
     private Integer rangeCheck = 0;
 
     private int x;
@@ -48,6 +49,7 @@ public class Explorer implements IExplorerRaid {
         data.setFly(1);
         data.setSignal(0);
         data.setScanned(1);
+        data.setStage(0);
 
         //Data data = new Data();
         //lastChecked = currentDirection;
@@ -88,6 +90,10 @@ public class Explorer implements IExplorerRaid {
 
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
+
+        count ++; 
+        data.setStage(count);
+        logger.info("COUNT VALUE {}", data.getStage());
         
         if (batteryLevel==0){
             deliverFinalReport();
@@ -107,26 +113,23 @@ public class Explorer implements IExplorerRaid {
             groundFound = groundFound;
         }else{
             if(radar.isGround()){
-                // refactor by putting boolean checkers in classes 
-
                 range = extraInfo.getInt("range");
                 rangeCheck = 1;
                 data.setNewDirection(data.getLastDirection());
                 groundFound = true; 
                 data.setReachGround(false);
-                //data.setOnGround(false);
                 if (range == 0){
                     data.setOnGround(true);
                     data.setReachGround(true);
                     logger.info("REACHED ZERO");
                 }
             }else{
-                // out of range range
                 range = extraInfo.getInt("range");
                 rangeCheck = -1;
                 groundFound = false;
             }
         }
+        logger.info("past echo");
 
         if(scan.isScanned()){
             //CHECK IF DRONE IS IN AN OCEAN ON SCAN, SET A NEW DIRECTION FOR A LOST

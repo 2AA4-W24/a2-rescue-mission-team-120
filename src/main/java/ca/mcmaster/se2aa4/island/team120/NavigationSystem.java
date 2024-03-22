@@ -1,18 +1,45 @@
 package ca.mcmaster.se2aa4.island.team120;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 public class NavigationSystem {
     //place where we keep steps
     //first call to search for ground
     //then call to search on island to find POI's 
-
+    private final Logger logger = LogManager.getLogger();
 
     FindIsland island = new FindIsland();
     SimpleAlgo run = new SimpleAlgo();
     InterTurn interlace = new InterTurn();
     
+    StartPoint start = new StartPoint(); 
+    Data data = new Data(); 
+    private static boolean interTurn;
+
+    public String run(String currentDirection, String lastChecked, int fly, int signal, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int rangeCheck, int batteryLevel, int startingBatteryLevel){  
+        interTurn = data.getInterTurn();
+
+        if(!(data.getTop())){
+            logger.info("running top");
+            return start.FourCorners(range, groundFound);
+        }
+        else if (!onGround && !interTurn){
+            return island.Finder(newDirection, onGround, groundFound); 
+        }
+        else if(interTurn){
+            return interlace.Turn(newDirection, groundFound, range);
+        }
+        else{
+            logger.info("hey {}", onGround);
+            logger.info("say {}", interTurn);
+            return run.search(onGround, currentDirection, rangeCheck, batteryLevel, startingBatteryLevel); 
+        }
+    }
+
+}
+
+/*    
     Actions action= new Actions();
     Coordinates coords = new Coordinates(); 
     Direction dir = new Direction(); 
@@ -53,6 +80,14 @@ public class NavigationSystem {
     }
 
     public String TopLeft(){
+    
+    int range_x_right;
+    int range_x_left;
+    int range_y_below; 
+    int range_y_above; 
+    boolean Top = false; 
+    boolean turn = false;  */
+
         //int x = coords.x_coords(); 
         //int y = coords.y_coords(); 
     
@@ -61,33 +96,11 @@ public class NavigationSystem {
         //echo down
         //echo left
         //echo right 
-        int turn = 0; 
-        for (int i=0; i<4; i++){
-            if (i ==0){ 
-                //scan current direction 
-                return action.echo(data.getCurrDirection()); 
-            }else if(i ==1){
-                //echo left 
-                return action.echo(dir.left(data.getCurrDirection())); 
-            }else if (i ==2){
-                //echo right of current
-                return action.echo(dir.right(data.getCurrDirection())); 
-            }else if (i==3 || i ==4){
-                //echo behind of current
-                if (turn ==0){
-                    turn +=1; 
-                    return action.changeDirection(dir.left(data.getCurrDirection()));
-                }else{
-                    return action.echo(dir.left(data.getCurrDirection())); 
-                }
-            }
-        }
-        return null;
-        //range in echo up + down = y
+        //int turn = 0; 
+                // Continue actions based on the current count
+             //range in echo up + down = y
         //range in echo left + right = x 
 
         //from spot keep fly up for range 
         //from spot keep fly left/east for range 
         //update coords 
-    }
-}
