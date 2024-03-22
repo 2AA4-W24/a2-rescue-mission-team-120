@@ -29,7 +29,7 @@ public class FindIsland {
         currentDirection = data.getCurrDirection();
         lastChecked = data.getLastDirection();
         newDirection = data.getNewDirection();
-        beforeTurn = data.getBeforeTurn();
+        beforeTurn = data.getBeforeTurnDir();
         groundFound = data.getGroundFound();
         onGround = data.getOnGround();
 
@@ -46,7 +46,7 @@ public class FindIsland {
         //set foundground to true and start flying in that direction repeatedly until on ground
 
         if ((groundFound && newDirection != currentDirection)){
-            data.setBeforeTurn(currentDirection);
+            data.setBeforeTurnDir(currentDirection);
             data.setCurrDirection(newDirection);
             return task.changeDirection(data.getCurrDirection());
         }
@@ -121,7 +121,7 @@ public class FindIsland {
     public String getInPos(Actions task, String rightDir, String leftDir){
         if (count == 0){
             data.setCounter(1);
-            data.setBeforeTurn(currentDirection);
+            data.setBeforeTurnDir(currentDirection);
             data.setNewDirection(rightDir);
             return task.scan();
         }
@@ -131,19 +131,19 @@ public class FindIsland {
         }
         else if (count == 2){
             data.setCounter(3);
-            data.setBeforeTurn(currentDirection);
+            data.setBeforeTurnDir(currentDirection);
             data.setNewDirection(leftDir);
             return task.scan();
         }
         else if (count == 3){
             data.setCounter(4);
-            data.setBeforeTurn(currentDirection);
+            data.setBeforeTurnDir(currentDirection);
             data.setNewDirection(leftDir);
             return task.scan();
         }
         else if (count == 4){
             data.setNotInPos(false);
-            data.setBeforeTurn(currentDirection);
+            data.setBeforeTurnDir(currentDirection);
             data.setNewDirection(rightDir);
             return task.scan();
         }

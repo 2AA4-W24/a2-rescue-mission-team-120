@@ -9,13 +9,11 @@ import org.json.JSONArray;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+ //use this class instead of calling actions and placing parameters each time 
 public class Actions{
-    //use this class instead of calling actions and placing parameters each time 
-
     private final Logger logger = LogManager.getLogger();
     JSONObject decision = new JSONObject();
     JSONObject parameters = new JSONObject();
-   
 
     Tracker track = new Tracker();
 
@@ -38,19 +36,17 @@ public class Actions{
     
     //changes drone direction
     public String changeDirection(String direction){
-        //logger.info("BRUH {}", data.getBeforeTurn());
         decision.put("action", "heading");
         parameters.put("direction", direction);
         decision.put("parameters", parameters);
         data.setCurrDirection(direction);
-        //logger.info("NAHH {}", data.getCurrDirection());
         //update coordinate based on changed direction
-        coords.turnLocation(data.getBeforeTurn(), data.getCurrDirection());
+        coords.turnLocation(data.getBeforeTurnDir(), data.getCurrDirection());
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
 
-    //echoes drone in inputted direction
+    //drone echoes in inputted direction
     public String echo(String direction){
         decision.put("action", "echo");
         parameters.put("direction", direction);
@@ -59,13 +55,14 @@ public class Actions{
         return decision.toString();
     }
 
+    //drone scans current tile
     public String scan(){
         decision.put("action", "scan");
-
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
 
+    //drone stops
     public String stop(){
         decision.put("action", "stop");
         logger.info("** Decision: {}",decision.toString());
