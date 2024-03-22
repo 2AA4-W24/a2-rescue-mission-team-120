@@ -10,7 +10,7 @@ public class Data {
     private static int changeDir;
     private static int north=0;
     private static int south=1;
-    private static boolean checkDone= false;
+    private static boolean checkDone= true;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;

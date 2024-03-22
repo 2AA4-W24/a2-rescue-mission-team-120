@@ -77,7 +77,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("The cost of the action was {}", cost);
         
         batteryLevel -= cost; 
-        logger.info("Remaining battery{}", batteryLevel);
+        logger.info("Remaining battery {}", batteryLevel);
 
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
@@ -107,7 +107,7 @@ public class Explorer implements IExplorerRaid {
                     onGround = true;
                 }
                 range = extraInfo.getInt("range");
-                rangeCheck = 1;
+                rangeCheck = extraInfo.getInt("range");
                 newDirection = data.getLastDirection();
                 groundFound = true; 
             }else{
@@ -119,6 +119,8 @@ public class Explorer implements IExplorerRaid {
         }
 
         if(scan.isScanned()){
+            scan.isCreek();
+            scan.isSite();
             //CHECK IF DRONE IS IN AN OCEAN ON SCAN, SET A NEW DIRECTION FOR A LOST
             if(!scan.verifyBiome()){
                 logger.info("IN THE OCEAN");
@@ -129,6 +131,7 @@ public class Explorer implements IExplorerRaid {
                 }
             }
             else{
+
                 JSONArray biomes = extraInfo.getJSONArray("biomes");
                 logger.info("YOU'RE ON {}", biomes);
             }
@@ -139,6 +142,7 @@ public class Explorer implements IExplorerRaid {
     public String deliverFinalReport() {
         logger.info("hello");
         logger.info(Tracker.getNumCreeks());
+        logger.info(Tracker.getEmergencySite());
         return "no creek found";
     }
 }
