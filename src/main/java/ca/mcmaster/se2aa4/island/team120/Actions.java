@@ -41,6 +41,7 @@ public class Actions{
         decision.put("action", "heading");
         parameters.put("direction", direction);
         decision.put("parameters", parameters);
+        logger.info("** Decision: {}",decision.toString());
         data.setCurrDirection(direction);
 
         logger.info("** Decision: {}",decision.toString());

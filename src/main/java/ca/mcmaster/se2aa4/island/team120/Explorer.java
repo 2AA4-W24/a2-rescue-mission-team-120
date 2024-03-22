@@ -23,8 +23,9 @@ public class Explorer implements IExplorerRaid {
     private String lastChecked;
     private String newDirection;
     private Boolean onGround = false;
-    private Integer scanned = 1;
+    private Integer scanned;
     private Integer startingBatteryLevel;
+    private Integer count = 0; 
     private Integer rangeCheck = 0;
     private Boolean checkDone;
 
@@ -47,6 +48,7 @@ public class Explorer implements IExplorerRaid {
         data.setFly(1);
         data.setSignal(0);
         data.setScanned(1);
+        data.setStage(0);
 
         batteryLevel = info.getInt("budget");
         startingBatteryLevel = info.getInt("budget");
@@ -81,28 +83,39 @@ public class Explorer implements IExplorerRaid {
 
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
+
+        count ++; 
+        data.setStage(count);
+        logger.info("COUNT VALUE {}", data.getStage());
         
         if (batteryLevel==0){
             deliverFinalReport();
         }
-       
+
         //check what direction is being echoed in
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
         
-       
-
         Radar radar = new Radar(extraInfo);
         PhotoScanner scan= new PhotoScanner(extraInfo);
+        logger.info("I am here");
         //lastChecked = FindIsland.returnLastChecked();
     
 
 
         if (!radar.isEchoed()){
+            //range = -1;
+            logger.info("in echo 1");
+            //range = extraInfo.getInt("range");
+            logger.info("OUT OF RANGE");
+            logger.info("CURR DIR {}", currentDirection);
+            logger.info("LAST CHECKED {}",lastChecked);
             groundFound = false;
         }else{
+            logger.info("in echo 2");
             if(radar.isGround()){
+                logger.info("in echo 3");
                 if (range == 0){
                     onGround = true;
                 }
@@ -111,12 +124,14 @@ public class Explorer implements IExplorerRaid {
                 newDirection = data.getLastDirection();
                 groundFound = true; 
             }else{
+                logger.info("in echo 4");
                 // out of range range
                 range = extraInfo.getInt("range");
                 rangeCheck = -1;
                 groundFound = false;
             }
         }
+        logger.info("past echo");
 
         if(scan.isScanned()){
             scan.isCreek();
