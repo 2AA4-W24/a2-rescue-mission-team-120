@@ -9,12 +9,14 @@ public class FindIsland {
     private static String lastChecked;
     private static String currentDirection;
     private static String newDirection;
+
     private static Integer count;
+    private static Integer phase;
+
     private static Boolean notInPos;
     private static String beforeTurn;
     private static Boolean groundFound;
     private static Boolean onGround;
-    private static Integer phase;
 
     Data data = new Data();
     //Coordinates update = new Coordinates();
@@ -28,6 +30,7 @@ public class FindIsland {
         lastChecked = data.getLastDirection();
         newDirection = data.getNewDirection();
         beforeTurn = data.getBeforeTurn();
+        
         groundFound = data.getGroundFound();
         onGround = data.getOnGround();
 
@@ -86,7 +89,6 @@ public class FindIsland {
             return task.echo(leftDir);
         } 
         else if (lastChecked == leftDir){
-            //go fly
             data.setLastDirection(currentDirection);
             data.setPhase(4);
             return task.echo(currentDirection);

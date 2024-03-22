@@ -6,7 +6,7 @@ public class Data {
     private static int fly;
     private static int scanned;
     private static String current;
-    private static int stage;
+    private static int stage = 0;
     private static int count;
     private static int changeDir;
     private static String newDir;
