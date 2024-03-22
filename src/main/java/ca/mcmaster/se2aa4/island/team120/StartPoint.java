@@ -25,6 +25,8 @@ public class StartPoint{
     int range_x_left;
     int range_y_below; 
     int range_y_above; 
+
+    String start_dir; 
     
     public String FourCorners(int range, boolean groundFound){
         range = data.getRange();
@@ -75,10 +77,57 @@ public class StartPoint{
             if((data.getCurrDirection().charAt(0) != 'N')){
                 data.setRange_y_below(range);
             }
+            logger.info("HELLO!!!");
 
-            return Inwards(range_x_left, range_x_right, range_y_above, range_y_below);
+            int range_x_right = data.getRange_x_right();
+            int range_x_left = data.getRange_x_left();
+            int range_y_below = data.getRange_y_below(); 
+            int range_y_above = data.getRange_y_above(); 
 
-        }else if (count == 5){
+            logger.info("HELLO!!!");
+
+            //return Inwards(range_x_left, range_x_right, range_y_above, range_y_below);
+            if((range_x_left ==0 && range_y_above ==0) || (range_x_left ==0 && range_y_below ==0) || range_x_left == 0){
+                if(data.getCurrDirection().charAt(0) != 'E'){
+                    data.setBeforeTurn(data.getCurrDirection()); 
+                    data.setStart_dir("E");
+                    return action.changeDirection("E");
+                }else{
+                    data.setStart_dir("E");
+                    return action.scan();
+                }
+            }else if (range_x_right ==0 && range_y_above ==0 || range_x_right ==0 && range_y_below ==0 || range_x_right ==0){
+                if(data.getCurrDirection().charAt(0) != 'W'){
+                    data.setBeforeTurn(data.getCurrDirection()); 
+                    data.setStart_dir("W");
+                    return action.changeDirection("W");
+                }else{
+                    data.setStart_dir("W");
+                    return action.scan();
+                }
+                
+            }else if (range_y_above == 0){
+                if(data.getCurrDirection().charAt(0) != 'S'){
+                    data.setBeforeTurn(data.getCurrDirection()); 
+                    data.setStart_dir("S");
+                    return action.changeDirection("S");
+                }else{
+                    data.setStart_dir("S");
+                    return action.scan();
+                }
+    
+            }else if (range_y_below ==0){
+                if(data.getCurrDirection().charAt(0) != 'N'){
+                    data.setBeforeTurn(data.getCurrDirection()); 
+                    data.setStart_dir("N");
+                    return action.changeDirection("N");
+                }else{
+                    data.setStart_dir("N");
+                    return action.scan();
+                }
+            }
+
+        }else if (count >=5){
             //metho for all this shit 
             int range_x_right = data.getRange_x_right();
             int range_x_left = data.getRange_x_left();
@@ -88,21 +137,17 @@ public class StartPoint{
             if (range_x_right > range_x_left){
                 if (range_y_below > range_y_above){
                     data.setIsStartingLeft(true);
-                    data.setStage(0); 
                     return TopLeft(range, groundFound);
                 }else{
-                    data.setStage(0); 
                     return BotLeft(range, groundFound);
                 }
 
             }else{
                 if (range_y_below > range_y_above){
                     data.setIsStartingLeft(false);
-                    data.setStage(0); 
                     return TopRight(range, groundFound);
                     
                 }else{
-                    data.setStage(0); 
                     return BotRight(range, groundFound);
                 }
             }
@@ -120,25 +165,32 @@ public class StartPoint{
         int range_x_left = data.getRange_x_left();
         int range_y_above = data.getRange_y_above(); 
 
+        start_dir = data.getStart_dir(); 
+
         if (range_y_above == 0 && range_x_left ==0){
             logger.info(range_y_above);
             data.setTop();
-            return action.scan();//can this be null
+            return action.scan();
         }else{ 
-            if (data.getCurrDirection() == "E"){
-                if (count==0){
+            if (data.getStart_dir() == "E"){
+                if (count== 5){
                     data.setBeforeTurn(data.getCurrDirection()); 
                     return action.changeDirection("N");
                 }else{
-                    while(range_y_above > 1){
-                        data.setRange_y_above(range_y_above--); 
+                    while(range_y_above > 3){
+                        data.setRange_y_above(range_y_above-1); 
+                        int counter = data.getRange_y_above(); 
+                        logger.info(counter);
+                        logger.info(range_y_above);
                         return action.fly(); 
                     }
+                    logger.info(data.getRange_y_above());
                     data.setTop();
+                    logger.info(data.getTop());
                     data.setBeforeTurn(data.getCurrDirection()); 
                     return action.changeDirection("E");
                 }
-            }else if(data.getCurrDirection() == "S"){//repeated with top right second parth 
+            }else if(data.getStart_dir() == "S"){//repeated with top right second parth 
                 //turn west and go forward turn back south -stop one before 
                 if (count==0){
                     data.setBeforeTurn(data.getCurrDirection()); 
@@ -158,7 +210,7 @@ public class StartPoint{
                 }
             }
         }
-        return null;
+        return null;//maybe change to scan
     }
   
     
@@ -328,38 +380,7 @@ public class StartPoint{
     }
 
     public String Inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
-        if((range_x_left ==0 && range_y_above ==0) || (range_x_left ==0 && range_y_below ==0) || range_x_left == 0){
-            if(data.getCurrDirection().charAt(0) != 'E'){
-                data.setBeforeTurn(data.getCurrDirection()); 
-                return action.changeDirection("E");
-            }else{
-                return action.scan();
-            }
-        }else if (range_x_right ==0 && range_y_above ==0 || range_x_right ==0 && range_y_below ==0 || range_x_right ==0){
-            if(data.getCurrDirection().charAt(0) != 'W'){
-                data.setBeforeTurn(data.getCurrDirection()); 
-                return action.changeDirection("W");
-            }else{
-                return action.scan();
-            }
-            
-        }else if (range_y_above ==0){
-            if(data.getCurrDirection().charAt(0) != 'S'){
-                data.setBeforeTurn(data.getCurrDirection()); 
-                return action.changeDirection("S");
-            }else{
-                return action.scan();
-            }
 
-        }else if (range_y_below ==0){
-            if(data.getCurrDirection().charAt(0) != 'N'){
-                data.setBeforeTurn(data.getCurrDirection()); 
-                return action.changeDirection("N");
-            }else{
-                return action.scan();
-            }
-        }
         return null; 
     }
 }
-

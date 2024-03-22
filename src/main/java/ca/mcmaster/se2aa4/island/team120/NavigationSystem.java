@@ -25,8 +25,11 @@ public class NavigationSystem implements MissionType{
         onGround = data.getOnGround();
         turned= data.getTurned();
         logger.info("COORDINATES: " + "[" + coords.x_coords() + ", " + coords.y_coords() + "]" );
+        
+        logger.info(data.getTop());
 
         if(!(data.getTop())){
+            logger.info(data.getTop());
             return start.FourCorners(range, groundFound);
         }
         else if (!onGround && !interTurn){
