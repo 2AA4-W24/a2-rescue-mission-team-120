@@ -9,8 +9,15 @@ public class Data {
     private static int stage;
     private static int count;
     private static int changeDir;
+    private static String newDir;
     private static int north=0;
     private static int south=1;
+    private static boolean turn = false;
+    private static boolean ground = false;
+    private static boolean reached = false;
+    private static boolean goNorth = false;
+    private static boolean goSouth = false;
+    private static boolean checkDone= true;
     private static boolean top = false;
     private static int range_x_right = 0;
     private static int range_x_left = 0;
@@ -25,6 +32,7 @@ public class Data {
     public String getLastDirection(){
         return last;
     }
+    
 
     public void setSignal(int lastSignal){
         signal= lastSignal;
@@ -43,6 +51,7 @@ public class Data {
         return fly;
     }
 
+
     public void setScanned(int lastScanned){
         scanned= lastScanned;
     }
@@ -51,12 +60,21 @@ public class Data {
         return scanned;
     }
 
+
     public void setCurrDirection(String currentDirection){
         current = currentDirection;
     }
 
     public String getCurrDirection(){
         return current;
+    }
+
+    public void setNewDirection(String newDirection){
+        newDir = newDirection;
+    }
+
+    public String getNewDirection(){
+        return newDir;
     }
 
     public int getCountAlgo(){
@@ -67,6 +85,7 @@ public class Data {
         count=nextCountAlgo;
     }
 
+
     public int getChangeDirAlgo(){
         return changeDir;
     }
@@ -74,6 +93,8 @@ public class Data {
     public void setChangeDirAlgo(int nextChangeDirAlgo){
         changeDir= nextChangeDirAlgo;
     }
+
+
     public int getSouthAlgo(){
         return south;
     }
@@ -82,6 +103,7 @@ public class Data {
         south= newSouth;
     }
 
+
     public int getNorthAlgo(){
         return north;
     }
@@ -89,6 +111,56 @@ public class Data {
     public void setNorthAlgo(int newNorth){
         north= newNorth;
     }
+
+    public boolean getInterTurn(){
+        return turn;
+    }
+
+    public void setInterTurn(boolean interTurn){
+        turn = interTurn;
+    }
+
+    public boolean getOnGround(){
+        return ground;
+    }
+
+    public void setOnGround(boolean onGround){
+        ground = onGround;
+    }
+
+    public boolean getReachGround(){
+        return reached;
+    }
+
+    public void setReachGround(boolean reachGround){
+        reached = reachGround;
+    }
+
+
+    public boolean getGoNorth(){
+        return goNorth;
+    }
+
+    public void setGoNorth(boolean north){
+        goNorth = north;
+    }
+
+    public boolean getGoSouth(){
+        return goSouth;
+    }
+
+    public void setGoSouth(boolean south){
+        goSouth = south;
+    }
+
+    public boolean getCheckDone(){
+        return checkDone;
+    }
+
+    public void setCheckDone(boolean newCheckDone){
+        checkDone= newCheckDone;
+    }
+
     public int getStage(){
         return stage;
     }

@@ -5,12 +5,14 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 public class FindIsland {
-     private final Logger logger = LogManager.getLogger();
+    private final Logger logger = LogManager.getLogger();
     private static Integer fly;
     private static Integer signal;
     private static Integer scanned;
     private static String lastChecked;
     private static String currentDirection;
+    private static String newDirection;
+    private static Integer count;
 
     Data data = new Data();
     Coordinates update = new Coordinates();
@@ -22,17 +24,15 @@ public class FindIsland {
 
         currentDirection = data.getCurrDirection();
         lastChecked = data.getLastDirection();
-        logger.info(lastChecked);
+        newDirection = data.getNewDirection();
 
         fly = data.getFly();
         signal = data.getSignal();
         scanned = data.getScanned();
+        count = data.getCountAlgo();
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
-
-
-        
 
         // new algo: echo in all directions and if nothing found fly and scan, if something found, 
         //set foundground to true and start flying in that direction repeatedly until on ground
@@ -45,41 +45,24 @@ public class FindIsland {
         //if not on ground, scan in directions
         else if (signal == 0 && fly == 1 && scanned == 1){
             if (groundFound){
-                data.setSignal(1); // adding signal to stop echoing, start radaring
+                data.setSignal(0); // start flying
                 data.setFly(1);
                 data.setScanned(0);
                 return task.fly();
             }
-
             else{
-                //update signal command
-                data.setSignal(1); 
-                data.setFly(0);
-                data.setScanned(1);
-
-                if (lastChecked == currentDirection){
-                    data.setLastDirection(rightDir);
-                    return task.echo(rightDir);
-                }
-                else if (lastChecked == rightDir){
-                    data.setLastDirection(leftDir);
-                    return task.echo(leftDir);
-                }
-                else if (lastChecked == leftDir){
-                    data.setLastDirection(currentDirection);
-                    return task.echo(currentDirection);
-                }
+                //update signal command to chekc for ground
+                return checkGround(task, rightDir, leftDir);
             }
         }
-
-        else if (signal == 1 && fly == 0 && scanned == 1){
+        else if (signal == 0 && fly == 1 && scanned == 0){
             data.setSignal(1); 
-            data.setFly(1);
+            data.setFly(0);
             data.setScanned(0);
             return task.fly();
         }
 
-        else if (signal == 1 && fly == 1 && scanned == 0){
+        else if (signal == 1 && fly == 0 && scanned == 0){
             update.location(currentDirection);
             data.setSignal(1); 
             data.setFly(1);
@@ -96,5 +79,24 @@ public class FindIsland {
             return task.fly();
         }*/
         return decision.toString();
+    }
+
+    public String checkGround(Actions task, String rightDir, String leftDir){
+        if (lastChecked == currentDirection){
+            data.setLastDirection(rightDir);
+            return task.echo(rightDir);
+        } 
+        else if (lastChecked == rightDir){
+            data.setLastDirection(leftDir);
+            return task.echo(leftDir);
+        } 
+        else if (lastChecked == leftDir){
+            data.setLastDirection(currentDirection);
+            data.setSignal(0);
+            data.setFly(1);
+            data.setScanned(0);
+            return task.echo(currentDirection);
+        }
+        return "";
     }
 }

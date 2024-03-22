@@ -20,6 +20,7 @@ public class Explorer implements IExplorerRaid {
     private Integer fly;
     private Integer signal;
     private Boolean groundFound = false;
+    private Boolean reachGround;
     private String lastChecked;
     private String newDirection;
     private Boolean onGround = false;
@@ -27,6 +28,7 @@ public class Explorer implements IExplorerRaid {
     private Integer startingBatteryLevel;
     private Integer count = 0; 
     private Integer rangeCheck = 0;
+    private Boolean checkDone;
 
     private int x;
     private int y; 
@@ -35,22 +37,22 @@ public class Explorer implements IExplorerRaid {
     Data data = new Data();
     Coordinates update = new Coordinates();
 
+
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}",info.toString(2));
 
-        //currentDirection = info.getString("heading");
         data.setCurrDirection(info.getString("heading"));
+        logger.info("heading {}", info.getString("heading"));
+        logger.info("direction {}", data.getCurrDirection());
         data.setLastDirection(data.getCurrDirection());
+        data.setNewDirection(data.getCurrDirection());
         data.setFly(1);
         data.setSignal(0);
         data.setScanned(1);
         data.setStage(0);
-
-        //Data data = new Data();
-        //lastChecked = currentDirection;
 
         batteryLevel = info.getInt("budget");
         startingBatteryLevel = info.getInt("budget");
@@ -65,9 +67,10 @@ public class Explorer implements IExplorerRaid {
         scanned= data.getScanned();
         currentDirection = data.getCurrDirection();
         lastChecked= data.getLastDirection();
+        checkDone = data.getCheckDone();
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel);
+        String decision = decisionMaker.run(currentDirection, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel, checkDone);
         return decision.toString();
     }
 
@@ -81,7 +84,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("The cost of the action was {}", cost);
         
         batteryLevel -= cost; 
-        logger.info("Remaining battery{}", batteryLevel);
+        logger.info("Remaining battery {}", batteryLevel);
 
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
@@ -94,49 +97,41 @@ public class Explorer implements IExplorerRaid {
             deliverFinalReport();
         }
 
+        //DecisionBoard updateInfo = new DecisionBoard();
+       
         //check what direction is being echoed in
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
 
-        
         Radar radar = new Radar(extraInfo);
-        PhotoScanner scan= new PhotoScanner(extraInfo);
-        logger.info("I am here");
+        PhotoScanner scan = new PhotoScanner(extraInfo);
         //lastChecked = FindIsland.returnLastChecked();
     
-
-
         if (!radar.isEchoed()){
-            //range = -1;
-            logger.info("in echo 1");
-            //range = extraInfo.getInt("range");
-            logger.info("OUT OF RANGE");
-            logger.info("CURR DIR {}", currentDirection);
-            logger.info("LAST CHECKED {}",lastChecked);
-            groundFound = false;
+            groundFound = groundFound;
         }else{
-            logger.info("in echo 2");
             if(radar.isGround()){
-                logger.info("in echo 3");
-                if (range == 0){
-                    onGround = true;
-                }
                 range = extraInfo.getInt("range");
                 rangeCheck = 1;
-                newDirection = data.getLastDirection();
+                data.setNewDirection(data.getLastDirection());
                 groundFound = true; 
+                data.setReachGround(false);
+                if (range == 0){
+                    data.setOnGround(true);
+                    data.setReachGround(true);
+                    logger.info("REACHED ZERO");
+                }
             }else{
-                logger.info("in echo 4");
-                // out of range range
                 range = extraInfo.getInt("range");
                 rangeCheck = -1;
                 groundFound = false;
             }
-
         }
         logger.info("past echo");
 
         if(scan.isScanned()){
+            scan.isCreek();
+            scan.isSite();
             //CHECK IF DRONE IS IN AN OCEAN ON SCAN, SET A NEW DIRECTION FOR A LOST
             if(!scan.verifyBiome()){
                 logger.info("IN THE OCEAN");
@@ -149,6 +144,7 @@ public class Explorer implements IExplorerRaid {
                 }
             }
             else{
+
                 JSONArray biomes = extraInfo.getJSONArray("biomes");
                 logger.info("YOU'RE ON {}", biomes);
             }
@@ -156,7 +152,10 @@ public class Explorer implements IExplorerRaid {
     }
 
     @Override
-    public String deliverFinalReport() {//code does not run to this point? how does bot work exactly
+    public String deliverFinalReport() {
+        logger.info("hello");
+        logger.info(Tracker.getNumCreeks());
+        logger.info(Tracker.getEmergencySite());
         return "no creek found";
     }
 }

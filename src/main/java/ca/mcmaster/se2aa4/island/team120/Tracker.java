@@ -45,10 +45,14 @@ public class Tracker{
         }
     }
 
-    public int getNumCreeks(){
+    public static int getNumCreeks(){
         return creek_counter;
     }
 
+    public static String getEmergencySite(){
+        return"Emergency X coordinate: " +emergency[0] + "        Emergency y coordinate: " + emergency[1];
+    }
+    
     public String CurrentClosest(){
         //print out first creek found until emergency site found and then do calculation to find closest creek 
         if (emergency[0] != 0 || emergency[1] != 0) {
