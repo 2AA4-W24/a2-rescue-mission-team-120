@@ -18,13 +18,15 @@ public class NavigationSystem {
     private static boolean interTurn;
 
     public String run(String currentDirection, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean checkDone){  
-            
+        interTurn = data.getInterTurn();
+        onGround = data.getOnGround();
+
         if(!(data.getTop())){
             logger.info("running top");
             return start.FourCorners(range, groundFound);
         }
         else if (!onGround && !interTurn){
-
+            logger.info("inter hey {}", onGround);
             return island.Finder(newDirection, onGround, groundFound); 
         }
         else if(interTurn){

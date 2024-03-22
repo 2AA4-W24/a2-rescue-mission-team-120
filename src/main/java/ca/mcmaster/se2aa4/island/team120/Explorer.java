@@ -113,7 +113,7 @@ public class Explorer implements IExplorerRaid {
             if(radar.isGround()){
                 range = extraInfo.getInt("range");
                 rangeCheck = 1;
-                newDirection = data.getLastDirection();
+                data.setNewDirection(data.getLastDirection());
                 groundFound = true; 
                 data.setReachGround(false);
                 if (range == 0){
