@@ -91,6 +91,7 @@ public class SimpleAlgo implements SearchIsland{
             }
             else if(changeDir== 2 && north==1 && !checkDone && !(turned)){
                 logger.info("PREPARING FOR ECHOING RIGHT.");
+                
                 decision= action.echo(Direction.right(currentDirection));
                 data.setChangeDirAlgo(3);
 
@@ -120,6 +121,7 @@ public class SimpleAlgo implements SearchIsland{
             else if((rangeCheck<0 || rangeCheck>2) && changeDir== 3 && left && !checkDone){
                 logger.info("CHECK ECHO");
                 logger.info("TURN STARTING");
+                data.setBeforeTurn(data.getCurrDirection());
                 decision= action.changeDirection("E");
                 data.setChangeDirAlgo(4);
                 return decision;
@@ -127,8 +129,8 @@ public class SimpleAlgo implements SearchIsland{
 
             else if((rangeCheck<0 || rangeCheck>2) && changeDir== 3 && !(left) && !checkDone){
                 logger.info("CHECK SCAN");
-    
                 logger.info("TURN STARTING");
+                data.setBeforeTurn(data.getCurrDirection());
                 decision= action.changeDirection("W");
                 data.setChangeDirAlgo(4);
                 return decision;
@@ -138,21 +140,25 @@ public class SimpleAlgo implements SearchIsland{
             else if(changeDir== 4){
                 logger.info("HELLO SECOND DIR STEP");
                 if (currentDirection.equals("E") && south==1){
+                    data.setBeforeTurn(data.getCurrDirection());
                     decision= action.changeDirection("N");
                     data.setNorthAlgo(1);
                     data.setSouthAlgo(0);
                 }
                 else if (currentDirection.equals("E") && north==1){
+                    data.setBeforeTurn(data.getCurrDirection());
                     decision= action.changeDirection("S");
                     data.setNorthAlgo(0);
                     data.setSouthAlgo(1);
                 }
                 else if (currentDirection.equals("W") && south==1){
+                    data.setBeforeTurn(data.getCurrDirection());
                     decision= action.changeDirection("N");
                     data.setNorthAlgo(1);
                     data.setSouthAlgo(0);
                 }
                 else if (currentDirection.equals("W") && north==1){
+                    data.setBeforeTurn(data.getCurrDirection());
                     decision= action.changeDirection("S");
                     data.setNorthAlgo(0);
                     data.setSouthAlgo(1);

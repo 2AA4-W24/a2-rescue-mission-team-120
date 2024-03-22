@@ -134,6 +134,7 @@ public class InterTurn{
              if (count == 0){
                 logger.info("PHASE 1 CHANGE DIRECTION");
                 data.setCountAlgo(1);
+                data.setBeforeTurn(data.getCurrDirection());
                 return task.changeDirection(lastChecked);
             }
             else if(count == 1){
@@ -150,12 +151,14 @@ public class InterTurn{
                     logger.info("GOING SOUTH");
                     data.setSouthAlgo(1);
                     data.setNorthAlgo(0);
+                    data.setBeforeTurn(data.getCurrDirection());
                     return task.changeDirection("S");
 
                 }else if(goSouth){
                     logger.info("GOING NORTH");
                     data.setSouthAlgo(0);
                     data.setNorthAlgo(1);
+                    data.setBeforeTurn(data.getCurrDirection());
                     return task.changeDirection("N");
 
                 }
