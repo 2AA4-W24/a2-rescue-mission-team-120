@@ -6,9 +6,6 @@ import org.json.JSONObject;
 
 public class FindIsland {
     private final Logger logger = LogManager.getLogger();
-    private static Integer fly;
-    private static Integer signal;
-    private static Integer scanned;
     private static String lastChecked;
     private static String currentDirection;
     private static String newDirection;
@@ -17,6 +14,7 @@ public class FindIsland {
     private static String beforeTurn;
     private static Boolean groundFound;
     private static Boolean onGround;
+    private static Integer phase;
 
     Data data = new Data();
     //Coordinates update = new Coordinates();
@@ -33,11 +31,9 @@ public class FindIsland {
         groundFound = data.getGroundFound();
         onGround = data.getOnGround();
 
-        fly = data.getFly();
-        signal = data.getSignal();
-        scanned = data.getScanned();
         count = data.getCounter();
         notInPos = data.getNotInPos();
+        phase = data.getPhase();
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
@@ -50,52 +46,34 @@ public class FindIsland {
             data.setCurrDirection(newDirection);
             return task.changeDirection(data.getCurrDirection());
         }
-        //radar signal echo or scan depending on if you're on ground or not
-        //if not on ground, scan in directions
-        else if (signal == 0 && fly == 1 && scanned == 1){
-            if (groundFound){
-                //should activate new pattern to check one pattern back
-                if (notInPos){
-                    return getInPos(task, rightDir, leftDir);
+
+        switch (phase){
+            case 0:
+                if (groundFound){
+                    if (notInPos){
+                        return getInPos(task, rightDir, leftDir);
+                    }
+                    data.setPhase(1);
+                    return task.fly();
                 }
-                data.setSignal(1); // start flying
-                data.setFly(0);
-                data.setScanned(0);
+                else{
+                    return checkGround(task, rightDir, leftDir);
+                }
+            case 1:
+                data.setPhase(2);
+                return task.scan();
+            case 2:
+                data.setPhase(3);
                 return task.fly();
-            }
-            else{
-                //update signal command to chekc for ground
-                return checkGround(task, rightDir, leftDir);
-            }
+            case 3:
+                data.setPhase(4);
+                return task.echo(currentDirection);
+            case 4:
+                data.setPhase(0);
+                return task.fly();
+            default:
+                throw new IllegalArgumentException("nope.");
         }
-        else if (signal == 1 && fly == 0 && scanned == 0){
-            data.setSignal(0); 
-            data.setFly(0);
-            data.setScanned(0);
-            return task.scan();
-        }
-        else if (signal == 0 && fly == 0 && scanned == 0){
-            data.setSignal(0); 
-            data.setFly(1);
-            data.setScanned(0);
-            return task.fly();
-        }
-        else if (signal == 0 && fly == 1 && scanned == 0){
-            data.setSignal(1); 
-            data.setFly(1);
-            data.setScanned(1);
-            return task.echo(currentDirection);
-        }
-
-        else if (signal == 1 && fly == 1 && scanned == 1){
-            //send back to decision maker
-            data.setSignal(0); 
-            data.setFly(1);
-            data.setScanned(1);
-            return task.fly();
-        }
-
-        return decision.toString();
     }
 
     public String checkGround(Actions task, String rightDir, String leftDir){
@@ -110,43 +88,36 @@ public class FindIsland {
         else if (lastChecked == leftDir){
             //go fly
             data.setLastDirection(currentDirection);
-            data.setSignal(1);
-            data.setFly(1);
-            data.setScanned(1);
+            data.setPhase(4);
             return task.echo(currentDirection);
         }
         return "";
     }
 
     public String getInPos(Actions task, String rightDir, String leftDir){
-        if (count == 0){
-            data.setCounter(1);
-            data.setBeforeTurn(currentDirection);
-            data.setNewDirection(rightDir);
-            return task.scan();
+        data.setBeforeTurn(currentDirection);
+        switch (count){
+            case 0: 
+                data.setCounter(1);
+                data.setNewDirection(rightDir);
+                return task.scan();
+            case 1:
+                data.setCounter(2);
+                return task.fly();
+            case 2:
+                data.setCounter(3);
+                data.setNewDirection(leftDir);
+                return task.scan();
+            case 3:
+                data.setCounter(4);
+                data.setNewDirection(leftDir);
+                return task.scan();
+            case 4:
+                data.setNotInPos(false);
+                data.setNewDirection(rightDir);
+                return task.scan();
+            default:
+                throw new IllegalArgumentException("nope.");
         }
-        else if(count == 1){
-            data.setCounter(2);
-            return task.fly();
-        }
-        else if (count == 2){
-            data.setCounter(3);
-            data.setBeforeTurn(currentDirection);
-            data.setNewDirection(leftDir);
-            return task.scan();
-        }
-        else if (count == 3){
-            data.setCounter(4);
-            data.setBeforeTurn(currentDirection);
-            data.setNewDirection(leftDir);
-            return task.scan();
-        }
-        else if (count == 4){
-            data.setNotInPos(false);
-            data.setBeforeTurn(currentDirection);
-            data.setNewDirection(rightDir);
-            return task.scan();
-        }
-        return "";
     }
 }

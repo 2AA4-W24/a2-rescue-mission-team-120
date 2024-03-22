@@ -174,9 +174,11 @@ public class SimpleAlgo implements SearchIsland{
     public String beyondMapBounds(String currentDirection, boolean turned){
         data.setInterTurn(true);
         data.setOnGround(false);
-        data.setFly(1);
-        data.setSignal(0);
-        data.setScanned(1);
+        //data.setFly(1);
+        //data.setSignal(0);
+        //data.setScanned(1);
+        data.setPhase(0);
+        logger.info("GARBLE {}", data.getPhase());
         data.setLastDirection(Direction.left(currentDirection));
         if(!turned){
             return action.scan();

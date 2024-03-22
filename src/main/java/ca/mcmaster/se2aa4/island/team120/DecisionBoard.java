@@ -56,13 +56,8 @@ public class DecisionBoard {
         if(scan.isScanned()){
             scan.isCreek();
             scan.isSite();
-            if(!scan.verifyBiome()){
-                if (onGround){
-                    data.setNewDirection(Direction.left(currentDirection));
-                }
-            }
-            else{
-                JSONArray biomes = extraInfo.getJSONArray("biomes");
+            if (onGround){
+                data.setNewDirection(Direction.left(currentDirection));
             }
         }
     }

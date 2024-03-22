@@ -44,7 +44,6 @@ public class NavigationSystem implements MissionType{
         }
         else if(interTurn){
             data.setTurned(true);
-            
             return interlace.Turn();
         }
         else if(!(interTurn) && turned){

@@ -32,6 +32,7 @@ public class Data {
 
     private static int rangeChecker = -1;
     private static boolean groundLocated;
+    private static int phase = 0;
 
 
     public void setLastDirection(String lastDirection){
@@ -282,5 +283,13 @@ public class Data {
 
     public void setRange(int rangeInt){
         range = rangeInt;
+    }
+
+    public int getPhase(){
+        return phase;
+    }
+
+    public void setPhase(int newPhase){
+        phase = newPhase;
     }
 }
