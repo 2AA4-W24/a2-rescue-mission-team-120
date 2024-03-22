@@ -23,6 +23,9 @@ public class Tracker{
     private static int creek_counter = 0; 
     private Coordinates coords = new Coordinates(); 
 
+    private static double minDistance = Double.MAX_VALUE;
+    private static String closestCreek;
+
     public void POI(String type, String id){
         
         int x = coords.x_coords(); 
@@ -46,9 +49,36 @@ public class Tracker{
         return creek_counter;
     }
 
-    public int currentClosest(){
-        return 0;
+    public String CurrentClosest(){
         //print out first creek found until emergency site found and then do calculation to find closest creek 
+        if (emergency[0] != 0 || emergency[1] != 0) {
+            for (Map.Entry<String, Integer> entry : x_coords.entrySet()) {
+                int CreekX = entry.getValue();
+                int CreekY = y_coords.get(entry.getKey());
+
+                double tempDistance = Math.sqrt(Math.pow(emergency[0] - CreekX, 2) + Math.pow(emergency[1] - CreekY, 2)); 
+
+                if (tempDistance<minDistance){
+                    minDistance = tempDistance;
+                    closestCreek = entry.getKey();
+                }
+            }
+            logger.info(closestCreek);
+            return closestCreek; 
+            
+        }else{
+            int middle = creek_counter / 2;
+            int currentIndex = 0;
+            
+            for (String creekId : x_coords.keySet()){
+                if (currentIndex == middle) {
+                    logger.info(creekId);
+                    return creekId;
+                }
+                currentIndex++;
+            }
+        }
+        return null; 
     }
 }
 
