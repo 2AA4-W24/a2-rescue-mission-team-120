@@ -16,6 +16,7 @@ public class NavigationSystem implements MissionType{
     StartPoint start = new StartPoint(); 
     Data data = new Data(); 
     Coordinates coords = new Coordinates();
+    Actions action= new Actions();
     private static boolean interTurn;
     private static boolean turned;
     private static boolean onGround;
@@ -46,7 +47,7 @@ public class NavigationSystem implements MissionType{
             return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
         }
         else{
-            return algoRun.stop();
+            return action.stop();
         }
     }
 
