@@ -11,7 +11,6 @@ public class Coordinates {
     private final Logger logger = LogManager.getLogger();
 
     public void flyLocation(String currentDirection){
-        logger.info("RAINY DAY");
         switch (currentDirection){
             case "N":
                 y +=grid;
@@ -30,9 +29,6 @@ public class Coordinates {
         }
     } 
     public void turnLocation(String beforeTurn, String currentDirection){
-        //need to take 
-        logger.info("SUNNY DAY");
-
         if (beforeTurn.equals("N")){
             if (currentDirection.equals("E")){
                 y += grid;

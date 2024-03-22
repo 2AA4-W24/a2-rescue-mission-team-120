@@ -20,12 +20,21 @@ public class NavigationSystem implements MissionType{
     private static boolean interTurn;
     private static boolean turned;
     private static boolean onGround;
+    private static String currentDirection;
+    private static boolean groundFound;
+    private static int range;
+    private static int rangeCheck;
+    private static boolean checkDone;
 
-    public String run(String currentDirection, boolean groundFound, int range, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean checkDone){  
+    public String run(int batteryLevel, int startingBatteryLevel){  
         interTurn = data.getInterTurn();
         onGround = data.getOnGround();
         turned= data.getTurned();
-        logger.info("COORDINATES: " + "[" + coords.x_coords() + ", " + coords.y_coords() + "]" );
+        currentDirection = data.getCurrDirection();
+        groundFound = data.getGroundFound();
+        range = data.getRange();
+        rangeCheck = data.getRangeCheck();
+        checkDone = data.getCheckDone();
 
         if(!(data.getTop())){
             return start.FourCorners(range, groundFound);

@@ -46,8 +46,6 @@ public class FindIsland {
         //set foundground to true and start flying in that direction repeatedly until on ground
 
         if ((groundFound && newDirection != currentDirection)){
-            logger.info("ONGROUND? {}", onGround);
-            logger.info("NEW SET");
             data.setBeforeTurn(currentDirection);
             data.setCurrDirection(newDirection);
             return task.changeDirection(data.getCurrDirection());
@@ -58,10 +56,8 @@ public class FindIsland {
             if (groundFound){
                 //should activate new pattern to check one pattern back
                 if (notInPos){
-                    logger.info("DOLPHIN");
                     return getInPos(task, rightDir, leftDir);
                 }
-                logger.info("WHALE");
                 data.setSignal(1); // start flying
                 data.setFly(0);
                 data.setScanned(0);

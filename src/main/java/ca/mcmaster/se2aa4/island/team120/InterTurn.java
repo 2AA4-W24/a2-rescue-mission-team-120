@@ -192,10 +192,6 @@ public class InterTurn{
                 return task.scan();
             }
         }
-        // if last direction is left of curr direction then it should turn left again...
-        // if its right of it then it should turn right but idk how to make it different
-        // when you turn to the last checked, maybe echo both ways and get a new last checked value to turn to
-         
         return decision.toString();
     }
 }
