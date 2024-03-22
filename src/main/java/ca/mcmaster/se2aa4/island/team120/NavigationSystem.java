@@ -3,7 +3,7 @@ package ca.mcmaster.se2aa4.island.team120;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class NavigationSystem {
+public class NavigationSystem implements MissionType{
     //place where we keep steps
     //first call to search for ground
     //then call to search on island to find POI's 

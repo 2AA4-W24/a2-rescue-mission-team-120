@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONTokener;
 
-public class SimpleAlgo {
+public class SimpleAlgo implements SearchIsland{
     //going to place our orginal algo for creeks - just going up and down the island no face implementations 
     //NEED TO CREATE INTERFACE FOR ALL ALGOS THAT GO IN NAVIGATION SYSTEM 
 
