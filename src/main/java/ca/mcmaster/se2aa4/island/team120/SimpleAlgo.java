@@ -2,9 +2,7 @@ package ca.mcmaster.se2aa4.island.team120;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
-import org.json.JSONArray;
-import org.json.JSONTokener;
+
 
 public class SimpleAlgo implements SearchIsland{
     //going to place our orginal algo for creeks - just going up and down the island no face implementations 
@@ -13,21 +11,18 @@ public class SimpleAlgo implements SearchIsland{
     private final Logger logger = LogManager.getLogger();
  
     Actions action= new Actions();
-
-    private int changeDir;
-    private int count;
     Direction direction= new Direction();
     Data data= new Data();
+
+    private int changeDir;
     private int south;
     private int north;
-
+    private int count;
     private boolean left;
     private boolean turned;
     private int rangeCheck;
 
     public String search(String currentDirection, int batteryLevel, int startingBatteryLevel, boolean checkDone){
-
-        String decision="";
         this.changeDir= data.getChangeDirAlgo();
         this.count= data.getCountAlgo();
         this.south= data.getSouthAlgo();
@@ -39,57 +34,43 @@ public class SimpleAlgo implements SearchIsland{
 
         //once we reach left most island and want to start search
         while(batteryLevel> 0.15*startingBatteryLevel){
-            if(count==0 && rangeCheck>=0 && checkDone){
-                data.setCountAlgo(1);
-                return action.scan();
+            if(rangeCheck>=0 && checkDone){
+                switch(count) {
+                    case 0:
+                        data.setCountAlgo(1);
+                        return action.scan();
+                    case 1:
+                        data.setCountAlgo(2);
+                        return action.echo(currentDirection);
+                    case 2:
+                        logger.info("MAP FLY");
+                        data.setCountAlgo(0);
+                        return action.fly();
+                    default:
+                        throw new IllegalArgumentException("Invalid count value: " + count);
+                }    
             }
-            else if(count==1 && rangeCheck>=0 && changeDir!=6 && checkDone){
-                data.setCountAlgo(2);
-                return action.echo(currentDirection);
-            }
-            else if(count==2 && rangeCheck>=0 && checkDone){
-                logger.info("MAP FLY");
-                data.setCountAlgo(0);
-                return action.fly();
-            }
-
-        
-            else if(rangeCheck<0 && changeDir== 0 ){
-                logger.info("PREPARING FOR TURN. MOVING AHEAD");
-                data.setChangeDirAlgo(1);
-                data.setCheckDone(false);
-                data.setCountAlgo(4);
-                return action.fly();
-            }
-            else if(changeDir== 1 && !checkDone){
-                logger.info("SCAN CAN NEW TILE");
-                data.setChangeDirAlgo(2);
-                return action.scan();
-            }
-
-            else if(changeDir== 2  && !checkDone){
-                return secondDirStep(currentDirection);
-            }
-            else if(changeDir== 3 && !checkDone){
-                return thirdDirStep();
-            }
-            else if(changeDir== 4){       
-            logger.info("HELLO SECOND DIR STEP");
-                return secondTurn(currentDirection);
-            }
-            else if(changeDir== 5){
-                logger.info("THIRD DIR STEP, IN CORRECT POS");
-                decision= action.echo(currentDirection);
-                data.setChangeDirAlgo(6);
-                return decision;
-            }
-            else if(rangeCheck>=0 && changeDir==6){
-                logger.info("TURN SUCCESS");
-                return turnSuccess();
-            }  
-            else if(rangeCheck<0 && changeDir== 6){
-                logger.info("BEYOND ISLAND BOUNDS");
-                return beyondMapBounds(currentDirection, turned);
+            switch(changeDir) {
+                case 0:
+                    if (rangeCheck<0) {
+                        return firstDirStep();
+                    }
+                    break;
+                case 1:
+                    return secondDirStep();
+                case 2:
+                    return thirdDirStep(currentDirection);
+                case 3:
+                    return fourthDirStep();
+                case 4:
+                    return secondTurn(currentDirection);
+                case 5:
+                    return fifthDirStep(currentDirection);
+                case 6:
+                    return sixthDirStep(currentDirection);
+                    default:
+                        throw new IllegalArgumentException("Invalid changeDir value: " + changeDir);
+                    
             }
         }
         logger.info("BATTERY LEVEL BELOW THRESHOLD");
@@ -97,8 +78,19 @@ public class SimpleAlgo implements SearchIsland{
     }
     
 
+    public String firstDirStep(){
+        data.setChangeDirAlgo(1);
+        data.setCheckDone(false);
+        data.setCountAlgo(4);
+        return action.fly();
+    }
 
-    public String secondDirStep(String currentDirection){
+    public String secondDirStep(){
+        data.setChangeDirAlgo(2);
+        return action.scan();
+    }
+
+    public String thirdDirStep(String currentDirection){
         data.setChangeDirAlgo(3);
         if ((north==1 && turned) || (south==1 && !(turned))){
             logger.info("PREPARING FOR ECHOING LEFT.");
@@ -108,9 +100,9 @@ public class SimpleAlgo implements SearchIsland{
             logger.info("PREPARING FOR ECHOING RIGHT.");
             return action.echo(Direction.right(currentDirection));
         }
-
     }
-    public String thirdDirStep(){
+
+    public String fourthDirStep(){
         if(rangeCheck>=0 && rangeCheck<=2){
             logger.info("CONTINUE MOVING FORWARD");
             data.setChangeDirAlgo(1);                
@@ -120,10 +112,9 @@ public class SimpleAlgo implements SearchIsland{
             logger.info("CHECK ECHO");
             logger.info("TURN STARTING");
             return firstTurn(left);
-
         }
-
     }
+
     public String firstTurn(boolean left){
         if (left){
             data.setChangeDirAlgo(4);
@@ -135,6 +126,7 @@ public class SimpleAlgo implements SearchIsland{
         }
 
     }
+
     public String secondTurn(String currentDirection){
         data.setChangeDirAlgo(5);
 
@@ -147,6 +139,24 @@ public class SimpleAlgo implements SearchIsland{
             data.setNorthAlgo(0);
             data.setSouthAlgo(1);
             return action.changeDirection("S");
+        }
+    }
+
+    public String fifthDirStep(String currentDirection){
+        logger.info("THIRD DIR STEP, IN CORRECT POS");
+        data.setChangeDirAlgo(6);
+        return action.echo(currentDirection);
+
+    }
+
+    public String sixthDirStep(String currentDirection){
+        if(rangeCheck>=0){
+            logger.info("TURN SUCCESS");
+            return turnSuccess();
+        }
+        else{
+            logger.info("BEYOND ISLAND BOUNDS");
+            return beyondMapBounds(currentDirection, turned);
         }
     }
 
