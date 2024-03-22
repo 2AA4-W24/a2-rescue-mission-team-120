@@ -79,15 +79,11 @@ public class StartPoint{
             return Inwards(range_x_left, range_x_right, range_y_above, range_y_below);
 
         }else if (count == 5){
+            //metho for all this shit 
             int range_x_right = data.getRange_x_right();
             int range_x_left = data.getRange_x_left();
             int range_y_below = data.getRange_y_below(); 
             int range_y_above = data.getRange_y_above(); 
-
-            logger.info(range_y_above);
-            logger.info(range_x_left);
-            logger.info(range_y_below);
-            logger.info(range_x_right);
 
             if (range_x_right > range_x_left){
                 if (range_y_below > range_y_above){
@@ -114,13 +110,6 @@ public class StartPoint{
         return null;
     }
 
-    //start edges 
-    //wesr-> top left or bot lef - facing east, your west echo is 0
-    //east-> top right or bot right - facing west, your east echo = 0
-    //north -> top right or top left - facing south, north echo zero
-    //south -> bot right or bot left - facing north, south echo zero
-    //east - fly forward, turn north or south, fly up/down, stop one before and turn (back to orginal direction - so east)
-
     public String TopLeft(int range, boolean groundFound){
         range = data.getRange();
 
@@ -133,26 +122,21 @@ public class StartPoint{
 
         if (range_y_above == 0 && range_x_left ==0){
             logger.info(range_y_above);
-            logger.info ("hi!");
             data.setTop();
-            return action.scan();
+            return action.scan();//can this be null
         }else{ 
             if (data.getCurrDirection() == "E"){
-                //turn north fly up turn back east - stop one before edge 
                 if (count==0){
-                    logger.info(count);
                     action.changeDirection("N");
                 }else{
-                    logger.info(count);
                     while(range_y_above > 1){
                         data.setRange_y_above(range_y_above--); 
                         return action.fly(); 
                     }
-                    logger.info(range_y_above);
                     data.setTop();
                     return action.changeDirection("E");
                 }
-            }else if(data.getCurrDirection() == "S"){
+            }else if(data.getCurrDirection() == "S"){//repeated with top right second parth 
                 //turn west and go forward turn back south -stop one before 
                 if (count==0){
                     action.changeDirection("W");
@@ -186,7 +170,6 @@ public class StartPoint{
 
         if (range_y_above == 0 && range_x_right ==0){
             logger.info(range_y_above);
-            logger.info ("hi!");
             data.setTop();
             return action.scan();
         }else{ 
@@ -231,14 +214,12 @@ public class StartPoint{
         logger.info("Bot right");
         int count = data.getStage(); 
         logger.info(count);
-
         
         int range_x_right = data.getRange_x_right();
         int range_y_below = data.getRange_y_below(); 
 
         if (range_y_below == 0 && range_x_right ==0){
             logger.info(range_y_below);
-            logger.info ("hi!");
             data.setTop();
             return action.scan();
         }else{ 
@@ -257,7 +238,7 @@ public class StartPoint{
                     return action.changeDirection("W");
                 }
 
-            }else if(data.getCurrDirection() == "N"){
+            }else if(data.getCurrDirection() == "N"){//repeated 
                 if (count==0){
                     action.changeDirection("E");
                 }else{
@@ -289,11 +270,10 @@ public class StartPoint{
 
         if (range_y_below == 0 && range_x_left ==0){
             logger.info(range_y_below);
-            logger.info ("hi!");
             data.setTop();
             return action.scan();
         }else{ 
-            if (data.getCurrDirection() == "W"){
+            if (data.getCurrDirection() == "W"){//repeated with bot right first part
                 if (count==0){
                     logger.info(count);
                     action.changeDirection("S");
@@ -328,34 +308,19 @@ public class StartPoint{
     }
 
     public String Inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
-        if((range_x_left ==0 && range_y_above ==0) || (range_x_left ==0 && range_y_below ==0)){
+        if((range_x_left ==0 && range_y_above ==0) || (range_x_left ==0 && range_y_below ==0) || range_x_left == 0){
             if(data.getCurrDirection().charAt(0) != 'E'){
                 return action.changeDirection("E");
             }else{
                 return action.scan();
             }
-
-        }else if (range_x_right ==0 && range_y_above ==0 || range_x_right ==0 && range_y_below ==0){
+        }else if (range_x_right ==0 && range_y_above ==0 || range_x_right ==0 && range_y_below ==0 || range_x_right ==0){
             if(data.getCurrDirection().charAt(0) != 'W'){
                 return action.changeDirection("W");
             }else{
                 return action.scan();
             }
-
-        }else if (range_x_left == 0){
-            if(data.getCurrDirection().charAt(0) != 'E'){
-                return action.changeDirection("E");
-            }else{
-                return action.scan();
-            }
-
-        }else if (range_x_right ==0){
-            if(data.getCurrDirection().charAt(0) != 'W'){
-                return action.changeDirection("W");
-            }else{
-                return action.scan();
-            }
-
+            
         }else if (range_y_above ==0){
             if(data.getCurrDirection().charAt(0) != 'S'){
                 return action.changeDirection("S");
