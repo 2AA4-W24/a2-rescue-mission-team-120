@@ -13,6 +13,7 @@ public class FindIsland {
     private static String currentDirection;
     private static String newDirection;
     private static Integer count;
+    private static Boolean notInPos;
 
     Data data = new Data();
     Coordinates update = new Coordinates();
@@ -29,7 +30,8 @@ public class FindIsland {
         fly = data.getFly();
         signal = data.getSignal();
         scanned = data.getScanned();
-        count = data.getCountAlgo();
+        count = data.getCounter();
+        notInPos = data.getNotInPos();
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
@@ -38,6 +40,7 @@ public class FindIsland {
         //set foundground to true and start flying in that direction repeatedly until on ground
 
         if ((groundFound && newDirection != currentDirection)){
+            logger.info("NEW SET");
             data.setCurrDirection(newDirection);
             return task.changeDirection(data.getCurrDirection());
         }
@@ -45,8 +48,14 @@ public class FindIsland {
         //if not on ground, scan in directions
         else if (signal == 0 && fly == 1 && scanned == 1){
             if (groundFound){
-                data.setSignal(0); // start flying
-                data.setFly(1);
+                //should activate new pattern to check one pattern back
+                if (notInPos){
+                    logger.info("DOLPHIN");
+                    return getInPos(task, rightDir, leftDir);
+                }
+                logger.info("WHALE");
+                data.setSignal(1); // start flying
+                data.setFly(0);
                 data.setScanned(0);
                 return task.fly();
             }
@@ -55,29 +64,36 @@ public class FindIsland {
                 return checkGround(task, rightDir, leftDir);
             }
         }
-        else if (signal == 0 && fly == 1 && scanned == 0){
-            data.setSignal(1); 
+        else if (signal == 1 && fly == 0 && scanned == 0){
+            update.location(currentDirection);
+            data.setSignal(0); 
             data.setFly(0);
+            data.setScanned(0);
+            return task.scan();
+        }
+        else if (signal == 0 && fly == 0 && scanned == 0){
+            update.location(currentDirection);
+            data.setSignal(0); 
+            data.setFly(1);
             data.setScanned(0);
             return task.fly();
         }
-
-        else if (signal == 1 && fly == 0 && scanned == 0){
-            update.location(currentDirection);
+        else if (signal == 0 && fly == 1 && scanned == 0){
             data.setSignal(1); 
-            data.setFly(1);
-            data.setScanned(1);
-            return task.scan();
-        }
-        else if (scanned == 1 && signal == 1 && fly == 1){
-            data.setSignal(0); 
             data.setFly(1);
             data.setScanned(1);
             return task.echo(currentDirection);
         }
-        /*else if(scanned == 1 && signal == 1 && fly == 1){
+
+        else if (signal == 1 && fly == 1 && scanned == 1){
+            //send back to decision maker
+            update.location(currentDirection);
+            data.setSignal(0); 
+            data.setFly(1);
+            data.setScanned(1);
             return task.fly();
-        }*/
+        }
+
         return decision.toString();
     }
 
@@ -91,11 +107,46 @@ public class FindIsland {
             return task.echo(leftDir);
         } 
         else if (lastChecked == leftDir){
+            //go fly
             data.setLastDirection(currentDirection);
-            data.setSignal(0);
+            data.setSignal(1);
             data.setFly(1);
-            data.setScanned(0);
+            data.setScanned(1);
             return task.echo(currentDirection);
+        }
+        return "";
+    }
+
+    public String getInPos(Actions task, String rightDir, String leftDir){
+        logger.info("GET IN POSITION");
+        if (count == 0){
+            data.setCounter(1);
+            logger.info("SHIT {}", rightDir);
+            data.setNewDirection(rightDir);
+            return task.scan();
+        }
+        else if(count == 1){
+            logger.info("BORISH");
+            data.setCounter(2);
+            return task.fly();
+        }
+        else if (count == 2){
+            data.setCounter(3);
+            logger.info("FUCK {}", leftDir);
+            data.setNewDirection(leftDir);
+            return task.scan();
+        }
+        else if (count == 3){
+            data.setCounter(4);
+            logger.info("YOU {}", leftDir);
+            data.setNewDirection(leftDir);
+            return task.scan();
+        }
+        else if (count == 4){
+            data.setNotInPos(false);
+            logger.info("MAN {}", rightDir);
+            data.setNewDirection(rightDir);
+            return task.scan();
         }
         return "";
     }

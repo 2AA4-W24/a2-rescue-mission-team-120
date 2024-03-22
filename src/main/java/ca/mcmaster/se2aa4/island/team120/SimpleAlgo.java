@@ -174,7 +174,6 @@ public class SimpleAlgo {
                 return decision;
             }
         }
-
         logger.info("BATTER LEVEL BELOW THRESHOLD");
         return action.stop();
     }
