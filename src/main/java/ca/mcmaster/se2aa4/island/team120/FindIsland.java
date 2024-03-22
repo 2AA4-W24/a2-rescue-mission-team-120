@@ -19,7 +19,7 @@ public class FindIsland {
     private static Boolean onGround;
 
     Data data = new Data();
-    Coordinates update = new Coordinates();
+    //Coordinates update = new Coordinates();
 
     public String Finder(){
         Actions task = new Actions();

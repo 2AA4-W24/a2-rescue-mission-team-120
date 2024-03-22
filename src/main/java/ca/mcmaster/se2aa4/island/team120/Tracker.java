@@ -18,13 +18,14 @@ public class Tracker{
 
     static int[] emergency = new int[2];
 
-    private final Logger logger = LogManager.getLogger();
+    private static Logger logger = LogManager.getLogger();
     
     private static int creek_counter = 0; 
     private Coordinates coords = new Coordinates(); 
 
     private static double minDistance = Double.MAX_VALUE;
     private static String closestCreek;
+    private static String ESite;
 
     public void POI(String type, String id){
         
@@ -37,11 +38,11 @@ public class Tracker{
             x_coords.put(id, x);
             y_coords.put(id, y);
             logger.info("creek stored", creek_counter);
-        }else{
+        }else if (type == "Emergency"){
             emergency[0] = x;
             emergency[1]= y; 
-            
-            logger.info("site stored");
+            ESite = id; 
+            logger.info("emergency site {}", id);
         }
     }
 
@@ -50,6 +51,7 @@ public class Tracker{
     }
 
     public static String getEmergencySite(){
+        logger.info(ESite);
         return "Emergency X coordinate: " +emergency[0] + "        Emergency y coordinate: " + emergency[1];
     }
     
@@ -86,7 +88,7 @@ public class Tracker{
     }
 
     public static String getClosetCreekCoords(){
-        String creekID= CurrentClosest();
+        String creekID = CurrentClosest();
         return "Closest Creek X coordinate: " + x_coords.get(creekID)+ "        Closest Creek y coordinate: " + y_coords.get(creekID);
     }
 }

@@ -71,7 +71,7 @@ public class Explorer implements IExplorerRaid {
         checkDone = data.getCheckDone();
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel, checkDone);
+        String decision = decisionMaker.run(currentDirection, groundFound, range, rangeCheck, batteryLevel, startingBatteryLevel, checkDone);
         return decision.toString();
     }
 
@@ -160,6 +160,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("hello");
         logger.info(Tracker.getNumCreeks());
         logger.info(Tracker.getEmergencySite());
+        logger.info(Tracker.CurrentClosest());
         logger.info(Tracker.getClosetCreekCoords());
         return "no creek found";
     }
