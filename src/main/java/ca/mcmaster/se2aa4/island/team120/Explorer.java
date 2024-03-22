@@ -1,3 +1,4 @@
+
 package ca.mcmaster.se2aa4.island.team120;
 
 import java.io.StringReader;
@@ -112,7 +113,7 @@ public class Explorer implements IExplorerRaid {
         }else{
             if(radar.isGround()){
                 range = extraInfo.getInt("range");
-                rangeCheck = 1;
+                rangeCheck = extraInfo.getInt("range");
                 data.setNewDirection(data.getLastDirection());
                 groundFound = true; 
                 data.setReachGround(false);
@@ -156,6 +157,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("hello");
         logger.info(Tracker.getNumCreeks());
         logger.info(Tracker.getEmergencySite());
+        logger.info(Tracker.getClosetCreekCoords());
         return "no creek found";
     }
 }

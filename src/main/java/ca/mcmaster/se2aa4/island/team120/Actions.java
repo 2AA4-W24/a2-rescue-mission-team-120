@@ -30,7 +30,7 @@ public class Actions{
     public String fly(){
         decision.put("action", "fly");
         //updates coordinates based on current facing direction
-        coords.location(data.getCurrDirection()); 
+        coords.flyLocation(data.getCurrDirection()); 
 
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
@@ -38,12 +38,14 @@ public class Actions{
     
     //changes drone direction
     public String changeDirection(String direction){
+        //logger.info("BRUH {}", data.getBeforeTurn());
         decision.put("action", "heading");
         parameters.put("direction", direction);
         decision.put("parameters", parameters);
-        logger.info("** Decision: {}",decision.toString());
         data.setCurrDirection(direction);
-
+        //logger.info("NAHH {}", data.getCurrDirection());
+        //update coordinate based on changed direction
+        coords.turnLocation(data.getBeforeTurn(), data.getCurrDirection());
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
@@ -53,7 +55,6 @@ public class Actions{
         decision.put("action", "echo");
         parameters.put("direction", direction);
         decision.put("parameters", parameters);
-
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }

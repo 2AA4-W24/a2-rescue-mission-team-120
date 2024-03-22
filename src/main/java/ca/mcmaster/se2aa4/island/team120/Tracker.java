@@ -50,10 +50,10 @@ public class Tracker{
     }
 
     public static String getEmergencySite(){
-        return"Emergency X coordinate: " +emergency[0] + "        Emergency y coordinate: " + emergency[1];
+        return "Emergency X coordinate: " +emergency[0] + "        Emergency y coordinate: " + emergency[1];
     }
     
-    public String CurrentClosest(){
+    public static String CurrentClosest(){
         //print out first creek found until emergency site found and then do calculation to find closest creek 
         if (emergency[0] != 0 || emergency[1] != 0) {
             for (Map.Entry<String, Integer> entry : x_coords.entrySet()) {
@@ -67,7 +67,7 @@ public class Tracker{
                     closestCreek = entry.getKey();
                 }
             }
-            logger.info(closestCreek);
+            //logger.info(closestCreek);
             return closestCreek; 
             
         }else{
@@ -76,13 +76,18 @@ public class Tracker{
             
             for (String creekId : x_coords.keySet()){
                 if (currentIndex == middle) {
-                    logger.info(creekId);
+                    //logger.info(creekId);
                     return creekId;
                 }
                 currentIndex++;
             }
         }
         return null; 
+    }
+
+    public static String getClosetCreekCoords(){
+        String creekID= CurrentClosest();
+        return "Closest Creek X coordinate: " + x_coords.get(creekID)+ "        Closest Creek y coordinate: " + y_coords.get(creekID);
     }
 }
 

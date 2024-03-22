@@ -24,6 +24,11 @@ public class Data {
     private static int range_y_below = 0; 
     private static int range_y_above = 0; 
     private static int range; 
+    private static boolean isStartingLeft;
+    public static boolean turned=false;
+    private static boolean inPos = true;
+    private static int counting = 0;
+    private static String beforeTurn;
 
 
     public void setLastDirection(String lastDirection){
@@ -209,6 +214,44 @@ public class Data {
         range_y_below = range;
     }
 
+    public boolean getIsStartingLeft(){
+        return isStartingLeft;
+    }
     
+    public void setIsStartingLeft(boolean newIsStartingLeft){
+        isStartingLeft= newIsStartingLeft;
+    }
 
+    public void setTurned(boolean newTurned){
+        turned= newTurned;
+    }
+
+    public boolean getTurned(){
+        return turned;
+    }
+
+
+    public boolean getNotInPos(){
+        return inPos;
+    }
+
+    public void setNotInPos(boolean notInPos){
+        inPos = notInPos;
+    }
+
+    public int getCounter(){
+        return counting;
+    }
+
+    public void setCounter(int counter){
+        counting = counter;
+    }
+
+    public String getBeforeTurn(){
+        return beforeTurn;
+    }
+
+    public void setBeforeTurn(String beforeTurnDirection){
+        beforeTurn = beforeTurnDirection;
+    }
 }

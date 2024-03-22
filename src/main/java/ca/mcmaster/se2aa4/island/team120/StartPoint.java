@@ -85,6 +85,7 @@ public class StartPoint{
 
             if (range_x_right > range_x_left){
                 if (range_y_below > range_y_above){
+                    data.setIsStartingLeft(true);
                     data.setStage(0); 
                     return TopLeft(range, groundFound);
                 }else{
@@ -94,6 +95,7 @@ public class StartPoint{
 
             }else{
                 if (range_y_below > range_y_above){
+                    data.setIsStartingLeft(false);
                     data.setStage(0); 
                     return TopRight(range, groundFound);
                     
