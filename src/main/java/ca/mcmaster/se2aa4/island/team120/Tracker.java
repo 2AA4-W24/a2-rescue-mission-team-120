@@ -31,7 +31,7 @@ public class Tracker{
         int x = coords.x_coords(); 
         int y = coords.y_coords(); 
 
-        if (type == "Creek"){
+        if (type == "Creek" && !(x_coords.containsKey(id))){
             creek_counter+=1; 
 
             x_coords.put(id, x);
