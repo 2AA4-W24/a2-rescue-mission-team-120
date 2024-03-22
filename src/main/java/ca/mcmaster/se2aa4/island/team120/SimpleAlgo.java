@@ -25,11 +25,6 @@ public class SimpleAlgo implements SearchIsland{
     private boolean checkDone;
     private boolean turned;
 
-
-
-
-
-
     public String search(String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean checkDone){
 
         String decision="";

@@ -28,6 +28,7 @@ public class Data {
     public static boolean turned=false;
     private static boolean inPos = true;
     private static int counting = 0;
+    private static String beforeTurn;
 
 
     public void setLastDirection(String lastDirection){
@@ -244,5 +245,13 @@ public class Data {
 
     public void setCounter(int counter){
         counting = counter;
+    }
+
+    public String getBeforeTurn(){
+        return beforeTurn;
+    }
+
+    public void setBeforeTurn(String beforeTurnDirection){
+        beforeTurn = beforeTurnDirection;
     }
 }

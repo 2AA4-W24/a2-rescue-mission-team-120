@@ -10,8 +10,9 @@ public class Coordinates {
 
     private final Logger logger = LogManager.getLogger();
 
-    public void location(String CurrentDirection){
-        switch (CurrentDirection){
+    public void flyLocation(String currentDirection){
+        logger.info("RAINY DAY");
+        switch (currentDirection){
             case "N":
                 y +=grid;
                 break;
@@ -28,6 +29,51 @@ public class Coordinates {
                 throw new IllegalStateException("INVALID DIRECTION");
         }
     } 
+    public void turnLocation(String beforeTurn, String currentDirection){
+        //need to take 
+        logger.info("SUNNY DAY");
+
+        if (beforeTurn.equals("N")){
+            if (currentDirection.equals("E")){
+                y += grid;
+                x += grid;
+            }
+            else if (currentDirection.equals("W")){
+                y += grid;
+                x -= grid;
+            }
+        }
+        else if (beforeTurn.equals("E")){
+            if (currentDirection.equals("N")){
+                y += grid;
+                x += grid;
+            }
+            else if (currentDirection.equals("S")){
+                y -= grid;
+                x += grid;
+            }
+        }
+        else if (beforeTurn.equals("S")){
+            if (currentDirection.equals("E")){
+                y -= grid;
+                x += grid;
+            }
+            else if (currentDirection.equals("W")){
+                y -= grid;
+                x -= grid;
+            }
+        }
+        else if (beforeTurn.equals("W")){
+            if (currentDirection.equals("N")){
+                y += grid;
+                x -= grid;
+            }
+            else if (currentDirection.equals("S")){
+                y -= grid;
+                x -= grid;
+            }
+        }
+    }
 
     public int x_coords(){
         return x;
