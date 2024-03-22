@@ -2,9 +2,7 @@ package ca.mcmaster.se2aa4.island.team120;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
-import org.json.JSONArray;
-import org.json.JSONTokener;
+
 
 public class SimpleAlgo implements SearchIsland{
     //going to place our orginal algo for creeks - just going up and down the island no face implementations 
@@ -13,216 +11,176 @@ public class SimpleAlgo implements SearchIsland{
     private final Logger logger = LogManager.getLogger();
  
     Actions action= new Actions();
-
-    private int changeDir;
-    private int count;
     Direction direction= new Direction();
     Data data= new Data();
+
+    private int changeDir;
     private int south;
     private int north;
-
+    private int count;
     private boolean left;
-    private boolean checkDone;
     private boolean turned;
-    private static int rangeCheck;
+    private int rangeCheck;
 
     public String search(String currentDirection, int batteryLevel, int startingBatteryLevel, boolean checkDone){
-
-        String decision="";
         this.changeDir= data.getChangeDirAlgo();
         this.count= data.getCountAlgo();
         this.south= data.getSouthAlgo();
         this.north= data.getNorthAlgo();
         this.left= data.getIsStartingLeft();
-        this.checkDone= checkDone;
         this.turned= data.getTurned();
         this.rangeCheck = data.getRangeCheck();
-
-   
-        logger.info("COUNT: " + count );
-        logger.info("CHECK DONE: " + checkDone);
-        logger.info("CHANGE DIR STEP: " + changeDir);
-        logger.info("RANGE CHECK: " + rangeCheck);
 
 
         //once we reach left most island and want to start search
         while(batteryLevel> 0.15*startingBatteryLevel){
-            if(count==0 && rangeCheck>=0 && checkDone){
-                decision= action.scan();
-                data.setCountAlgo(1);
-                return decision;
+            if(rangeCheck>=0 && checkDone){
+                switch(count) {
+                    case 0:
+                        data.setCountAlgo(1);
+                        return action.scan();
+                    case 1:
+                        data.setCountAlgo(2);
+                        return action.echo(currentDirection);
+                    case 2:
+                        logger.info("MAP FLY");
+                        data.setCountAlgo(0);
+                        return action.fly();
+                    default:
+                        throw new IllegalArgumentException("Invalid count value: " + count);
+                }    
             }
-            else if(count==1 && rangeCheck>=0 && changeDir!=6 && checkDone){
-                decision= action.echo(data.getCurrDirection());
-                data.setCountAlgo(2);
-                return decision;
-            }
-            else if(count==2 && rangeCheck>=0 && checkDone){
-                logger.info("MAP FLY");
-                decision= action.fly();
-               
-                data.setCountAlgo(0);
-                return decision;
-            }
-
-            //fly ahead once
-            //scan left if facing up
-            //scan right if facing down
-        
-            else if(rangeCheck<0 && changeDir== 0 ){
-                logger.info("PREPARING FOR TURN. MOVING AHEAD");
-                decision= action.fly();
-                data.setChangeDirAlgo(1);
-                data.setCheckDone(false);
-                data.setCountAlgo(4);
-                return decision;
-            }
-            else if(changeDir== 1 && !checkDone){
-                logger.info("SCAN CAN NEW TILE");
-                decision= action.scan();
-                data.setChangeDirAlgo(2);
-                return decision;
-            }
-            else if(changeDir== 2 && south==1 && !checkDone && !(turned)){
-                logger.info("PREPARING FOR ECHOING LEFT.");
-                decision= action.echo(Direction.left(currentDirection));
-                data.setChangeDirAlgo(3);
-                return decision;
-            }
-            else if(changeDir== 2 && north==1 && !checkDone && !(turned)){
-                logger.info("PREPARING FOR ECHOING RIGHT.");
-                
-                decision= action.echo(Direction.right(currentDirection));
-                data.setChangeDirAlgo(3);
-
-                return decision;
-            }
-            else if(changeDir== 2 && north==1 && !checkDone && turned){
-                logger.info("PREPARING FOR ECHOING LEFT.");
-                decision= action.echo(Direction.left(currentDirection));
-                data.setChangeDirAlgo(3);
-                return decision;
-            }
-            else if(changeDir== 2 && south==1 && !checkDone && turned){
-                logger.info("PREPARING FOR ECHOING RIGHT.");
-                decision= action.echo(Direction.right(currentDirection));
-                data.setChangeDirAlgo(3);
-
-                return decision;
-            }
-
-            else if (rangeCheck>=0 && rangeCheck<=2 && changeDir== 3 && !checkDone){
-                logger.info("CONTINUE MOVING FORWARD");
-                decision= action.fly();
-                data.setChangeDirAlgo(1);
-                return decision;
-            }
-
-            else if((rangeCheck<0 || rangeCheck>2) && changeDir== 3 && left && !checkDone){
-                logger.info("CHECK ECHO");
-                logger.info("TURN STARTING");
-                data.setBeforeTurn(data.getCurrDirection());
-                decision= action.changeDirection("E");
-                data.setChangeDirAlgo(4);
-                return decision;
-            }
-
-            else if((rangeCheck<0 || rangeCheck>2) && changeDir== 3 && !(left) && !checkDone){
-                logger.info("CHECK SCAN");
-                logger.info("TURN STARTING");
-                data.setBeforeTurn(data.getCurrDirection());
-                decision= action.changeDirection("W");
-                data.setChangeDirAlgo(4);
-                return decision;
-            }
-
-
-            else if(changeDir== 4){
-                logger.info("HELLO SECOND DIR STEP");
-                if (currentDirection.equals("E") && south==1){
-                    data.setBeforeTurn(data.getCurrDirection());
-                    decision= action.changeDirection("N");
-                    data.setNorthAlgo(1);
-                    data.setSouthAlgo(0);
-                }
-                else if (currentDirection.equals("E") && north==1){
-                    data.setBeforeTurn(data.getCurrDirection());
-                    decision= action.changeDirection("S");
-                    data.setNorthAlgo(0);
-                    data.setSouthAlgo(1);
-                }
-                else if (currentDirection.equals("W") && south==1){
-                    data.setBeforeTurn(data.getCurrDirection());
-                    decision= action.changeDirection("N");
-                    data.setNorthAlgo(1);
-                    data.setSouthAlgo(0);
-                }
-                else if (currentDirection.equals("W") && north==1){
-                    data.setBeforeTurn(data.getCurrDirection());
-                    decision= action.changeDirection("S");
-                    data.setNorthAlgo(0);
-                    data.setSouthAlgo(1);
-                }
-                
-                data.setChangeDirAlgo(5);
-         
-                return decision;
-            }
-            else if(changeDir== 5){
-                logger.info("THIRD DIR STEP, IN CORRECT POS");
-                decision= action.echo(currentDirection);
-                data.setChangeDirAlgo(6);
-                
-                return decision;
-            }
-            else if(rangeCheck>=0 && changeDir==6){
-                
-                logger.info("TURN SUCCESS");
-             
-                decision= action.scan();
-                data.setCheckDone(true);
-                data.setCountAlgo(0);
-                data.setChangeDirAlgo(0);
-                
-
-                return decision;
-            }
-
-            else if(rangeCheck<0 && changeDir== 6 && !(turned)){
-                data.setInterTurn(true);
-                data.setOnGround(false);
-                data.setFly(1);
-                data.setSignal(0);
-                data.setScanned(1);
-                data.setLastDirection(Direction.left(currentDirection));
-                logger.info("BEYOND ISLAND BOUNDS");
-                decision = action.scan();
-                return decision;
-            }
-            
-            else if(rangeCheck<0 && changeDir== 6 && turned){
-                data.setInterTurn(true);
-                data.setOnGround(false);
-                data.setFly(1);
-                data.setSignal(0);
-                data.setScanned(1);
-                data.setLastDirection(Direction.left(currentDirection));
-                logger.info("BEYOND ISLAND BOUNDS");
-                decision = action.stop();
-                return decision;
+            switch(changeDir) {
+                case 0:
+                    if (rangeCheck<0) {
+                        return firstDirStep();
+                    }
+                    break;
+                case 1:
+                    return secondDirStep();
+                case 2:
+                    return thirdDirStep(currentDirection);
+                case 3:
+                    return fourthDirStep();
+                case 4:
+                    return secondTurn(currentDirection);
+                case 5:
+                    return fifthDirStep(currentDirection);
+                case 6:
+                    return sixthDirStep(currentDirection);
+                    default:
+                        throw new IllegalArgumentException("Invalid changeDir value: " + changeDir);
+                    
             }
         }
-        logger.info("BATTER LEVEL BELOW THRESHOLD");
-        return action.stop();
-    }
-
-    public String stop(){
+        logger.info("BATTERY LEVEL BELOW THRESHOLD");
         return action.stop();
     }
     
-    
 
+    public String firstDirStep(){
+        data.setChangeDirAlgo(1);
+        data.setCheckDone(false);
+        data.setCountAlgo(4);
+        return action.fly();
+    }
 
+    public String secondDirStep(){
+        data.setChangeDirAlgo(2);
+        return action.scan();
+    }
+
+    public String thirdDirStep(String currentDirection){
+        data.setChangeDirAlgo(3);
+        if ((north==1 && turned) || (south==1 && !(turned))){
+            logger.info("PREPARING FOR ECHOING LEFT.");
+            return action.echo(Direction.left(currentDirection));
+        }
+        else{
+            logger.info("PREPARING FOR ECHOING RIGHT.");
+            return action.echo(Direction.right(currentDirection));
+        }
+    }
+
+    public String fourthDirStep(){
+        if(rangeCheck>=0 && rangeCheck<=2){
+            logger.info("CONTINUE MOVING FORWARD");
+            data.setChangeDirAlgo(1);                
+            return action.fly();
+        }
+        else{
+            logger.info("CHECK ECHO");
+            logger.info("TURN STARTING");
+            return firstTurn(left);
+        }
+    }
+
+    public String firstTurn(boolean left){
+        if (left){
+            data.setChangeDirAlgo(4);
+            return action.changeDirection("E");
+        }
+        else{
+            data.setChangeDirAlgo(4);
+            return action.changeDirection("W");
+        }
+
+    }
+
+    public String secondTurn(String currentDirection){
+        data.setChangeDirAlgo(5);
+
+        if ((currentDirection.equals("E")|| currentDirection.equals("W"))  && south==1){
+            data.setNorthAlgo(1);
+            data.setSouthAlgo(0);
+            return action.changeDirection("N");
+        }
+        else{
+            data.setNorthAlgo(0);
+            data.setSouthAlgo(1);
+            return action.changeDirection("S");
+        }
+    }
+
+    public String fifthDirStep(String currentDirection){
+        logger.info("THIRD DIR STEP, IN CORRECT POS");
+        data.setChangeDirAlgo(6);
+        return action.echo(currentDirection);
+
+    }
+
+    public String sixthDirStep(String currentDirection){
+        if(rangeCheck>=0){
+            logger.info("TURN SUCCESS");
+            return turnSuccess();
+        }
+        else{
+            logger.info("BEYOND ISLAND BOUNDS");
+            return beyondMapBounds(currentDirection, turned);
+        }
+    }
+
+    public String turnSuccess(){
+        data.setCheckDone(true);
+        data.setCountAlgo(0);
+        data.setChangeDirAlgo(0);
+        return action.scan();
+    }
+
+    public String beyondMapBounds(String currentDirection, boolean turned){
+        data.setInterTurn(true);
+        data.setOnGround(false);
+        data.setFly(1);
+        data.setSignal(0);
+        data.setScanned(1);
+        data.setLastDirection(Direction.left(currentDirection));
+        if(!turned){
+            return action.scan();
+        }
+        else{
+            return action.stop();
+        }
+    }
 }
 
 

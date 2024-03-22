@@ -108,8 +108,8 @@ public class Explorer implements IExplorerRaid {
         logger.info("hello");
         logger.info(Tracker.getNumCreeks());
         logger.info(Tracker.getEmergencySite());
-        logger.info(Tracker.getClosetCreekCoords());
         logger.info(Tracker.CurrentClosest());
+        logger.info(Tracker.getClosetCreekCoords());
         return "no creek found";
     }
 }
