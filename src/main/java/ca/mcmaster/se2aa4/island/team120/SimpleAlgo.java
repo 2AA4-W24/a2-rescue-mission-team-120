@@ -117,10 +117,12 @@ public class SimpleAlgo implements SearchIsland{
 
     public String firstTurn(boolean left){
         if (left){
+            data.setBeforeTurn(data.getCurrDirection());
             data.setChangeDirAlgo(4);
             return action.changeDirection("E");
         }
         else{
+            data.setBeforeTurn(data.getCurrDirection());
             data.setChangeDirAlgo(4);
             return action.changeDirection("W");
         }
@@ -131,11 +133,13 @@ public class SimpleAlgo implements SearchIsland{
         data.setChangeDirAlgo(5);
 
         if ((currentDirection.equals("E")|| currentDirection.equals("W"))  && south==1){
+            data.setBeforeTurn(data.getCurrDirection());
             data.setNorthAlgo(1);
             data.setSouthAlgo(0);
             return action.changeDirection("N");
         }
         else{
+            data.setBeforeTurn(data.getCurrDirection());
             data.setNorthAlgo(0);
             data.setSouthAlgo(1);
             return action.changeDirection("S");
