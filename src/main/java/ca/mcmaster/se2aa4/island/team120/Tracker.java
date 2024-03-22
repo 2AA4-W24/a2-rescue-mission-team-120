@@ -42,8 +42,12 @@ public class Tracker{
         }
     }
 
-    public int getNumCreeks(){
+    public static int getNumCreeks(){
         return creek_counter;
+    }
+
+    public static String getEmergencySite(){
+        return"Emergency X coordinate: " +emergency[0] + "        Emergency y coordinate: " + emergency[1];
     }
 
     public int currentClosest(){

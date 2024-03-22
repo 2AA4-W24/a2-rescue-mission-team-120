@@ -28,6 +28,7 @@ public class Explorer implements IExplorerRaid {
     private Integer startingBatteryLevel;
     private Integer count = 0; 
     private Integer rangeCheck = 0;
+    private Boolean checkDone;
 
     private int x;
     private int y; 
@@ -36,23 +37,22 @@ public class Explorer implements IExplorerRaid {
     Data data = new Data();
     Coordinates update = new Coordinates();
 
+
     @Override
     public void initialize(String s) {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}",info.toString(2));
 
-        //currentDirection = info.getString("heading");
         data.setCurrDirection(info.getString("heading"));
+        logger.info("heading {}", info.getString("heading"));
+        logger.info("direction {}", data.getCurrDirection());
         data.setLastDirection(data.getCurrDirection());
         data.setNewDirection(data.getCurrDirection());
         data.setFly(1);
         data.setSignal(0);
         data.setScanned(1);
         data.setStage(0);
-
-        //Data data = new Data();
-        //lastChecked = currentDirection;
 
         batteryLevel = info.getInt("budget");
         startingBatteryLevel = info.getInt("budget");
@@ -67,12 +67,10 @@ public class Explorer implements IExplorerRaid {
         scanned= data.getScanned();
         currentDirection = data.getCurrDirection();
         lastChecked= data.getLastDirection();
-        newDirection = data.getNewDirection();
-        onGround = data.getOnGround();
-        reachGround = data.getReachGround();
+        checkDone = data.getCheckDone();
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, lastChecked, fly, signal, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel);
+        String decision = decisionMaker.run(currentDirection, newDirection, onGround, groundFound, scanned, range, rangeCheck, batteryLevel, startingBatteryLevel, checkDone);
         return decision.toString();
     }
 
@@ -86,7 +84,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("The cost of the action was {}", cost);
         
         batteryLevel -= cost; 
-        logger.info("Remaining battery{}", batteryLevel);
+        logger.info("Remaining battery {}", batteryLevel);
 
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
@@ -115,7 +113,7 @@ public class Explorer implements IExplorerRaid {
             if(radar.isGround()){
                 range = extraInfo.getInt("range");
                 rangeCheck = 1;
-                data.setNewDirection(data.getLastDirection());
+                newDirection = data.getLastDirection();
                 groundFound = true; 
                 data.setReachGround(false);
                 if (range == 0){
@@ -132,11 +130,21 @@ public class Explorer implements IExplorerRaid {
         logger.info("past echo");
 
         if(scan.isScanned()){
+            scan.isCreek();
+            scan.isSite();
             //CHECK IF DRONE IS IN AN OCEAN ON SCAN, SET A NEW DIRECTION FOR A LOST
             if(!scan.verifyBiome()){
                 logger.info("IN THE OCEAN");
+                //if previously on island but now no longer on the island, update onGround to look for ground again
+                if (onGround){
+                    newDirection = Direction.left(currentDirection);
+                    logger.info("NEW DIRECTION LOST {}", newDirection);
+                    //onGround = false;
+                
+                }
             }
             else{
+
                 JSONArray biomes = extraInfo.getJSONArray("biomes");
                 logger.info("YOU'RE ON {}", biomes);
             }
@@ -144,7 +152,10 @@ public class Explorer implements IExplorerRaid {
     }
 
     @Override
-    public String deliverFinalReport() {//code does not run to this point? how does bot work exactly
+    public String deliverFinalReport() {
+        logger.info("hello");
+        logger.info(Tracker.getNumCreeks());
+        logger.info(Tracker.getEmergencySite());
         return "no creek found";
     }
 }

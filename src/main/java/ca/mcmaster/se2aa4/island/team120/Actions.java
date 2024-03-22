@@ -17,37 +17,50 @@ public class Actions{
     JSONObject parameters = new JSONObject();
    
 
+    Tracker track = new Tracker();
+
+    //allows coordinate updates when fly action is called
     Coordinates coords = new Coordinates(); 
+
+    //allows current direction to be updated when changing heading
     Data data = new Data(); 
 
 
+    //drone flying action
     public String fly(){
-       decision.put("action", "fly");
-       coords.location(data.getCurrDirection()); 
-       logger.info("** Decision: {}",decision.toString());
+        decision.put("action", "fly");
+        //updates coordinates based on current facing direction
+        coords.location(data.getCurrDirection()); 
+
+        logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
     
+    //changes drone direction
     public String changeDirection(String direction){
         decision.put("action", "heading");
         parameters.put("direction", direction);
         decision.put("parameters", parameters);
         logger.info("** Decision: {}",decision.toString());
         data.setCurrDirection(direction);
+
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
 
+    //echoes drone in inputted direction
     public String echo(String direction){
         decision.put("action", "echo");
         parameters.put("direction", direction);
         decision.put("parameters", parameters);
+
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
 
     public String scan(){
         decision.put("action", "scan");
+
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
@@ -57,4 +70,6 @@ public class Actions{
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }
+
+
 }

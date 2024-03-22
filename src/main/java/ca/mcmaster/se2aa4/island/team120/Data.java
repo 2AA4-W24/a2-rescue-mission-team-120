@@ -17,6 +17,7 @@ public class Data {
     private static boolean reached = false;
     private static boolean goNorth = false;
     private static boolean goSouth = false;
+    private static boolean checkDone= true;
     private static boolean top = false;
     private static int range_x_right = 0;
     private static int range_x_left = 0;
@@ -31,6 +32,7 @@ public class Data {
     public String getLastDirection(){
         return last;
     }
+    
 
     public void setSignal(int lastSignal){
         signal= lastSignal;
@@ -49,6 +51,7 @@ public class Data {
         return fly;
     }
 
+
     public void setScanned(int lastScanned){
         scanned= lastScanned;
     }
@@ -56,6 +59,7 @@ public class Data {
     public int getScanned(){
         return scanned;
     }
+
 
     public void setCurrDirection(String currentDirection){
         current = currentDirection;
@@ -81,6 +85,7 @@ public class Data {
         count=nextCountAlgo;
     }
 
+
     public int getChangeDirAlgo(){
         return changeDir;
     }
@@ -88,6 +93,8 @@ public class Data {
     public void setChangeDirAlgo(int nextChangeDirAlgo){
         changeDir= nextChangeDirAlgo;
     }
+
+
     public int getSouthAlgo(){
         return south;
     }
@@ -95,6 +102,7 @@ public class Data {
     public void setSouthAlgo(int newSouth){
         south= newSouth;
     }
+
 
     public int getNorthAlgo(){
         return north;
@@ -144,6 +152,15 @@ public class Data {
     public void setGoSouth(boolean south){
         goSouth = south;
     }
+
+    public boolean getCheckDone(){
+        return checkDone;
+    }
+
+    public void setCheckDone(boolean newCheckDone){
+        checkDone= newCheckDone;
+    }
+
     public int getStage(){
         return stage;
     }
