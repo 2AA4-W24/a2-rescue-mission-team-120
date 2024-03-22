@@ -48,6 +48,7 @@ public class Explorer implements IExplorerRaid {
         data.setCurrDirection(info.getString("heading"));
         logger.info("heading {}", info.getString("heading"));
         logger.info("direction {}", data.getCurrDirection());
+
         data.setLastDirection(data.getCurrDirection());
         data.setNewDirection(data.getCurrDirection());
         data.setFly(1);
@@ -71,7 +72,7 @@ public class Explorer implements IExplorerRaid {
         checkDone = data.getCheckDone();
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, groundFound, range, rangeCheck, batteryLevel, startingBatteryLevel, checkDone);
+        String decision = decisionMaker.run(batteryLevel, startingBatteryLevel);
         return decision.toString();
     }
 
@@ -100,59 +101,6 @@ public class Explorer implements IExplorerRaid {
 
         DecisionBoard updateInfo = new DecisionBoard();
         updateInfo.makeDecision(response);
-        /* 
-       
-        //check what direction is being echoed in
-        JSONObject extraInfo = response.getJSONObject("extras");
-        logger.info("Additional information received: {}", extraInfo);
-
-        Radar radar = new Radar(extraInfo);
-        PhotoScanner scan = new PhotoScanner(extraInfo);
-        //lastChecked = FindIsland.returnLastChecked();
-    
-        if (!radar.isEchoed()){
-            groundFound = groundFound;
-        }else{
-            if(radar.isGround()){
-                range = extraInfo.getInt("range");
-                rangeCheck = extraInfo.getInt("range");
-                data.setNewDirection(data.getLastDirection());
-                groundFound = true; 
-                data.setReachGround(false);
-                if (range == 0){
-                    data.setOnGround(true);
-                    data.setReachGround(true);
-                    logger.info("REACHED ZERO");
-                }
-            }else{
-                range = extraInfo.getInt("range");
-                rangeCheck = -1;
-                groundFound = false;
-            }
-        }
-        logger.info("past echo");
-
-        if(scan.isScanned()){
-            scan.isCreek();
-            scan.isSite();
-            //CHECK IF DRONE IS IN AN OCEAN ON SCAN, SET A NEW DIRECTION FOR A LOST
-            if(!scan.verifyBiome()){
-                logger.info("IN THE OCEAN");
-                //if previously on island but now no longer on the island, update onGround to look for ground again
-                if (onGround){
-                    newDirection = Direction.left(currentDirection);
-                    logger.info("NEW DIRECTION LOST {}", newDirection);
-                    //onGround = false;
-                
-                }
-            }
-            else{
-
-                JSONArray biomes = extraInfo.getJSONArray("biomes");
-                logger.info("YOU'RE ON {}", biomes);
-            }
-        }
-        */
     }
 
     @Override
