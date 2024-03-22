@@ -33,7 +33,7 @@ public class SimpleAlgo implements SearchIsland{
 
 
         //once we reach left most island and want to start search
-        while(batteryLevel> 0.15*startingBatteryLevel){
+        while(batteryLevel> 0.175*startingBatteryLevel){
             if(rangeCheck>=0 && checkDone){
                 switch(count) {
                     case 0:
