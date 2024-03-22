@@ -31,7 +31,7 @@ public class Tracker{
         int x = coords.x_coords(); 
         int y = coords.y_coords(); 
 
-        if (type == "Creek"){
+        if (type == "Creek" && !(x_coords.containsKey(id))){
             creek_counter+=1; 
 
             x_coords.put(id, x);
@@ -60,7 +60,7 @@ public class Tracker{
                 int CreekX = entry.getValue();
                 int CreekY = y_coords.get(entry.getKey());
 
-                double tempDistance = Math.sqrt(Math.pow(emergency[0] - CreekX, 2) + Math.pow(emergency[1] - CreekY, 2)); 
+                double tempDistance = Math.sqrt(Math.pow(Math.abs(emergency[0]) -  Math.abs(CreekX), 2) + Math.pow(Math.abs(emergency[1]) - Math.abs(CreekY), 2)); 
 
                 if (tempDistance<minDistance){
                     minDistance = tempDistance;
