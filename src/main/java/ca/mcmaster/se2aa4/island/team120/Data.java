@@ -26,6 +26,9 @@ public class Data {
     private static int range; 
     private static boolean isStartingLeft;
     public static boolean turned=false;
+    private static boolean inPos = true;
+    private static int counting = 0;
+
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -227,5 +230,19 @@ public class Data {
     }
 
 
+    public boolean getNotInPos(){
+        return inPos;
+    }
 
+    public void setNotInPos(boolean notInPos){
+        inPos = notInPos;
+    }
+
+    public int getCounter(){
+        return counting;
+    }
+
+    public void setCounter(int counter){
+        counting = counter;
+    }
 }

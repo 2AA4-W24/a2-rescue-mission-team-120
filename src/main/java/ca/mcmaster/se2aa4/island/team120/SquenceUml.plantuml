@@ -4,6 +4,9 @@ title Drone Rescue Mission
 actor CommandCenter as "Command Center"
 participant Explorer as "Explorer"
 participant NavigationSystem as "Navigation System"
+participant StartPoint as "StartPoint"
+participant FindIsland as "FindIsland"
+participant GridSearch as "GridSearch"
 participant Radar as "Radar"
 participant Coordinates as "Coordinates"
 participant Scanner as "Scanner"
@@ -11,23 +14,30 @@ participant Tracker as "Tracker"
 
 
 CommandCenter -> Explorer: Initiate Rescue Mission
-Explorer -> NavigationSystem: Take Decision
-
+Explorer -> NavigationSystem: Phase 1: Starting Point
+loop until in one of four corners
+    NavigationSystem -> StartPoint: Update Counter
+    Radar -> StartPoint: Get Current location
+    NavigationSystem -> Coordinates: Fly and Update Coordinates
+end
+StartPoint -> NavigationSystem: Next Phase 
+NavigationSystem-> FindIsland: Phase 2: Find Land
 loop until Land is Found
-    NavigationSystem -> Radar: Travel to location
-    NavigationSystem -> Coordinates: Update Coordinates
-    Radar -> Radar: Check for land
-    Radar -> NavigationSystem: Return results
+    NavigationSystem -> FindIsland: Find Island
+    FindIsland -> Radar: Echo for land
+    FindIsland-> Coordinates: Update Coordinates
+    FindIsland -> NavigationSystem: Land found?
 end
-NavigationSystem -> Explorer: Land found
-Explorer --> NavigationSystem: Continue Exploration
+FindIsland -> NavigationSystem: Next Phase
+Explorer --> NavigationSystem: Phase 3: Traverse Land
+NavigationSystem -> GridSearch: Travel on island
 loop until Points of Interest Found
-    NavigationSystem -> Coordinates: Update Coordinates
-    NavigationSystem -> Scanner: Check for Points of Interest
-    Scanner --> NavigationSystem: Points of Interest found
-    NavigationSystem -> Tracker: Track Points of Interest
-    Tracker --> NavigationSystem: Points of Interest Tracked
+    GridSearch -> Scanner: Check for Points of Interest
+    Scanner --> GridSearch : Points of Interest found
+    GridSearch  -> Tracker: Track Points of Interest
+    Tracker --> GridSearch: Points of Interest Tracked, Keep Searching
 end
-Explorer -> CommandCenter: Return Closest Creek to Emergency Site
+Tracker -> Explorer: Return POI information 
+Explorer -> CommandCenter: Output Closest Creek to Emergency Site
 @enduml
 

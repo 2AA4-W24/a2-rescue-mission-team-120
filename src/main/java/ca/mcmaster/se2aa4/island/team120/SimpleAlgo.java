@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONTokener;
 
-public class SimpleAlgo {
+public class SimpleAlgo implements SearchIsland{
     //going to place our orginal algo for creeks - just going up and down the island no face implementations 
     //NEED TO CREATE INTERFACE FOR ALL ALGOS THAT GO IN NAVIGATION SYSTEM 
 
@@ -184,20 +184,30 @@ public class SimpleAlgo {
                 return decision;
             }
 
-            else if(rangeCheck<0 && changeDir== 6){
+            else if(rangeCheck<0 && changeDir== 6 && !(turned)){
                 data.setInterTurn(true);
                 data.setOnGround(false);
                 data.setFly(1);
                 data.setSignal(0);
                 data.setScanned(1);
                 data.setLastDirection(Direction.left(currentDirection));
-                logger.info("BEYOND MAP BOUNDS");
+                logger.info("BEYOND ISLAND BOUNDS");
                 decision = action.scan();
                 return decision;
             }
             
+            else if(rangeCheck<0 && changeDir== 6 && turned){
+                data.setInterTurn(true);
+                data.setOnGround(false);
+                data.setFly(1);
+                data.setSignal(0);
+                data.setScanned(1);
+                data.setLastDirection(Direction.left(currentDirection));
+                logger.info("BEYOND ISLAND BOUNDS");
+                decision = action.stop();
+                return decision;
+            }
         }
-
         logger.info("BATTER LEVEL BELOW THRESHOLD");
         return action.stop();
     }
