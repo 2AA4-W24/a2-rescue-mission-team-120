@@ -10,16 +10,20 @@ public class NavigationSystem {
     private final Logger logger = LogManager.getLogger();
 
     FindIsland island = new FindIsland();
-    SimpleAlgo run = new SimpleAlgo();
+    SimpleAlgo algoRun = new SimpleAlgo();
     InterTurn interlace = new InterTurn();
     
     StartPoint start = new StartPoint(); 
     Data data = new Data(); 
+    Coordinates coords = new Coordinates();
     private static boolean interTurn;
+    private static boolean turned;
 
     public String run(String currentDirection, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean checkDone){  
         interTurn = data.getInterTurn();
         onGround = data.getOnGround();
+        turned= data.getTurned();
+        logger.info("COORDINATES: " + "[" + coords.x_coords() + ", " + coords.y_coords() + "]" );
 
         if(!(data.getTop())){
             logger.info("running top");
@@ -30,10 +34,18 @@ public class NavigationSystem {
             return island.Finder(newDirection, onGround, groundFound); 
         }
         else if(interTurn){
+            data.setTurned(true);
+            
             return interlace.Turn(newDirection, groundFound, range);
         }
+        else if(!(interTurn) && turned){
+            return algoRun.search(currentDirection, rangeCheck, batteryLevel, startingBatteryLevel, checkDone); 
+        }
+        else if (!(interTurn) && !(turned)){
+            return algoRun.search(currentDirection, rangeCheck, batteryLevel, startingBatteryLevel, checkDone); 
+        }
         else{
-            return run.search(currentDirection, rangeCheck, batteryLevel, startingBatteryLevel, true, checkDone); 
+            return algoRun.stop();
         }
     }
 

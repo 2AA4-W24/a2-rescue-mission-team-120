@@ -24,7 +24,8 @@ public class Data {
     private static int range_y_below = 0; 
     private static int range_y_above = 0; 
     private static int range; 
-
+    private static boolean isStartingLeft;
+    public static boolean turned=false;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -209,6 +210,22 @@ public class Data {
         range_y_below = range;
     }
 
+    public boolean getIsStartingLeft(){
+        return isStartingLeft;
+    }
     
+    public void setIsStartingLeft(boolean newIsStartingLeft){
+        isStartingLeft= newIsStartingLeft;
+    }
+
+    public void setTurned(boolean newTurned){
+        turned= newTurned;
+    }
+
+    public boolean getTurned(){
+        return turned;
+    }
+
+
 
 }

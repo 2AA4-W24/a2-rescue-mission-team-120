@@ -23,16 +23,23 @@ public class SimpleAlgo {
 
     private boolean left;
     private boolean checkDone;
+    private boolean turned;
 
-    public String search(String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean left, boolean checkDone){
+
+
+
+
+
+    public String search(String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean checkDone){
 
         String decision="";
         this.changeDir= data.getChangeDirAlgo();
         this.count= data.getCountAlgo();
         this.south= data.getSouthAlgo();
         this.north= data.getNorthAlgo();
-        this.left= left;
+        this.left= data.getIsStartingLeft();
         this.checkDone= checkDone;
+        this.turned= data.getTurned();
 
    
         logger.info("COUNT: " + count );
@@ -78,13 +85,26 @@ public class SimpleAlgo {
                 data.setChangeDirAlgo(2);
                 return decision;
             }
-            else if(changeDir== 2 && south==1 && !checkDone){
+            else if(changeDir== 2 && south==1 && !checkDone && !(turned)){
                 logger.info("PREPARING FOR ECHOING LEFT.");
                 decision= action.echo(Direction.left(currentDirection));
                 data.setChangeDirAlgo(3);
                 return decision;
             }
-            else if(changeDir== 2 && north==1 && !checkDone){
+            else if(changeDir== 2 && north==1 && !checkDone && !(turned)){
+                logger.info("PREPARING FOR ECHOING RIGHT.");
+                decision= action.echo(Direction.right(currentDirection));
+                data.setChangeDirAlgo(3);
+
+                return decision;
+            }
+            else if(changeDir== 2 && north==1 && !checkDone && turned){
+                logger.info("PREPARING FOR ECHOING LEFT.");
+                decision= action.echo(Direction.left(currentDirection));
+                data.setChangeDirAlgo(3);
+                return decision;
+            }
+            else if(changeDir== 2 && south==1 && !checkDone && turned){
                 logger.info("PREPARING FOR ECHOING RIGHT.");
                 decision= action.echo(Direction.right(currentDirection));
                 data.setChangeDirAlgo(3);
@@ -159,6 +179,8 @@ public class SimpleAlgo {
                 data.setCheckDone(true);
                 data.setCountAlgo(0);
                 data.setChangeDirAlgo(0);
+                
+
                 return decision;
             }
 
@@ -173,9 +195,20 @@ public class SimpleAlgo {
                 decision = action.scan();
                 return decision;
             }
+            
         }
 
         logger.info("BATTER LEVEL BELOW THRESHOLD");
         return action.stop();
     }
+
+    public String stop(){
+        return action.stop();
+    }
+    
+    
+
+
 }
+
+

@@ -144,10 +144,14 @@ public class InterTurn{
                 data.setCountAlgo(3);
                 if (goNorth){
                     logger.info("GOING SOUTH");
+                    data.setSouthAlgo(1);
+                    data.setNorthAlgo(0);
                     return task.changeDirection("S");
 
                 }else if(goSouth){
                     logger.info("GOING NORTH");
+                    data.setSouthAlgo(0);
+                    data.setNorthAlgo(1);
                     return task.changeDirection("N");
 
                 }
@@ -171,13 +175,14 @@ public class InterTurn{
                 data.setCountAlgo(3);
                 return task.fly();
             }
-            else if(count ==5){
+            else if(count==5){
                 data.setCountAlgo(6);
                 return task.scan();
             }
-            else if(count ==6){
+            else if(count==6){
                 data.setInterTurn(false);
-                return task.stop();
+                data.setIsStartingLeft(!(data.getIsStartingLeft()));
+                return task.scan();
             }
         }
         // if last direction is left of curr direction then it should turn left again...

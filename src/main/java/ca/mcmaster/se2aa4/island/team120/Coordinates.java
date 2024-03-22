@@ -14,19 +14,15 @@ public class Coordinates {
         switch (CurrentDirection){
             case "N":
                 y +=grid;
-                logger.info(y);
                 break;
             case "W":
                 x -=grid;
-                logger.info(x);
                 break;
             case "S":
                 y -= grid;
-                logger.info(y);
                 break;
             case "E":
                 x+=grid;
-                logger.info(x);
                 break;
             default:
                 throw new IllegalStateException("INVALID DIRECTION");
