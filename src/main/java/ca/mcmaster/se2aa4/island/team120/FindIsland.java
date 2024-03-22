@@ -15,11 +15,13 @@ public class FindIsland {
     private static Integer count;
     private static Boolean notInPos;
     private static String beforeTurn;
+    private static Boolean groundFound;
+    private static Boolean onGround;
 
     Data data = new Data();
     Coordinates update = new Coordinates();
 
-    public String Finder(String newDirection, boolean onGround, boolean groundFound){
+    public String Finder(){
         Actions task = new Actions();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -28,6 +30,8 @@ public class FindIsland {
         lastChecked = data.getLastDirection();
         newDirection = data.getNewDirection();
         beforeTurn = data.getBeforeTurn();
+        groundFound = data.getGroundFound();
+        onGround = data.getOnGround();
 
         fly = data.getFly();
         signal = data.getSignal();
@@ -42,6 +46,7 @@ public class FindIsland {
         //set foundground to true and start flying in that direction repeatedly until on ground
 
         if ((groundFound && newDirection != currentDirection)){
+            logger.info("ONGROUND? {}", onGround);
             logger.info("NEW SET");
             data.setBeforeTurn(currentDirection);
             data.setCurrDirection(newDirection);

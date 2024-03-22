@@ -98,7 +98,9 @@ public class Explorer implements IExplorerRaid {
             deliverFinalReport();
         }
 
-        //DecisionBoard updateInfo = new DecisionBoard();
+        DecisionBoard updateInfo = new DecisionBoard();
+        updateInfo.makeDecision(response);
+        /* 
        
         //check what direction is being echoed in
         JSONObject extraInfo = response.getJSONObject("extras");
@@ -150,6 +152,7 @@ public class Explorer implements IExplorerRaid {
                 logger.info("YOU'RE ON {}", biomes);
             }
         }
+        */
     }
 
     @Override

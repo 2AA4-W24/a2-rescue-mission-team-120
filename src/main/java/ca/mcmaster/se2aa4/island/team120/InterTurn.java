@@ -16,6 +16,8 @@ public class InterTurn{
     private static boolean reachGround;
     private static boolean goSouth;
     private static boolean goNorth;
+    private static Integer range;
+    private static boolean groundFound;
 
     /* 
     turning mechanism for interlacing after done traversing once
@@ -43,7 +45,7 @@ public class InterTurn{
     Data data = new Data();
     Coordinates update = new Coordinates();
 
-    public String Turn(String newDirection, boolean groundFound, int range){
+    public String Turn(){
         Actions task = new Actions();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
@@ -59,6 +61,8 @@ public class InterTurn{
         onGround = data.getOnGround();
         goNorth = data.getGoNorth();
         goSouth = data.getGoSouth();
+        range = data.getRange();
+        groundFound = data.getGroundFound();
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);

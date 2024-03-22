@@ -24,8 +24,9 @@ public class SimpleAlgo implements SearchIsland{
     private boolean left;
     private boolean checkDone;
     private boolean turned;
+    private static int rangeCheck;
 
-    public String search(String currentDirection, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean checkDone){
+    public String search(String currentDirection, int batteryLevel, int startingBatteryLevel, boolean checkDone){
 
         String decision="";
         this.changeDir= data.getChangeDirAlgo();
@@ -35,11 +36,14 @@ public class SimpleAlgo implements SearchIsland{
         this.left= data.getIsStartingLeft();
         this.checkDone= checkDone;
         this.turned= data.getTurned();
+        this.rangeCheck = data.getRangeCheck();
 
    
         logger.info("COUNT: " + count );
         logger.info("CHECK DONE: " + checkDone);
         logger.info("CHANGE DIR STEP: " + changeDir);
+        logger.info("RANGE CHECK: " + rangeCheck);
+
 
         //once we reach left most island and want to start search
         while(batteryLevel> 0.15*startingBatteryLevel){
@@ -50,7 +54,6 @@ public class SimpleAlgo implements SearchIsland{
             }
             else if(count==1 && rangeCheck>=0 && changeDir!=6 && checkDone){
                 decision= action.echo(data.getCurrDirection());
-           
                 data.setCountAlgo(2);
                 return decision;
             }

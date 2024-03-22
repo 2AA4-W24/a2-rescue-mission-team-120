@@ -19,6 +19,7 @@ public class StartPoint{
 
     public int x_size; 
     public int y_size; 
+    public static int range; 
 
     int range_x_right;
     int range_x_left;
@@ -26,6 +27,7 @@ public class StartPoint{
     int range_y_above; 
     
     public String FourCorners(int range, boolean groundFound){
+        range = data.getRange();
         int count = data.getStage(); 
         logger.info(count);  
 
@@ -120,6 +122,8 @@ public class StartPoint{
     //east - fly forward, turn north or south, fly up/down, stop one before and turn (back to orginal direction - so east)
 
     public String TopLeft(int range, boolean groundFound){
+        range = data.getRange();
+
         //top left
         logger.info("Top Left");
         int count = data.getStage(); 
@@ -170,6 +174,8 @@ public class StartPoint{
   
     
     public String TopRight(int range, boolean groundFound){
+        range = data.getRange();
+
         //top right
         logger.info("Top right");
         int count = data.getStage(); 
@@ -219,6 +225,8 @@ public class StartPoint{
     }
 
     public String BotRight(int range, boolean groundFound){
+        range = data.getRange();
+
         //top right
         logger.info("Bot right");
         int count = data.getStage(); 
@@ -269,6 +277,8 @@ public class StartPoint{
     }
 
     public String BotLeft(int range, boolean groundFound){
+        range = data.getRange();
+
         //top right
         logger.info("Bot left");
         int count = data.getStage(); 

@@ -30,6 +30,9 @@ public class Data {
     private static int counting = 0;
     private static String beforeTurn;
 
+    private static int rangeChecker = -1;
+    private static boolean groundLocated;
+
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -253,5 +256,31 @@ public class Data {
 
     public void setBeforeTurn(String beforeTurnDirection){
         beforeTurn = beforeTurnDirection;
+    }
+
+    //
+
+    public int getRangeCheck(){
+        return rangeChecker;
+    }
+
+    public void setRangeCheck(int rangeCheck){
+        rangeChecker = rangeCheck;
+    }
+
+    public boolean getGroundFound(){
+        return groundLocated;
+    }
+
+    public void setGroundFound(boolean groundFound){
+        groundLocated = groundFound;
+    }
+
+    public int getRange(){
+        return range;
+    }
+
+    public void setRange(int rangeInt){
+        range = rangeInt;
     }
 }

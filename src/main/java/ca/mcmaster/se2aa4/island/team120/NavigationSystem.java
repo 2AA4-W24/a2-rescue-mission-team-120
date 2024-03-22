@@ -18,6 +18,7 @@ public class NavigationSystem implements MissionType{
     Coordinates coords = new Coordinates();
     private static boolean interTurn;
     private static boolean turned;
+    private static boolean onGround;
 
     public String run(String currentDirection, String newDirection, boolean onGround, boolean groundFound, int scanned, int range, int rangeCheck, int batteryLevel, int startingBatteryLevel, boolean checkDone){  
         interTurn = data.getInterTurn();
@@ -31,18 +32,18 @@ public class NavigationSystem implements MissionType{
         }
         else if (!onGround && !interTurn){
             logger.info("inter hey {}", onGround);
-            return island.Finder(newDirection, onGround, groundFound); 
+            return island.Finder(); 
         }
         else if(interTurn){
             data.setTurned(true);
             
-            return interlace.Turn(newDirection, groundFound, range);
+            return interlace.Turn();
         }
         else if(!(interTurn) && turned){
-            return algoRun.search(currentDirection, rangeCheck, batteryLevel, startingBatteryLevel, checkDone); 
+            return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
         }
         else if (!(interTurn) && !(turned)){
-            return algoRun.search(currentDirection, rangeCheck, batteryLevel, startingBatteryLevel, checkDone); 
+            return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
         }
         else{
             return algoRun.stop();
