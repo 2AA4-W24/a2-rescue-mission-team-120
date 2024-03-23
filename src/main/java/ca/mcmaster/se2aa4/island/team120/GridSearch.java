@@ -5,9 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 
 public class GridSearch implements SearchIsland{
-    //going to place our orginal algo for creeks - just going up and down the island no face implementations 
-    //NEED TO CREATE INTERFACE FOR ALL ALGOS THAT GO IN NAVIGATION SYSTEM 
-
     Actions action= new Actions();
     Direction direction= new Direction();
     Data data= new Data();
@@ -228,9 +225,6 @@ public class GridSearch implements SearchIsland{
     private String beyondMapBounds(String currentDirection, boolean hasChangedDir){
         data.setInterTurn(true);
         data.setOnGround(false);
-        //data.setFly(1);
-        //data.setSignal(0);
-        //data.setScanned(1);
         data.setPhase(0);
         data.setLastDirection(Direction.left(currentDirection));
 
