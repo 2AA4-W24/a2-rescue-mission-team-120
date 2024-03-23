@@ -17,15 +17,7 @@ public class Explorer implements IExplorerRaid {
 
     private Integer startingBatteryLevel;
     private Integer count = 0; 
-    private Integer rangeCheck = 0;
-
-    private int x;
-    private int y; 
-    
-    Actions actions = new Actions();
     Data data = new Data();
-    Coordinates update = new Coordinates();
-
 
     @Override
     public void initialize(String s) {

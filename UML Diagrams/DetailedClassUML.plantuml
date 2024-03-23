@@ -1,0 +1,100 @@
+@startuml
+
+    class NavigationSystem {
+        -island: FindIsland
+        -algoRun: GridSearch
+        -interlace: InterTurn
+        -start: StartPoint
+        -data: Data
+        -coords: Coordinates
+        -action: Actions
+
+        +run(batteryLevel: int, startingBatteryLevel: int): String
+    }
+
+    class Actions {
+        -decision: JSONObject
+        -parameters: JSONObject
+        -track: Tracker
+        -coords: Coordinates
+        -data: Data
+        +fly(): String
+        +changeDirection(direction: String): String
+        +echo(direction: String): String
+        +scan(): String
+        +stop(): String
+    }
+
+    class DecisionBoard{
+        -data: Data
+        -onGround: boolean
+        -reachGround: boolean
+        -currentDirection: String
+        -newDirection: String
+        -lastChecked: String
+        -range: int
+        -rangeCheck: int
+        +makeDecision(response: JSONObject): void
+    }
+
+    class GridSearch {
+        - action: Actions
+        - direction: Direction
+        - data: Data
+        - changeDir: int
+        - hasChangedDir: boolean
+        - south: int
+        - north: int
+        - count: int
+        - left: boolean
+        - hasChangedDir: boolean
+        - rangeCheck: int
+        + search(batteryLevel: int, startingBatteryLevel: int): String
+        + firstDirStep(): String
+        + secondDirStep(): String
+        + thirdDirStep(currentDirection: String): String
+        + fourthDirStep(): String
+        + firstTurn(left: boolean): String
+        + secondTurn(currentDirection: String): String
+        + fifthDirStep(currentDirection: String): String
+        + sixthDirStep(currentDirection: String): String
+        + turnSuccess(): String
+        + beyondMapBounds(currentDirection: String, hasChangedDir: boolean): String
+    }
+
+    class Tracker{
+        -x_coords: Map<String, Integer>
+        -y_coords: Map<String, Integer>
+        -emergency: int[]
+        -creek_counter: int
+        -coords: Coordinates
+        -minDistance: double
+        -closestCreek: String
+        -ESite: String
+        +POI(type: String, id: String): void
+        +getNumCreeks(): int
+        +getEmergencySite(): String
+        +CurrentClosest(): String
+        +getClosetCreekCoords(): String
+    }
+
+    class Coordinates{
+        -x: int
+        -y: int 
+        -grid: int = 3.0
+        +flyLocation(currentDirection: String): void
+        +turnLocation(beforeTurn: String, currentDirection: String): void
+        +x_coords(): int
+        +y_coords(): int
+    }
+
+
+    NavigationSystem --> GridSearch
+    NavigationSystem --> Tracker
+
+    GridSearch --> DecisionBoard
+    GridSearch --> Actions
+    Tracker --> Coordinates
+    Actions --> Coordinates 
+
+@enduml
