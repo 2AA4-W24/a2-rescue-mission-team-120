@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+//ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
 
     @Test
