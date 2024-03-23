@@ -106,7 +106,9 @@ public class StartPoint{
         
         start_dir = data.getStart_dir(); 
 
-        if ((range_y_above == 0) && (range_x_left ==0)){//if already in corner 
+        logger.info("Tiles up: "+ range_y_above);
+        logger.info("Tiles to the left: " + range_x_left);
+        if ((range_y_above == 0) && (range_x_left==0)){//if already in corner 
             return Inwards(range_x_left,range_x_right, range_y_above, range_y_below);
         }else{ 
             if (data.getStart_dir().charAt(0) =='E'){
@@ -116,6 +118,7 @@ public class StartPoint{
                 return RFL(range_x_left, start_dir);
             }
         }
+        logger.info("im going here");
         return null;
     }
   

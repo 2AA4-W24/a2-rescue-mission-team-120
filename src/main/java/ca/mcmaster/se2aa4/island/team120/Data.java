@@ -38,7 +38,6 @@ public class Data {
     private static boolean Corner = false; 
 
 
-
     public void setLastDirection(String lastDirection){
         last = lastDirection;
     }

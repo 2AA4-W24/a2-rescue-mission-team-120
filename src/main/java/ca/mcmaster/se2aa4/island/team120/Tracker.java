@@ -3,9 +3,7 @@ package ca.mcmaster.se2aa4.island.team120;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -36,12 +34,12 @@ public class Tracker{
             creek_counter+=1; 
             x_coords.put(id, x);
             y_coords.put(id, y);
-            logger.info("creek stored", creek_counter);
+            //logger.info("creek stored", creek_counter);
         }else if (type == "Emergency"){
             emergency[0] = x;
             emergency[1]= y; 
             ESite = id; 
-            logger.info("emergency site {}", id);
+            //logger.info("emergency site {}", id);
         }
     }
 
@@ -51,7 +49,7 @@ public class Tracker{
 
     public static String getEmergencySite(){
         logger.info(ESite);
-        return "Emergency X coordinate: " +emergency[0] + "        Emergency y coordinate: " + emergency[1];
+        return "Emergency X coordinate: " + emergency[0] + "        Emergency y coordinate: " + emergency[1];
     }
     
     public static String CurrentClosest(){
@@ -77,7 +75,6 @@ public class Tracker{
             
             for (String creekId : x_coords.keySet()){
                 if (currentIndex == middle) {
-                    //logger.info(creekId);
                     return creekId;
                 }
                 currentIndex++;

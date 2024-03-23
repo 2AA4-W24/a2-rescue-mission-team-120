@@ -1,14 +1,9 @@
 package ca.mcmaster.se2aa4.island.team120;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class Coordinates {
     private static int x = 0; 
     private static int y = 0; 
     private static int grid = 3; 
-
-    private final Logger logger = LogManager.getLogger();
 
     public void flyLocation(String currentDirection){
         switch (currentDirection){
