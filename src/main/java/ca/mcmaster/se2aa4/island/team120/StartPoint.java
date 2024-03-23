@@ -77,7 +77,6 @@ public class StartPoint{
 
             if((data.getCurrDirection().charAt(0) != 'N')){
                 data.setRange_y_below(range);
-                logger.info(range);
             }
 
             int range_x_right = data.getRange_x_right();
@@ -89,6 +88,7 @@ public class StartPoint{
             
         }else if (count >=5){
             //metho for all this shit 
+            logger.info("I AM HERE!!!");
             int range_x_right = data.getRange_x_right();
             int range_x_left = data.getRange_x_left();
             int range_y_below = data.getRange_y_below(); 
@@ -99,7 +99,7 @@ public class StartPoint{
         return null;
     }
 
-    public String TopLeft(int range){
+    public String TopLeft(){
         //top left
         logger.info("Top Left");
 
@@ -122,7 +122,7 @@ public class StartPoint{
     }
   
     
-    public String TopRight(int range){
+    public String TopRight(){
         logger.info("Top right");
         
         int range_x_right = data.getRange_x_right();
@@ -143,7 +143,7 @@ public class StartPoint{
         return null;
     }
 
-    public String BotRight(int range){
+    public String BotRight(){
         logger.info("Bot right");
         int count = data.getStage(); 
         
@@ -165,7 +165,7 @@ public class StartPoint{
         return null;
     }
 
-    public String BotLeft(int range){
+    public String BotLeft(){
         //top right
         logger.info("Bot left");
 
@@ -174,10 +174,11 @@ public class StartPoint{
         start_dir = data.getStart_dir(); 
 
         if (range_y_below == 0 && range_x_left ==0){
-            logger.info(range_y_below);
+            logger.info("I AM HERE");
             data.setTop();
             return action.scan();
         }else{ 
+            logger.info("I AM HERE 2");
             if (data.getCurrDirection() == "W"){//repeated with bot right first part
                 return LFR(range_x_left, start_dir); 
 
@@ -229,19 +230,21 @@ public class StartPoint{
 
     public String corners(int range_x_right, int range_x_left,int range_y_above,int range_y_below){
         if (range_x_right > range_x_left){
+            logger.info("I AM HERE 1st");
             if (range_y_below > range_y_above){
                 data.setIsStartingLeft(true);
-                return TopLeft(range);
+                return TopLeft();
             }else{
-                return BotLeft(range);
+                return BotLeft();
             }
         }else{
+            logger.info("I AM HERE 2nd");
             if (range_y_below > range_y_above){
                 data.setIsStartingLeft(false);
-                return TopRight(range);
+                return TopRight();
                 
             }else{
-                return BotRight(range);
+                return BotRight();
             }
         }
     }
@@ -255,7 +258,7 @@ public class StartPoint{
                 return action.changeDirection(Direction.right(Current));
         }else{
             logger.info(range);
-            while(range > 3){
+            while(range > 1){
                 if (data.getCurrDirection().charAt(0) == 'N'){
                     data.setRange_y_above((range-1)); 
                     return action.fly(); 
@@ -292,17 +295,20 @@ public class StartPoint{
             String Current = data.getCurrDirection();
             return action.changeDirection(Direction.left(Current));
         }else{
-            while(range > 3){
+            while(range > 1){
                 if (data.getCurrDirection().charAt(0) == 'N'){
                     data.setRange_y_above((range-1)); 
+                    return action.fly(); 
                 }else if(data.getCurrDirection().charAt(0) == 'S'){
                     data.setRange_y_below((range-1)); 
+                    return action.fly(); 
                 }else if(data.getCurrDirection().charAt(0) == 'W'){
                     data.setRange_x_left((range-1)); 
+                    return action.fly(); 
                 }else if(data.getCurrDirection().charAt(0) == 'E'){
-                    data.setRange_x_right((range-1)); 
+                    data.setRange_x_right((range-1));
+                    return action.fly();  
                 }
-                return action.fly(); 
             }
             if ((start_dir == "S" || start_dir == "N") && (data.getExtra() != true)){
                 data.setBeforeTurnDir(data.getCurrDirection()); 
