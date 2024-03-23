@@ -19,10 +19,9 @@ public class FindIsland {
     private static Boolean onGround;
 
     Data data = new Data();
-    //Coordinates update = new Coordinates();
+    Actions task = new Actions();
 
     public String finder(){
-        Actions task = new Actions();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 
@@ -40,26 +39,27 @@ public class FindIsland {
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
 
-        // new algo: echo in all directions and if nothing found fly and scan, if something found, 
-        //set foundground to true and start flying in that direction repeatedly until on ground
-
+        //after the echo phase is performed, if ground is found in a new direction, switch heading to that direction
         if ((groundFound && newDirection != currentDirection)){
             data.setBeforeTurnDir(currentDirection);
             data.setCurrDirection(newDirection);
             return task.changeDirection(data.getCurrDirection());
         }
 
+        //if ground has been found, begin phase pattern to get to the first bit of land found
         switch (phase){
             case 0:
                 if (groundFound){
+                    //as algo skips one column of land, initiate action pattern to go back
                     if (notInPos){
-                        return getInPos(task, rightDir, leftDir);
+                        return getInPos(rightDir, leftDir);
                     }
                     data.setPhase(1);
                     return task.fly();
                 }
+                //if ground still hasn't been found, continue ground checking pattern
                 else{
-                    return checkGround(task, rightDir, leftDir);
+                    return checkGround(rightDir, leftDir);
                 }
             case 1:
                 data.setPhase(2);
@@ -74,11 +74,13 @@ public class FindIsland {
                 data.setPhase(0);
                 return task.fly();
             default:
-                throw new IllegalArgumentException("nope.");
+                throw new IllegalArgumentException("ERROR OCCURED");
         }
     }
 
-    public String checkGround(Actions task, String rightDir, String leftDir){
+    //method to check if theres ground located to the left, right, and in front of the drone
+    //if land is detected, update heading to that direction through decisionBoard class
+    public String checkGround(String rightDir, String leftDir){
         if (lastChecked == currentDirection){
             data.setLastDirection(rightDir);
             return task.echo(rightDir);
@@ -95,27 +97,51 @@ public class FindIsland {
         return "";
     }
 
-    public String getInPos(Actions task, String rightDir, String leftDir){
+    //method for drone to get in the correct position/coordinates to begin land exploration
+    //shifts one x coordinate 
+    public String getInPos(String rightDir, String leftDir){
         data.setBeforeTurnDir(currentDirection);
         switch (count){
             case 0: 
                 data.setCounter(1);
-                data.setNewDirection(rightDir);
+                if (data.getInitialEastWest().equals("E")){
+                    data.setNewDirection(rightDir);
+                }
+                else if (data.getInitialEastWest().equals("W")){
+                    data.setNewDirection(leftDir);
+                }
                 return task.scan();
+
             case 1:
                 data.setCounter(2);
                 return task.fly();
+
             case 2:
                 data.setCounter(3);
-                data.setNewDirection(leftDir);
+                if (data.getInitialEastWest().equals("E")){
+                    data.setNewDirection(leftDir);
+                }
+                else if (data.getInitialEastWest().equals("W")){
+                    data.setNewDirection(rightDir);
+                }
                 return task.scan();
             case 3:
                 data.setCounter(4);
-                data.setNewDirection(leftDir);
+                if (data.getInitialEastWest().equals("E")){
+                    data.setNewDirection(leftDir);
+                }
+                else if (data.getInitialEastWest().equals("W")){
+                    data.setNewDirection(rightDir);
+                }
                 return task.scan();
             case 4:
                 data.setNotInPos(false);
-                data.setNewDirection(rightDir);
+                if (data.getInitialEastWest().equals("E")){
+                    data.setNewDirection(rightDir);
+                }
+                else if (data.getInitialEastWest().equals("W")){
+                    data.setNewDirection(leftDir);
+                }
                 return task.scan();
             default:
                 throw new IllegalArgumentException("nope.");

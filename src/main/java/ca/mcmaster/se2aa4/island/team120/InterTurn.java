@@ -15,6 +15,8 @@ public class InterTurn{
 
     Data data = new Data();
     Coordinates update = new Coordinates();
+    Actions task = new Actions();
+
 
     public String turn(){
         Actions task = new Actions();
@@ -23,19 +25,22 @@ public class InterTurn{
 
         currentDirection = data.getCurrDirection();
         lastChecked = data.getLastDirection();
-
         count = data.getCountAlgo();
         phase = data.getPhase();
-
         goNorth = data.getGoNorth();
         goSouth = data.getGoSouth();
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
 
+        // breaks down the phases to get the drone back on the island after 
+        // completing the first interlace phase in GridSearch
         switch (phase){
+            // drone checks if land is to its right or left direction
             case 0:
-                return firstPhase(task, leftDir, rightDir);
+                return firstPhase(leftDir, rightDir);
+            // drone will continuously check in the same direction that land was last found
+            // and fly in that direction until it is no longer found
             case 1:
                 if (data.getRange() > 2){
                     data.setCountAlgo(0);
@@ -49,15 +54,19 @@ public class InterTurn{
             case 2:
                 data.setPhase(1);
                 return task.echo(lastChecked);
+            // drone will then initial turning process to finally get back on land, shifted one- 
+            // coordinate over in order to allow for the second interlacing phase
             case 3:
-                return initTurning(task, lastChecked, currentDirection, goNorth, goSouth);
+                return initTurning(lastChecked, currentDirection, goNorth, goSouth);
 
             default:
                 throw new IllegalArgumentException("nope.");
         }
     }
     
-    public String firstPhase(Actions task, String leftDir, String rightDir){
+    // method for drone to check if land is land is to the right or left and if land is found,
+    // then through goal direction, sets the end direction based on the direction of the land found
+    public String firstPhase(String leftDir, String rightDir){
         if(data.getGroundFound()){
             data.setPhase(1);
             goalDirection(leftDir, rightDir);
@@ -74,6 +83,7 @@ public class InterTurn{
         return "";
     }
 
+    // method to set the final end direction of the drone
     public void goalDirection(String leftDir, String rightDir){
         if (lastChecked == leftDir){
             data.setGoNorth(true);
@@ -83,20 +93,22 @@ public class InterTurn{
         }
     }
 
-    public String initTurning(Actions task, String lastChecked, String currentDirection, Boolean goNorth, Boolean goSouth){
+    // method to initiate turning phase of the drone
+    // once it's echoes no more land, it turns twice in that direction to perform a u-turn
+    // then fly until land is reached again
+    public String initTurning(String lastChecked, String currentDirection, Boolean goNorth, Boolean goSouth){
         switch(count){
             case 0:
-                logger.info("PHASE 1 CHANGE DIRECTION");
                 data.setCountAlgo(1);
                 data.setBeforeTurnDir(data.getCurrDirection());
                 return task.changeDirection(lastChecked);
 
             case 1:
-                logger.info("PHASE 2 FLY");
                 data.setLastDirection(currentDirection);
                 data.setCountAlgo(2);
                 return task.fly();
-
+            
+            // taking the end goal direction from the previous method, then turn in that direction
             case 2:
                 data.setCountAlgo(3);
                 if (goNorth){
@@ -104,7 +116,6 @@ public class InterTurn{
                     data.setNorthAlgo(0);
                     data.setBeforeTurnDir(data.getCurrDirection());
                     return task.changeDirection("S");
-
                 }else if(goSouth){
                     data.setSouthAlgo(0);
                     data.setNorthAlgo(1);

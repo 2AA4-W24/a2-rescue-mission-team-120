@@ -31,7 +31,7 @@ public class NavigationSystem implements MissionType{
         checkDone = data.getCheckDone();
 
         if(!(data.getTop())){
-            return start.fourCorners(range, groundFound);
+            return start.fourCorners(groundFound);
         }
         else if (!onGround && !interTurn){
             return island.finder(); 
