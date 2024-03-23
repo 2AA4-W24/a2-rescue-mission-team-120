@@ -1,7 +1,11 @@
 package ca.mcmaster.se2aa4.island.team120;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class NavigationSystem implements MissionType{
+    private final Logger logger = LogManager.getLogger();
+
     FindIsland island = new FindIsland();
     GridSearch algoRun = new GridSearch();
     InterTurn interlace = new InterTurn();
@@ -30,24 +34,34 @@ public class NavigationSystem implements MissionType{
         range = data.getRange();
         checkDone = data.getCheckDone();
 
+        logger.info("navigation");
+        logger.info(data.getTop());
+        logger.info(onGround);
+        logger.info(interTurn);
+
         if(!(data.getTop())){
             return start.FourCorners(groundFound);
         }
         else if (!onGround && !interTurn){
+            logger.info("running finder");
             return island.Finder(); 
         }
         else if(interTurn){
+            logger.info("interlace");
             data.setHasChangedDir(true);
             
             return interlace.Turn();
         }
         else if(!(interTurn) && hasChangedDir){
+            logger.info("algo search");
             return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
         }
         else if (!(interTurn) && !(hasChangedDir)){
+            logger.info("algo search2");
             return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
         }
         else{
+            logger.info("stop");
             return action.stop();
         }
     }
