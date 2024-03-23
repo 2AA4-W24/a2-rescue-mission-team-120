@@ -22,7 +22,7 @@ public class GridSearch implements SearchIsland{
     private boolean checkDone;
     private String currentDirection;
 
-    public String search(int batteryLevel, int startingBatteryLevel){
+    public GridSearch(){
         this.changeDir= data.getChangeDirAlgo();
         this.count= data.getCountAlgo();
         this.south= data.getSouthAlgo();
@@ -32,61 +32,75 @@ public class GridSearch implements SearchIsland{
         this.rangeCheck = data.getRangeCheck();
         this.checkDone= data.getCheckDone();
         this.currentDirection= data.getCurrDirection();
+    }
 
-
+    public String search(int batteryLevel, int startingBatteryLevel){
         //if the battery goes below 17.5% of its original battery, island search stops.
         while(batteryLevel> 0.175*startingBatteryLevel){
 
             //if drone senses the presence of ground ahead, it goes through
             //the island search cycle of scanning, echoing, and flying.
-            if((data.getRangeCheck()>=0) && checkDone){
-                switch(count) {
-                    case 0:
-                        data.setCountAlgo(1);
-                        return action.scan();
-                    case 1:
-                        data.setCountAlgo(2);
-                        return action.echo(currentDirection);
-                    case 2:
-                        data.setCountAlgo(0);
-                        return action.fly();
-                    default:
-                        throw new IllegalArgumentException("Invalid count value: " + count);
-                }    
+            if((rangeCheck>=0) && checkDone){
+                return islandSearchCycle(); 
             }
-
-            
-            switch(changeDir) {
-                case 0:
-                //once drone no longer senses ground ahead, it begins the turning cycle, and stops the island searching cycle
-                    if ((data.getRangeCheck())<0) {
-                        return firstDirStep();
-                    }
-                    break;
-                case 1:
-                    return secondDirStep();
-                case 2:
-                    return thirdDirStep(currentDirection);
-                case 3:
-                    return fourthDirStep();
-                case 4:
-                    return secondTurn(currentDirection);
-                case 5:
-                    return fifthDirStep(currentDirection);
-                case 6:
-                    return sixthDirStep(currentDirection);
-                    default:
-                        throw new IllegalArgumentException("Invalid changeDir value: " + changeDir);
-                    
-            }
+            //drone no longer senses ground ahead, initiating turn cycle
+            return turnCycle();
         }
         //stop drone if battery goes below set threshold
         return action.stop();
     }
+
+
+    //searches the island until the drone goes beyond the island bounds
+    private String islandSearchCycle() {
+        switch (count) {
+            case 0:
+                data.setCountAlgo(1);
+                return action.scan();
+            
+            case 1:
+                data.setCountAlgo(2);
+                return action.echo(currentDirection);
+               
+            case 2:
+                data.setCountAlgo(0);
+                return action.fly();
+            default:
+                throw new IllegalArgumentException("Invalid count value: " + count);
+        }
+    }
+
+    //execute drone turn cycle to turn drone from N to S or from S to N
+    private String turnCycle(){
+        switch(changeDir) {
+            case 0:
+            //once drone no longer senses ground ahead, it begins the turning cycle, and stops the island searching cycle
+                if (rangeCheck<0) {
+                    return firstDirStep();
+                }
+                break;
+            case 1:
+                return secondDirStep();
+            case 2:
+                return thirdDirStep(currentDirection);
+            case 3:
+                return fourthDirStep();
+            case 4:
+                return secondTurn(currentDirection);
+            case 5:
+                return fifthDirStep(currentDirection);
+            case 6:
+                return sixthDirStep(currentDirection);
+            default:
+                throw new IllegalArgumentException("Invalid changeDir value: " + changeDir);
+        }
+        return action.fly();
+    }
+
     
 
     //drone flies one step ahead to account for the square 3x3 tile which gets skipped while changing heading
-    public String firstDirStep(){
+    private String firstDirStep(){
         //moves onto next turning cycle step
         data.setChangeDirAlgo(1);
         //since the drone has yet to check if there is ground in the neighbouring tiles, checoDone is set to false
@@ -97,7 +111,7 @@ public class GridSearch implements SearchIsland{
     }
 
     //scans the new tile that the drone flies ahead on
-    public String secondDirStep(){
+    private String secondDirStep(){
         //moves onto next turning cycle step
         data.setChangeDirAlgo(2);
         return action.scan();
@@ -105,7 +119,7 @@ public class GridSearch implements SearchIsland{
 
     //checks if the tile, in the direction that the drone is searching the island, is ground
     //this prevents ground from not being explored once the drones changes directions
-    public String thirdDirStep(String currentDirection){
+    private String thirdDirStep(String currentDirection){
         //moves onto next turning cycle step for following search run
         data.setChangeDirAlgo(3);
 
@@ -123,9 +137,9 @@ public class GridSearch implements SearchIsland{
     //if the tiles do containg ground, the drone moves ahead to avoid not exploring it once it turns (goes back to case 2)
     //if there is no more ground in the neighbouring tiles, the drone moves onto the first step of the turn, which is to do a 
     //90 degree turn in that direction
-    public String fourthDirStep(){
+    private String fourthDirStep(){
         //means there is land that might be missed when turning, must keep moving forward to avoid this
-        if(((data.getRangeCheck())>=0) && ((data.getRangeCheck())<=2)){
+        if((rangeCheck>=0) && (rangeCheck<=2)){
             //loops back to previous turning cycle step
             data.setChangeDirAlgo(1);                
             return action.fly();
@@ -137,17 +151,17 @@ public class GridSearch implements SearchIsland{
     }
 
     //first part of turning step to avoid the drone from doing a U-turn
-    public String firstTurn(boolean left){
+    private String firstTurn(boolean left){
         //if drone is searching from left to right, drone turns east
         if (left){
-            data.setBeforeTurnDir(data.getCurrDirection());
+            data.setBeforeTurnDir(currentDirection);
             //moves onto next turning cycle step
             data.setChangeDirAlgo(4);
             return action.changeDirection("E");
         }
         //if drone is searching from righ to left, drone turns west
         else{
-            data.setBeforeTurnDir(data.getCurrDirection());
+            data.setBeforeTurnDir(currentDirection);
             //moves onto next turning cycle step
             data.setChangeDirAlgo(4);
             return action.changeDirection("W");
@@ -156,13 +170,13 @@ public class GridSearch implements SearchIsland{
     }
 
     //second part of turning step, completes the turning process
-    public String secondTurn(String currentDirection){
+    private String secondTurn(String currentDirection){
         //moves onto next turning cycle step
         data.setChangeDirAlgo(5);
 
         //if drone was originally facing south, it turns north
         if ((currentDirection.equals("E")|| currentDirection.equals("W"))  && south==1){
-            data.setBeforeTurnDir(data.getCurrDirection());
+            data.setBeforeTurnDir(currentDirection);
             //updates which direction the drone is currently facing
             data.setNorthAlgo(1);
             data.setSouthAlgo(0);
@@ -170,7 +184,7 @@ public class GridSearch implements SearchIsland{
         }
         //if drone was originally facing north, it faces south
         else{
-            data.setBeforeTurnDir(data.getCurrDirection());
+            data.setBeforeTurnDir(currentDirection);
             //updates which direction the drone is currently facing
             data.setNorthAlgo(0);
             data.setSouthAlgo(1);
@@ -179,7 +193,7 @@ public class GridSearch implements SearchIsland{
     }
 
     //drone echoes in new direction to make sure that there is land ahead
-    public String fifthDirStep(String currentDirection){
+    private String fifthDirStep(String currentDirection){
         //moves onto next turning cycle step
         data.setChangeDirAlgo(6);
         return action.echo(currentDirection);
@@ -188,9 +202,9 @@ public class GridSearch implements SearchIsland{
 
     
     //checks if there is land to explore was turn is accomplished
-    public String sixthDirStep(String currentDirection){
+    private String sixthDirStep(String currentDirection){
         //if there is land ahead, the drone continue the explore the remaining island
-        if((data.getRangeCheck())>=0){
+        if((rangeCheck)>=0){
             return turnSuccess();
         }
         //if there is no land, rangeCheck<0, this means the drone has reach the island bound and must either change 
@@ -201,7 +215,7 @@ public class GridSearch implements SearchIsland{
     }
 
     //sets/resets variables to continue islandSearch
-    public String turnSuccess(){
+    private String turnSuccess(){
         //check for land in turning direction is now done since turn was successful
         data.setCheckDone(true);
         //resets step tracking variables
@@ -211,7 +225,7 @@ public class GridSearch implements SearchIsland{
     }
 
     //sets/resets variables to end island in current direction
-    public String beyondMapBounds(String currentDirection, boolean hasChangedDir){
+    private String beyondMapBounds(String currentDirection, boolean hasChangedDir){
         data.setInterTurn(true);
         data.setOnGround(false);
         //data.setFly(1);
