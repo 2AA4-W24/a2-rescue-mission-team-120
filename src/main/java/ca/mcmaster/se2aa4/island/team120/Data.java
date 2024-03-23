@@ -20,10 +20,10 @@ public class Data {
     private static boolean checkDone= true;
     private static boolean top;
     private static boolean extra;
-    private static int range_x_right = 0;
-    private static int range_x_left = 0;
-    private static int range_y_below = 0; 
-    private static int range_y_above = 0; 
+    private static int range_x_right;
+    private static int range_x_left;
+    private static int range_y_below; 
+    private static int range_y_above; 
     private static int range; 
     private static boolean isStartingLeft;
     public static boolean hasChangedDir=false;
@@ -196,37 +196,36 @@ public class Data {
     }
 
 
-
     public int getRange_x_left(){
         return range_x_left;
     }
 
-    public void setRange_x_left(int range){
-        range_x_left = range;
+    public void setRange_x_left(int input){
+        range_x_left = input;
     }
 
     public int getRange_x_right(){
         return range_x_right;
     }
 
-    public void setRange_x_right(int range){
-        range_x_right = range;
+    public void setRange_x_right(int input){
+        range_x_right = input;
     }
 
     public int getRange_y_above(){
         return range_y_above;
     }
 
-    public void setRange_y_above(int range){
-        range_y_above = range;
+    public void setRange_y_above(int input){
+        range_y_above = input;
     }
 
     public int getRange_y_below(){
         return range_y_below;
     }
 
-    public void setRange_y_below(int range){
-        range_y_below = range;
+    public void setRange_y_below(int input){
+        range_y_below = input;
     }
 
     public boolean getIsStartingLeft(){
