@@ -21,8 +21,10 @@ public class GridSearch implements SearchIsland{
     private boolean left;
     private boolean hasChangedDir;
     private int rangeCheck;
+    private boolean checkDone;
+    private String currentDirection;
 
-    public String search(String currentDirection, int batteryLevel, int startingBatteryLevel, boolean checkDone){
+    public String search(int batteryLevel, int startingBatteryLevel){
         this.changeDir= data.getChangeDirAlgo();
         this.count= data.getCountAlgo();
         this.south= data.getSouthAlgo();
@@ -30,6 +32,8 @@ public class GridSearch implements SearchIsland{
         this.left= data.getIsStartingLeft();
         this.hasChangedDir= data.getHasChangedDir();
         this.rangeCheck = data.getRangeCheck();
+        this.checkDone= data.getCheckDone();
+        this.currentDirection= data.getCurrDirection();
 
 
         //if the battery goes below 17.5% of its original battery, island search stops.
@@ -37,7 +41,7 @@ public class GridSearch implements SearchIsland{
 
             //if drone senses the presence of ground ahead, it goes through
             //the island search cycle of scanning, echoing, and flying.
-            if(rangeCheck>=0 && checkDone){
+            if((data.getRangeCheck()>=0) && checkDone){
                 switch(count) {
                     case 0:
                         data.setCountAlgo(1);
@@ -57,7 +61,7 @@ public class GridSearch implements SearchIsland{
             switch(changeDir) {
                 case 0:
                 //once drone no longer senses ground ahead, it begins the turning cycle, and stops the island searching cycle
-                    if (rangeCheck<0) {
+                    if ((data.getRangeCheck())<0) {
                         return firstDirStep();
                     }
                     break;
@@ -78,7 +82,7 @@ public class GridSearch implements SearchIsland{
                     
             }
         }
-        logger.info("BATTERY LEVEL BELOW THRESHOLD");
+        //stop drone if battery goes below set threshold
         return action.stop();
     }
     
@@ -122,7 +126,7 @@ public class GridSearch implements SearchIsland{
     //90 degree turn in that direction
     public String fourthDirStep(){
         //means there is land that might be missed when turning, must keep moving forward to avoid this
-        if(rangeCheck>=0 && rangeCheck<=2){
+        if(((data.getRangeCheck())>=0) && ((data.getRangeCheck())<=2)){
             //loops back to previous turning cycle step
             data.setChangeDirAlgo(1);                
             return action.fly();
@@ -187,7 +191,7 @@ public class GridSearch implements SearchIsland{
     //checks if there is land to explore was turn is accomplished
     public String sixthDirStep(String currentDirection){
         //if there is land ahead, the drone continue the explore the remaining island
-        if(rangeCheck>=0){
+        if((data.getRangeCheck())>=0){
             return turnSuccess();
         }
         //if there is no land, rangeCheck<0, this means the drone has reach the island bound and must either change 

@@ -26,7 +26,7 @@ public class StartPoint{
     String start_dir; 
 
     //run through count casses to scan intial surrondings and make a decision based o nthat 
-    public String FourCorners(boolean groundFound){
+    public String fourCorners(boolean groundFound){
         range = data.getRange();
         logger.info(range);
         int count = data.getStage(); 
@@ -95,7 +95,7 @@ public class StartPoint{
         return null;
     }
 
-    public String TopLeft(){//top left logic 
+    public String topLeft(){//top left logic 
         //top left
         logger.info("Top Left");
 
@@ -119,7 +119,7 @@ public class StartPoint{
     }
   
     
-    public String TopRight(){//top right logic 
+    public String topRight(){//top right logic 
         logger.info("Top right");
         
         int range_x_right = data.getRange_x_right();
@@ -144,7 +144,7 @@ public class StartPoint{
         return null;
     }
 
-    public String BotRight(){//bottom right logic 
+    public String botRight(){//bottom right logic 
         logger.info("Bot right");
         
         int range_x_right = data.getRange_x_right();
@@ -172,7 +172,7 @@ public class StartPoint{
         return null;
     }
 
-    public String BotLeft(){//bottom left loggic 
+    public String botLeft(){//bottom left loggic 
         //top right
         logger.info("Bot left");
 
@@ -201,17 +201,17 @@ public class StartPoint{
         if (range_x_right > range_x_left){
             if (range_y_below > range_y_above){
                 data.setIsStartingLeft(true);
-                return TopLeft();
+                return topLeft();
             }else{
-                return BotLeft();
+                return botLeft();
             }
         }else{
             if (range_y_below > range_y_above){
                 data.setIsStartingLeft(false);
-                return TopRight();
+                return topRight();
                 
             }else{
-                return BotRight();
+                return botRight();
             }
         }
     }
