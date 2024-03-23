@@ -77,7 +77,7 @@ public class Explorer implements IExplorerRaid {
         }
 
         count ++; 
-        data.setStage(data.setStage + 1);
+        data.setStage(count);
         logger.info("COUNT VALUE {}", data.getStage());
 
         DecisionBoard updateInfo = new DecisionBoard();
