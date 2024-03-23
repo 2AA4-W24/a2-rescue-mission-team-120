@@ -30,12 +30,11 @@ public class Data {
     private static boolean inPos = true;
     private static int counting = 0;
     private static String beforeTurn;
-
     private static int rangeChecker = -1;
     private static boolean groundLocated;
     private static int phase = 0;
-
     private static String start_dir; 
+    private static String initDir;
 
 
 
@@ -305,7 +304,13 @@ public class Data {
         return start_dir;
     }
 
+    public String getInitialEastWest(){
+        return initDir;
+    }
 
+    public void setInitialEastWest(String init){
+        initDir = init;
+    }
 
     public int getPhase(){
         return phase;

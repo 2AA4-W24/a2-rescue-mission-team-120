@@ -102,7 +102,7 @@ public class StartPoint{
 
         if (range_y_above == 0 && range_x_left ==0){//if already in corner 
             data.setTop();
-            logger.info(data.getTop());
+            data.setInitialEastWest(data.getCurrDirection());
             return action.scan();
         }else{ 
             if (data.getStart_dir() == "E"){
@@ -125,6 +125,7 @@ public class StartPoint{
 
         if (range_y_above == 0 && range_x_right ==0){//already in corner 
             data.setTop();
+            data.setInitialEastWest(data.getCurrDirection());
             return action.scan();
         }else{ 
             if (data.getStart_dir() == "W"){
@@ -146,6 +147,7 @@ public class StartPoint{
 
         if (range_y_below == 0 && range_x_right ==0){//already in corner 
             data.setTop();
+            data.setInitialEastWest(data.getCurrDirection());
             return action.scan();
         }else{ 
             if (data.getStart_dir() == "W"){
@@ -168,6 +170,7 @@ public class StartPoint{
 
         if (range_y_below == 0 && range_x_left ==0){//already in corner 
             data.setTop();
+            data.setInitialEastWest(data.getCurrDirection());
             return action.scan();
         }else{ 
             if (data.getStart_dir() == "E"){//repeated with bot right first part
@@ -233,6 +236,7 @@ public class StartPoint{
                 return action.changeDirection(Direction.left(Current));
             }
             data.setTop();
+            data.setInitialEastWest(data.getCurrDirection());
             data.setBeforeTurnDir(data.getCurrDirection()); 
             String Current = data.getCurrDirection();
             return action.changeDirection(Direction.left(Current));
@@ -271,6 +275,8 @@ public class StartPoint{
                 return action.changeDirection(Direction.right(Current));
             }
             data.setTop();
+            //checks if initially going 
+            data.setInitialEastWest(data.getCurrDirection());
             data.setBeforeTurnDir(data.getCurrDirection()); 
             String Current = data.getCurrDirection();
             return action.changeDirection(Direction.right(Current));
