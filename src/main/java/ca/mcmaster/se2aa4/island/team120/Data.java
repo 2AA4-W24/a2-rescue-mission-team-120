@@ -189,7 +189,6 @@ public class Data {
         stage = count;
     }
 
-
     public boolean getTop(){
         return top; 
     }

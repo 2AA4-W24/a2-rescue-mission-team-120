@@ -32,10 +32,9 @@ public class DecisionBoard {
         lastChecked = data.getNewDirection();
         currentDirection = data.getCurrDirection();
 
-        //count ++; 
-        //data.setStage(data.setStage + 1);
-        //logger.info("COUNT VALUE {}", data.getStage());
-
+        // if decision made was was echo, get and update the information to pass back to the 
+        // navigation system; if it finds land, update drone to go in the direction where land was found
+        // if drone has reached land, update variables
         if(!radar.isEchoed()){
         }
         else{
@@ -57,13 +56,10 @@ public class DecisionBoard {
             }
         }
 
+        // if last decision was scan, check if a creek or emergency site was scanned
         if(scan.isScanned()){
             scan.isCreek();
             scan.isSite();
-            if (onGround){
-                data.setNewDirection(Direction.left(currentDirection));
-            }
-            
         }
     }
 }

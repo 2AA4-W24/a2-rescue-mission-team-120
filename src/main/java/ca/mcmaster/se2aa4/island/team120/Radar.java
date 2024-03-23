@@ -8,7 +8,8 @@ public class Radar{
         this.response = response;
     }
 
-    //if response from action contains found, the echo action was executed
+    // if response from action contains found, allow for echo
+    // methods to be accessed and called
     public boolean isEchoed(){
         if (response.has("found")){
             return true;
@@ -16,9 +17,9 @@ public class Radar{
         return false;
     }
 
-    //checks is current direction has ground
+    // checks if an echo in a direction has ground, if there's ground
+    // pass boolean true 
     public boolean isGround(){
-        //if echo action was executed, checks the response and outputs whether ground was found or not
         if (isEchoed()){
             String found = response.getString("found");
             if ("GROUND".equals(found)){

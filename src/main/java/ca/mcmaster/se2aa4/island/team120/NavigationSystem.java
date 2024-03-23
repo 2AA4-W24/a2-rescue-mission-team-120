@@ -15,40 +15,25 @@ public class NavigationSystem implements MissionType{
     Coordinates coords = new Coordinates();
     Actions action= new Actions();
 
-    private static boolean groundFound;
-    private static boolean checkDone;
-    private static String currentDirection;
-
     public String run(int batteryLevel, int startingBatteryLevel){ 
-        
-        //initializes variables
-        groundFound = data.getGroundFound();
-        checkDone = data.getCheckDone();
-        currentDirection = data.getCurrDirection();
-
-        logger.info("navigation");
-        logger.info(data.getTop());
-        logger.info(onGround);
-        logger.info(interTurn);
-
         if(!(data.getTop())){
-            return start.fourCorners(groundFound);
+            return start.fourCorners(data.getGroundFound());
         }
-        else if (!onGround && !interTurn){
+        else if (!(data.getOnGround()) && !(data.getInterTurn())){
             logger.info("running finder");
             return island.finder(); 
         }
-        else if(interTurn){
+        else if(data.getInterTurn()){
             logger.info("interlace");
             data.setHasChangedDir(true);
             
             return interlace.turn();
         }
-        else if(!(interTurn) && hasChangedDir){
+        else if(!(data.getInterTurn()) && data.getHasChangedDir()){
             logger.info("algo search");
             return algoRun.search(batteryLevel, startingBatteryLevel); 
         }
-        else if (!(interTurn) && !(hasChangedDir)){
+        else if (!(data.getInterTurn()) && !(data.getHasChangedDir())){
             logger.info("algo search2");
             return algoRun.search(batteryLevel, startingBatteryLevel); 
         }

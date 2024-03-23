@@ -8,13 +8,6 @@
         -data: Data
         -coords: Coordinates
         -action: Actions
-        -interTurn: boolean
-        -hasChangedDir: boolean
-        -onGround: boolean
-        -currentDirection: String
-        -groundFound: boolean
-        -range: int
-        -checkDone: boolean
 
         +run(batteryLevel: int, startingBatteryLevel: int): String
     }
@@ -34,15 +27,14 @@
 
     class DecisionBoard{
         -data: Data
-        -rangeCheck: int
         -onGround: boolean
         -reachGround: boolean
+        -currentDirection: String
         -newDirection: String
         -lastChecked: String
         -range: int
-        -currentDirection: String
-
-        +makeDecision(JSONObject): void
+        -rangeCheck: int
+        +makeDecision(response: JSONObject): void
     }
 
     class GridSearch {
@@ -50,24 +42,24 @@
         - direction: Direction
         - data: Data
         - changeDir: int
+        - hasChangedDir: boolean
         - south: int
         - north: int
         - count: int
         - left: boolean
         - hasChangedDir: boolean
         - rangeCheck: int
-
-        + search(currentDirection: String, batteryLevel: int, startingBatteryLevel: int, checkDone: boolean): String
+        + search(batteryLevel: int, startingBatteryLevel: int): String
         + firstDirStep(): String
         + secondDirStep(): String
         + thirdDirStep(currentDirection: String): String
         + fourthDirStep(): String
-        + firstTurn(boolean left): String
+        + firstTurn(left: boolean): String
         + secondTurn(currentDirection: String): String
         + fifthDirStep(currentDirection: String): String
         + sixthDirStep(currentDirection: String): String
         + turnSuccess(): String
-        + beyondMapBounds(String currentDirection, boolean hasChangedDir): String
+        + beyondMapBounds(currentDirection: String, hasChangedDir: boolean): String
     }
 
     class Tracker{
@@ -79,7 +71,6 @@
         -minDistance: double
         -closestCreek: String
         -ESite: String
-
         +POI(type: String, id: String): void
         +getNumCreeks(): int
         +getEmergencySite(): String
@@ -91,7 +82,6 @@
         -x: int
         -y: int 
         -grid: int = 3.0
-
         +flyLocation(currentDirection: String): void
         +turnLocation(beforeTurn: String, currentDirection: String): void
         +x_coords(): int
