@@ -189,6 +189,7 @@ public class StartPoint{
         return null;
     }
 
+   //make sure code is facing the appropriate inward direction, if in corner make sure facing east/west 
     public String Inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
         if((range_x_left ==0 && range_y_above ==0) || (range_x_left ==0 && range_y_below ==0) || range_x_left == 0){
             if(data.getCurrDirection().charAt(0) != 'E'){
@@ -227,7 +228,7 @@ public class StartPoint{
         }
         return null;
     }
-
+//based on location assign closest corner for traversal - ensures no part of the map cut off 
     public String corners(int range_x_right, int range_x_left,int range_y_above,int range_y_below){
         if (range_x_right > range_x_left){
             logger.info("I AM HERE 1st");
@@ -248,7 +249,7 @@ public class StartPoint{
             }
         }
     }
-
+//right, fly (while loop), left turn (+condition for ending E/W)
     public String RFL(int range, String start_dir){
         logger.info("RFL");
         int count = data.getStage(); 
@@ -286,7 +287,7 @@ public class StartPoint{
         }
     }
 
-
+//left, fly (while loop), right turn (+condition for ending E/W)
     public String LFR(int range, String start_dir){
         logger.info("LFR");
         int count = data.getStage(); 
