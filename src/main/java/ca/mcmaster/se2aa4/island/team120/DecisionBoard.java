@@ -63,6 +63,7 @@ public class DecisionBoard {
             if (onGround){
                 data.setNewDirection(Direction.left(currentDirection));
             }
+            
         }
     }
 }

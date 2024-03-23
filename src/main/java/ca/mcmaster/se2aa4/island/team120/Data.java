@@ -25,7 +25,7 @@ public class Data {
     private static int range_y_above = 0; 
     private static int range; 
     private static boolean isStartingLeft;
-    public static boolean turned=false;
+    public static boolean hasChangedDir=false;
     private static boolean inPos = true;
     private static int counting = 0;
     private static String beforeTurn;
@@ -226,12 +226,12 @@ public class Data {
         isStartingLeft= newIsStartingLeft;
     }
 
-    public void setTurned(boolean newTurned){
-        turned= newTurned;
+    public void setHasChangedDir(boolean newHasChangedDir){
+        hasChangedDir= newHasChangedDir;
     }
 
-    public boolean getTurned(){
-        return turned;
+    public boolean getHasChangedDir(){
+        return hasChangedDir;
     }
 
 
@@ -251,11 +251,11 @@ public class Data {
         counting = counter;
     }
 
-    public String getBeforeTurn(){
+    public String getBeforeTurnDir(){
         return beforeTurn;
     }
 
-    public void setBeforeTurn(String beforeTurnDirection){
+    public void setBeforeTurnDir(String beforeTurnDirection){
         beforeTurn = beforeTurnDirection;
     }
 

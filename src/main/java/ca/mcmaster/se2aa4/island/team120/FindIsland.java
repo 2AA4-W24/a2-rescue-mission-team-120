@@ -29,8 +29,7 @@ public class FindIsland {
         currentDirection = data.getCurrDirection();
         lastChecked = data.getLastDirection();
         newDirection = data.getNewDirection();
-        beforeTurn = data.getBeforeTurn();
-        
+        beforeTurn = data.getBeforeTurnDir();
         groundFound = data.getGroundFound();
         onGround = data.getOnGround();
 
@@ -45,7 +44,7 @@ public class FindIsland {
         //set foundground to true and start flying in that direction repeatedly until on ground
 
         if ((groundFound && newDirection != currentDirection)){
-            data.setBeforeTurn(currentDirection);
+            data.setBeforeTurnDir(currentDirection);
             data.setCurrDirection(newDirection);
             return task.changeDirection(data.getCurrDirection());
         }

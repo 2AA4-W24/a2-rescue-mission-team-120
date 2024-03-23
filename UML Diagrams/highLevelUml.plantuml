@@ -1,4 +1,18 @@
 @startuml "Hello world"
+    class Actions {
+        - decision: JSONObject
+        - parameters: JSONObject
+        - track: Tracker
+        - coords: Coordinates
+        - data: Data
+
+        + fly(): String
+        + changeDirection(direction: String): String
+        + echo(direction: String): String
+        + scan(): String
+        + stop(): String
+    }
+
     class Explorer {
         - logger: Logger
         - batteryLevel: Integer
@@ -24,12 +38,14 @@
         + deliverFinalReport(): String
     }
 class Coordinates {
-    -x: Integer
-    -y: Integer
-    location(currentDirection: String)
-    x_coords(): int
-    y_coords(): int
-}
+        - x: int = 0
+        - y: int = 0
+        - grid: int = 3
+
+        + flyLocation(currentDirection: String): void
+        + turnLocation(beforeTurn: String, currentDirection: String): void
+    }
+
 class Direction {
     + right(currDir: String): String
     + left(currDir: String): String
@@ -58,12 +74,16 @@ class Tracker {
         - coords: Coordinates
         + POI(type: String, id: String): void
     }
+
     
 Explorer--> Coordinates
 Explorer-->Direction
 Explorer-->PhotoScanner
 Explorer-->Radar
 Explorer-->Tracker
+Actions-->Coordinates
+Actions-->Tracker
+Actions-->Data
 
 Tracker -- PhotoScanner
 @enduml
