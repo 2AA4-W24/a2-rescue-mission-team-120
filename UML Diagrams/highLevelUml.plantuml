@@ -13,30 +13,65 @@
         + stop(): String
     }
 
-    class Explorer {
-        - logger: Logger
-        - batteryLevel: Integer
-        - action: String
-        - currentDirection: String
-        - range: Integer
-        - creeks: String
-        - biomes: String
-        - fly: Integer
-        - signal: Integer
-        - lastChecked: String
-        - groundFound: Boolean
-        - newDirection: String
-        - onGround: Boolean
-        - scanned: Integer
-        - x: int
-        - y: int
-        - update: Coordinates
+class Data {
+    + last: String
+    + signal: int
+    + fly: int
+    + scanned: int
+    + current: String
+    + stage: int
+    + count: int
+    + changeDir: int
+    + newDir: String
+    + north: int
+    + south: int
+    + turn: boolean
+    + ground: boolean
+    + reached: boolean
+    + goNorth: boolean
+    + goSouth: boolean
+    + checkDone: boolean
+    + top: boolean
+    + range_x_right: int
+    + range_x_left: int
+    + range_y_below: int
+    + range_y_above: int
+    + range: int
+    + isStartingLeft: boolean
+    + hasChangedDir: boolean
+    + inPos: boolean
+    + counting: int
+    + beforeTurn: String
+    + rangeChecker: int
+    + groundLocated: boolean
+}
 
-        + initialize(s: String): void
-        + takeDecision(): String
-        + acknowledgeResults(s: String): void
-        + deliverFinalReport(): String
-    }
+class Explorer {
+    - logger: Logger
+    - batteryLevel: Integer
+    - action: String
+    - currentDirection: String
+    - range: Integer
+    - creeks: String
+    - biomes: String
+    - fly: Integer
+    - signal: Integer
+    - lastChecked: String
+    - groundFound: Boolean
+    - newDirection: String
+    - onGround: Boolean
+    - scanned: Integer
+    - x: int
+    - y: int
+    - update: Coordinates
+
+    + initialize(s: String): void
+    + takeDecision(): String
+    + acknowledgeResults(s: String): void
+    + deliverFinalReport(): String
+}
+
+
 class Coordinates {
         - x: int = 0
         - y: int = 0
@@ -50,6 +85,94 @@ class Direction {
     + right(currDir: String): String
     + left(currDir: String): String
 }
+
+    class FindIsland {
+        - fly: Integer
+        - signal: Integer
+        - scanned: Integer
+        - lastChecked: String
+        - currentDirection: String
+        - newDirection: String
+        - count: Integer
+        - notInPos: Boolean
+        - beforeTurn: String
+        - groundFound: Boolean
+        - onGround: Boolean
+        - data: Data
+
+        + Finder(): String
+        + checkGround(task: Actions, rightDir: String, leftDir: String): String
+        + getInPos(task: Actions, rightDir: String, leftDir: String): String
+    }
+
+class GridSearch {
+        - action: Actions
+        - direction: Direction
+        - data: Data
+        - changeDir: int
+        - south: int
+        - north: int
+        - count: int
+        - left: boolean
+        - hasChangedDir: boolean
+        - rangeCheck: int
+
+        + search(currentDirection: String, batteryLevel: int, startingBatteryLevel: int, checkDone: boolean): String
+        + firstDirStep(): String
+        + secondDirStep(): String
+        + thirdDirStep(currentDirection: String): String
+        + fourthDirStep(): String
+        + firstTurn(left: boolean): String
+        + secondTurn(currentDirection: String): String
+        + fifthDirStep(currentDirection: String): String
+        + sixthDirStep(currentDirection: String): String
+        + turnSuccess(): String
+        + beyondMapBounds(currentDirection: String, hasChangedDir: boolean): String
+    }
+
+class InterTurn {
+    - fly: Integer
+    - signal: Integer
+    - scanned: Integer
+    - lastChecked: String
+    - currentDirection: String
+    - count: Integer
+    - onGround: boolean
+    - reachGround: boolean
+    - goSouth: boolean
+    - goNorth: boolean
+    - range: Integer
+    - groundFound: boolean
+    - data: Data
+    - update: Coordinates
+
+    + Turn(): String
+}
+
+interface MissionType {
+    + run(batteryLevel: int, startingBatteryLevel: int): String
+}
+
+class NavigationSystem {
+    - island: FindIsland
+    - algoRun: GridSearch
+    - interlace: InterTurn
+    - start: StartPoint
+    - data: Data
+    - coords: Coordinates
+    - action: Actions
+    - interTurn: boolean
+    - hasChangedDir: boolean
+    - onGround: boolean
+    - currentDirection: String
+    - groundFound: boolean
+    - range: int
+    - checkDone: boolean
+
+    + run(batteryLevel: int, startingBatteryLevel: int): String
+}
+
+
 class PhotoScanner {
     - response: JSONObject
     - track: tracker
@@ -60,21 +183,55 @@ class PhotoScanner {
     + isSite(): boolean
     + verifyBiome(): boolean
 }
+
 class Radar {
         - logger: Logger
         + checkEcho(echo: JSONObject): boolean
     }
 
-class Tracker {
-        - x_coords: Map<String, Integer>
-        - y_coords: Map<String, Integer>
-        - emergency: int[]
-        - logger: Logger
-        - creek_counter: int
-        - coords: Coordinates
-        + POI(type: String, id: String): void
-    }
+interface SearchIsland {
+    + search(currentDirection: String, batteryLevel: int, startingBatteryLevel: int, checkDone: boolean): String
+}
 
+class StartPoint {
+    - action: Actions
+    - coords: Coordinates
+    - dir: Direction
+    - data: Data
+    - x_size: int
+    - y_size: int
+    - range: int
+    - range_x_right: int
+    - range_x_left: int
+    - range_y_below: int
+    - range_y_above: int
+    + FourCorners(range: int, groundFound: boolean): String
+    + TopLeft(range: int, groundFound: boolean): String
+    + TopRight(range: int, groundFound: boolean): String
+    + BotRight(range: int, groundFound: boolean): String
+    + BotLeft(range: int, groundFound: boolean): String
+    + Inwards(range_x_left: int, range_x_right: int, range_y_above: int, range_y_below: int): String
+}
+
+class StartPoint {
+    - action: Actions
+    - coords: Coordinates
+    - dir: Direction
+    - data: Data
+    - x_size: int
+    - y_size: int
+    - range: int
+    - range_x_right: int
+    - range_x_left: int
+    - range_y_below: int
+    - range_y_above: int
+    + FourCorners(range: int, groundFound: boolean): String
+    + TopLeft(range: int, groundFound: boolean): String
+    + TopRight(range: int, groundFound: boolean): String
+    + BotRight(range: int, groundFound: boolean): String
+    + BotLeft(range: int, groundFound: boolean): String
+    + Inwards(range_x_left: int, range_x_right: int, range_y_above: int, range_y_below: int): String
+}
     
 Explorer--> Coordinates
 Explorer-->Direction
