@@ -21,7 +21,7 @@ public class FindIsland {
     Data data = new Data();
     Actions task = new Actions();
 
-    public String Finder(){
+    public String finder(){
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 

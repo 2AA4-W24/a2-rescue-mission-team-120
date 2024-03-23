@@ -1,7 +1,11 @@
 package ca.mcmaster.se2aa4.island.team120;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class NavigationSystem implements MissionType{
+    private final Logger logger = LogManager.getLogger();
+
     FindIsland island = new FindIsland();
     GridSearch algoRun = new GridSearch();
     InterTurn interlace = new InterTurn();
@@ -22,23 +26,34 @@ public class NavigationSystem implements MissionType{
         checkDone = data.getCheckDone();
         currentDirection = data.getCurrDirection();
 
+        logger.info("navigation");
+        logger.info(data.getTop());
+        logger.info(onGround);
+        logger.info(interTurn);
+
         if(!(data.getTop())){
-            return start.FourCorners(groundFound);
+            return start.fourCorners(groundFound);
         }
-        else if (!data.getOnGround() && !data.getInterTurn()){
-            return island.Finder(); 
+        else if (!onGround && !interTurn){
+            logger.info("running finder");
+            return island.finder(); 
         }
-        else if(data.getInterTurn()){
+        else if(interTurn){
+            logger.info("interlace");
             data.setHasChangedDir(true);
-            return interlace.Turn();
+            
+            return interlace.turn();
         }
-        else if(!(data.getInterTurn()) && data.getHasChangedDir()){
-            return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
+        else if(!(interTurn) && hasChangedDir){
+            logger.info("algo search");
+            return algoRun.search(batteryLevel, startingBatteryLevel); 
         }
-        else if (!(data.getInterTurn()) && !(data.getHasChangedDir())){
-            return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
+        else if (!(interTurn) && !(hasChangedDir)){
+            logger.info("algo search2");
+            return algoRun.search(batteryLevel, startingBatteryLevel); 
         }
         else{
+            logger.info("stop");
             return action.stop();
         }
     }

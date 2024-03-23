@@ -18,7 +18,8 @@ public class InterTurn{
     Actions task = new Actions();
 
 
-    public String Turn(){
+    public String turn(){
+        Actions task = new Actions();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 

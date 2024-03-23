@@ -2,10 +2,6 @@
     class Actions {
         - decision: JSONObject
         - parameters: JSONObject
-        - track: Tracker
-        - coords: Coordinates
-        - data: Data
-
         + fly(): String
         + changeDirection(direction: String): String
         + echo(direction: String): String
@@ -13,35 +9,57 @@
         + stop(): String
     }
 
-    class Explorer {
-        - logger: Logger
-        - batteryLevel: Integer
-        - action: String
-        - currentDirection: String
-        - range: Integer
-        - creeks: String
-        - biomes: String
-        - fly: Integer
-        - signal: Integer
-        - lastChecked: String
-        - groundFound: Boolean
-        - newDirection: String
-        - onGround: Boolean
-        - scanned: Integer
-        - x: int
-        - y: int
-        - update: Coordinates
+class Data {
+    + last: String
+    + signal: int
+    + fly: int
+    + scanned: int
+    + current: String
+    + stage: int
+    + count: int
+    + changeDir: int
+    + newDir: String
+    + north: int
+    + south: int
+    + turn: boolean
+    + ground: boolean
+    + reached: boolean
+    + goNorth: boolean
+    + goSouth: boolean
+    + checkDone: boolean
+    + top: boolean
+    + range_x_right: int
+    + range_x_left: int
+    + range_y_below: int
+    + range_y_above: int
+    + range: int
+    + isStartingLeft: boolean
+    + hasChangedDir: boolean
+    + inPos: boolean
+    + counting: int
+    + beforeTurn: String
+    + rangeChecker: int
+    + groundLocated: boolean
+}
 
-        + initialize(s: String): void
-        + takeDecision(): String
-        + acknowledgeResults(s: String): void
-        + deliverFinalReport(): String
-    }
+class Explorer {
+    - batteryLevel: Integer
+    - startingBatteryLevel: Integer
+    - count: Integer
+    - rangeCheck: Integer
+    - x: int
+    - y: int
+    + initialize(String): void
+    + takeDecision(): String
+    + acknowledgeResults(String): void
+    + deliverFinalReport(): String
+}
+
+
 class Coordinates {
         - x: int = 0
         - y: int = 0
         - grid: int = 3
-
         + flyLocation(currentDirection: String): void
         + turnLocation(beforeTurn: String, currentDirection: String): void
     }
@@ -50,6 +68,83 @@ class Direction {
     + right(currDir: String): String
     + left(currDir: String): String
 }
+
+    class FindIsland {
+        - fly: Integer
+        - signal: Integer
+        - scanned: Integer
+        - lastChecked: String
+        - currentDirection: String
+        - newDirection: String
+        - count: Integer
+        - notInPos: Boolean
+        - beforeTurn: String
+        - groundFound: Boolean
+        - onGround: Boolean
+
+        + finder(): String
+        + checkGround(task: Actions, rightDir: String, leftDir: String): String
+        + getInPos(task: Actions, rightDir: String, leftDir: String): String
+    }
+
+class GridSearch {
+        - changeDir: int
+        - south: int
+        - north: int
+        - count: int
+        - left: boolean
+        - hasChangedDir: boolean
+        - rangeCheck: int
+        - checkDone: boolean
+        - currentDirection: String
+
+        + search(batteryLevel: int, startingBatteryLevel: int): String
+        + firstDirStep(): String
+        + secondDirStep(): String
+        + thirdDirStep(currentDirection: String): String
+        + fourthDirStep(): String
+        + firstTurn(left: boolean): String
+        + secondTurn(currentDirection: String): String
+        + fifthDirStep(currentDirection: String): String
+        + sixthDirStep(currentDirection: String): String
+        + turnSuccess(): String
+        + beyondMapBounds(currentDirection: String, hasChangedDir: boolean): String
+    }
+
+class InterTurn {
+    - fly: Integer
+    - signal: Integer
+    - scanned: Integer
+    - lastChecked: String
+    - currentDirection: String
+    - count: Integer
+    - onGround: boolean
+    - reachGround: boolean
+    - goSouth: boolean
+    - goNorth: boolean
+    - range: Integer
+    - groundFound: boolean
+
+    + turn(): String
+}
+
+interface MissionType {
+    + run(batteryLevel: int, startingBatteryLevel: int): String
+}
+
+class NavigationSystem {
+    - interTurn: boolean
+    - hasChangedDir: boolean
+    - onGround: boolean
+    - currentDirection: String
+    - groundFound: boolean
+    - range: int
+    - checkDone: boolean
+
+    + run(batteryLevel: int, startingBatteryLevel: int): String
+}
+
+
 class PhotoScanner {
     - response: JSONObject
     - track: tracker
@@ -60,20 +155,34 @@ class PhotoScanner {
     + isSite(): boolean
     + verifyBiome(): boolean
 }
+
 class Radar {
-        - logger: Logger
-        + checkEcho(echo: JSONObject): boolean
+    - response: JSONObject
+    
+    + Radar(response: JSONObject)
+    + isEchoed(): boolean
+    + isGround(): boolean
     }
 
-class Tracker {
-        - x_coords: Map<String, Integer>
-        - y_coords: Map<String, Integer>
-        - emergency: int[]
-        - logger: Logger
-        - creek_counter: int
-        - coords: Coordinates
-        + POI(type: String, id: String): void
-    }
+interface SearchIsland {
+    + search(batteryLevel: int, startingBatteryLevel: int): String
+}
+
+class StartPoint {
+    - x_size: int
+    - y_size: int
+    - range: int
+    - range_x_right: int
+    - range_x_left: int
+    - range_y_below: int
+    - range_y_above: int
+    + fourCorners(range: int, groundFound: boolean): String
+    + topLeft(range: int, groundFound: boolean): String
+    + topRight(range: int, groundFound: boolean): String
+    + botRight(range: int, groundFound: boolean): String
+    + botLeft(range: int, groundFound: boolean): String
+    + inwards(range_x_left: int, range_x_right: int, range_y_above: int, range_y_below: int): String
+}
 
     
 Explorer--> Coordinates
