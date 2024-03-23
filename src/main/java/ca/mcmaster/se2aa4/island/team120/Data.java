@@ -25,11 +25,10 @@ public class Data {
     private static int range_y_above = 0; 
     private static int range; 
     private static boolean isStartingLeft;
-    public static boolean hasChangedDir=false;
+    private static boolean hasChangedDir=false;
     private static boolean inPos = true;
     private static int counting = 0;
     private static String beforeTurn;
-
     private static int rangeChecker = -1;
     private static boolean groundLocated;
     private static int phase = 0;
@@ -78,6 +77,7 @@ public class Data {
         return current;
     }
 
+
     public void setNewDirection(String newDirection){
         newDir = newDirection;
     }
@@ -85,6 +85,7 @@ public class Data {
     public String getNewDirection(){
         return newDir;
     }
+
 
     public int getCountAlgo(){
         return count;
@@ -121,6 +122,7 @@ public class Data {
         north= newNorth;
     }
 
+
     public boolean getInterTurn(){
         return turn;
     }
@@ -129,6 +131,7 @@ public class Data {
         turn = interTurn;
     }
 
+
     public boolean getOnGround(){
         return ground;
     }
@@ -136,6 +139,7 @@ public class Data {
     public void setOnGround(boolean onGround){
         ground = onGround;
     }
+
 
     public boolean getReachGround(){
         return reached;
@@ -154,6 +158,7 @@ public class Data {
         goNorth = north;
     }
 
+
     public boolean getGoSouth(){
         return goSouth;
     }
@@ -161,6 +166,7 @@ public class Data {
     public void setGoSouth(boolean south){
         goSouth = south;
     }
+
 
     public boolean getCheckDone(){
         return checkDone;
@@ -170,6 +176,7 @@ public class Data {
         checkDone= newCheckDone;
     }
 
+
     public int getStage(){
         return stage;
     }
@@ -177,6 +184,7 @@ public class Data {
     public void setStage(int count){
         stage = count;
     }
+
 
     public boolean getTop(){
         return top; 
@@ -194,6 +202,7 @@ public class Data {
         range_x_left = range;
     }
 
+
     public int getRange_x_right(){
         return range_x_right;
     }
@@ -201,6 +210,7 @@ public class Data {
     public void setRange_x_right(int range){
         range_x_right = range;
     }
+
 
     public int getRange_y_above(){
         return range_y_above;
@@ -210,6 +220,7 @@ public class Data {
         range_y_above = range;
     }
 
+
     public int getRange_y_below(){
         return range_y_below;
     }
@@ -218,6 +229,7 @@ public class Data {
         range_y_below = range;
     }
 
+
     public boolean getIsStartingLeft(){
         return isStartingLeft;
     }
@@ -225,6 +237,7 @@ public class Data {
     public void setIsStartingLeft(boolean newIsStartingLeft){
         isStartingLeft= newIsStartingLeft;
     }
+
 
     public void setHasChangedDir(boolean newHasChangedDir){
         hasChangedDir= newHasChangedDir;
@@ -243,6 +256,7 @@ public class Data {
         inPos = notInPos;
     }
 
+
     public int getCounter(){
         return counting;
     }
@@ -250,6 +264,7 @@ public class Data {
     public void setCounter(int counter){
         counting = counter;
     }
+
 
     public String getBeforeTurnDir(){
         return beforeTurn;
@@ -259,7 +274,6 @@ public class Data {
         beforeTurn = beforeTurnDirection;
     }
 
-    //
 
     public int getRangeCheck(){
         return rangeChecker;
@@ -269,6 +283,7 @@ public class Data {
         rangeChecker = rangeCheck;
     }
 
+
     public boolean getGroundFound(){
         return groundLocated;
     }
@@ -277,6 +292,7 @@ public class Data {
         groundLocated = groundFound;
     }
 
+
     public int getRange(){
         return range;
     }
@@ -284,6 +300,7 @@ public class Data {
     public void setRange(int rangeInt){
         range = rangeInt;
     }
+    
 
     public int getPhase(){
         return phase;

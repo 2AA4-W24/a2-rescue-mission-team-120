@@ -31,21 +31,21 @@ public class NavigationSystem implements MissionType{
         checkDone = data.getCheckDone();
 
         if(!(data.getTop())){
-            return start.FourCorners(range, groundFound);
+            return start.fourCorners(range, groundFound);
         }
         else if (!onGround && !interTurn){
-            return island.Finder(); 
+            return island.finder(); 
         }
         else if(interTurn){
             data.setHasChangedDir(true);
             
-            return interlace.Turn();
+            return interlace.turn();
         }
         else if(!(interTurn) && hasChangedDir){
-            return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
+            return algoRun.search(batteryLevel, startingBatteryLevel); 
         }
         else if (!(interTurn) && !(hasChangedDir)){
-            return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
+            return algoRun.search(batteryLevel, startingBatteryLevel); 
         }
         else{
             return action.stop();

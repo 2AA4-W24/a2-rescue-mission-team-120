@@ -21,8 +21,10 @@ public class GridSearch implements SearchIsland{
     private boolean left;
     private boolean hasChangedDir;
     private int rangeCheck;
+    private boolean checkDone;
+    private String currentDirection;
 
-    public String search(String currentDirection, int batteryLevel, int startingBatteryLevel, boolean checkDone){
+    public String search(int batteryLevel, int startingBatteryLevel){
         this.changeDir= data.getChangeDirAlgo();
         this.count= data.getCountAlgo();
         this.south= data.getSouthAlgo();
@@ -30,6 +32,8 @@ public class GridSearch implements SearchIsland{
         this.left= data.getIsStartingLeft();
         this.hasChangedDir= data.getHasChangedDir();
         this.rangeCheck = data.getRangeCheck();
+        this.checkDone= data.getCheckDone();
+        this.currentDirection= data.getCurrDirection();
 
 
         //if the battery goes below 17.5% of its original battery, island search stops.
@@ -78,7 +82,7 @@ public class GridSearch implements SearchIsland{
                     
             }
         }
-        logger.info("BATTERY LEVEL BELOW THRESHOLD");
+        //stop drone if battery goes below set threshold
         return action.stop();
     }
     

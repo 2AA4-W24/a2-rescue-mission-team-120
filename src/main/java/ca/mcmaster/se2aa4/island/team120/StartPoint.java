@@ -26,7 +26,7 @@ public class StartPoint{
     int range_y_below; 
     int range_y_above; 
     
-    public String FourCorners(int range, boolean groundFound){
+    public String fourCorners(int range, boolean groundFound){
         range = data.getRange();
         int count = data.getStage(); 
         logger.info("Count: "+ count);  
@@ -76,7 +76,7 @@ public class StartPoint{
                 data.setRange_y_below(range);
             }
 
-            return Inwards(range_x_left, range_x_right, range_y_above, range_y_below);
+            return inwards(range_x_left, range_x_right, range_y_above, range_y_below);
 
         }else if (count == 5){
             //metho for all this shit 
@@ -89,28 +89,28 @@ public class StartPoint{
                 if (range_y_below > range_y_above){
                     data.setIsStartingLeft(true);
                     data.setStage(0); 
-                    return TopLeft(range, groundFound);
+                    return topLeft(range, groundFound);
                 }else{
                     data.setStage(0); 
-                    return BotLeft(range, groundFound);
+                    return botLeft(range, groundFound);
                 }
 
             }else{
                 if (range_y_below > range_y_above){
                     data.setIsStartingLeft(false);
                     data.setStage(0); 
-                    return TopRight(range, groundFound);
+                    return topRight(range, groundFound);
                     
                 }else{
                     data.setStage(0); 
-                    return BotRight(range, groundFound);
+                    return botRight(range, groundFound);
                 }
             }
         }
         return null;
     }
 
-    public String TopLeft(int range, boolean groundFound){
+    public String topLeft(int range, boolean groundFound){
         range = data.getRange();
 
         //top left
@@ -162,7 +162,7 @@ public class StartPoint{
     }
   
     
-    public String TopRight(int range, boolean groundFound){
+    public String topRight(int range, boolean groundFound){
         range = data.getRange();
 
         //top right
@@ -217,7 +217,7 @@ public class StartPoint{
         return null;
     }
 
-    public String BotRight(int range, boolean groundFound){
+    public String botRight(int range, boolean groundFound){
         range = data.getRange();
 
         //top right
@@ -272,7 +272,7 @@ public class StartPoint{
         return null;
     }
 
-    public String BotLeft(int range, boolean groundFound){
+    public String botLeft(int range, boolean groundFound){
         range = data.getRange();
 
         //top right
@@ -327,7 +327,7 @@ public class StartPoint{
         return null;
     }
 
-    public String Inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
+    public String inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
         if((range_x_left ==0 && range_y_above ==0) || (range_x_left ==0 && range_y_below ==0) || range_x_left == 0){
             if(data.getCurrDirection().charAt(0) != 'E'){
                 data.setBeforeTurnDir(data.getCurrDirection()); 

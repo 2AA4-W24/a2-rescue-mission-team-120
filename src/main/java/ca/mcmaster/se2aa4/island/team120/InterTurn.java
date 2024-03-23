@@ -16,7 +16,7 @@ public class InterTurn{
     Data data = new Data();
     Coordinates update = new Coordinates();
 
-    public String Turn(){
+    public String turn(){
         Actions task = new Actions();
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
