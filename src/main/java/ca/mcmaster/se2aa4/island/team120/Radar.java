@@ -5,7 +5,7 @@ public class Radar{
     private JSONObject response;
 
     public Radar(JSONObject response){
-        this.response= response;
+        this.response = response;
     }
 
     //if response from action contains found, the echo action was executed

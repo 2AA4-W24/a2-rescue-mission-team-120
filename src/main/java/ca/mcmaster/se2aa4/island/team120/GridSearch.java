@@ -211,9 +211,11 @@ public class GridSearch implements SearchIsland{
     public String beyondMapBounds(String currentDirection, boolean hasChangedDir){
         data.setInterTurn(true);
         data.setOnGround(false);
-        data.setFly(1);
-        data.setSignal(0);
-        data.setScanned(1);
+        //data.setFly(1);
+        //data.setSignal(0);
+        //data.setScanned(1);
+        data.setPhase(0);
+        logger.info("GARBLE {}", data.getPhase());
         data.setLastDirection(Direction.left(currentDirection));
 
         //if the drone has not already changed direction of the island search, it turns back and scans the other half of the island 

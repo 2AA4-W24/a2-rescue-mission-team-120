@@ -32,6 +32,10 @@ public class DecisionBoard {
         lastChecked = data.getNewDirection();
         currentDirection = data.getCurrDirection();
 
+        //count ++; 
+        //data.setStage(data.setStage + 1);
+        //logger.info("COUNT VALUE {}", data.getStage());
+
         if(!radar.isEchoed()){
         }
         else{
