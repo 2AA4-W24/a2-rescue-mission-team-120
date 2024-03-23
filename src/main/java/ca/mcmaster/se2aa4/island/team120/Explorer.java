@@ -50,7 +50,6 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-
         NavigationSystem decisionMaker = new NavigationSystem();
         String decision = decisionMaker.run(batteryLevel, startingBatteryLevel);
         return decision.toString();
