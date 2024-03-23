@@ -35,6 +35,7 @@ public class Data {
     private static int phase = 0;
     private static String start_dir; 
     private static String initDir;
+    private static boolean Corner = false; 
 
 
 
@@ -239,6 +240,13 @@ public class Data {
         range_y_below = input;
     }
 
+    public boolean getCorner(){
+        return Corner;
+    }
+
+    public void setCorner(){
+        Corner = true;
+    }
 
     public boolean getIsStartingLeft(){
         return isStartingLeft;

@@ -73,12 +73,12 @@ public class StartPoint{
             }
 
         }else if (count == 4){//make sure initial direction is inwards 
-
             if((data.getCurrDirection().charAt(0) != 'N')){
                 logger.info(range);
                 data.setRange_y_below(range);
             }
             return action.scan();
+
         }else if (count>=5){
             int range_x_right = data.getRange_x_right();
             int range_x_left = data.getRange_x_left();
@@ -99,14 +99,15 @@ public class StartPoint{
         //top left
         logger.info("Top Left");
 
+        int range_x_right = data.getRange_x_right();
         int range_x_left = data.getRange_x_left();
+        int range_y_below = data.getRange_y_below(); 
         int range_y_above = data.getRange_y_above(); 
+        
         start_dir = data.getStart_dir(); 
 
-        if (range_y_above == 0 && range_x_left ==0){//if already in corner 
-            data.setTop();
-            data.setInitialEastWest(data.getCurrDirection());
-            return action.scan();
+        if ((range_y_above == 0) && (range_x_left ==0)){//if already in corner 
+            return Inwards(range_x_left,range_x_right, range_y_above, range_y_below);
         }else{ 
             if (data.getStart_dir().charAt(0) =='E'){
                 return LFR(range_y_above, start_dir); 
@@ -123,16 +124,17 @@ public class StartPoint{
         logger.info("Top right");
         
         int range_x_right = data.getRange_x_right();
+        int range_x_left = data.getRange_x_left();
+        int range_y_below = data.getRange_y_below(); 
         int range_y_above = data.getRange_y_above(); 
+        
         start_dir = data.getStart_dir(); 
 
         logger.info(range_x_right);
         logger.info(range_y_above);
 
         if ((range_y_above == 0) && (range_x_right ==0)){//already in corner 
-            data.setTop();
-            data.setInitialEastWest(data.getCurrDirection());
-            return action.scan();
+            return Inwards(range_x_left,range_x_right, range_y_above, range_y_below);
         }else{ 
             if (data.getStart_dir().charAt(0) == 'W'){
                 return RFL(range_y_above, start_dir);
@@ -148,17 +150,18 @@ public class StartPoint{
         logger.info("Bot right");
         
         int range_x_right = data.getRange_x_right();
+        int range_x_left = data.getRange_x_left();
         int range_y_below = data.getRange_y_below(); 
+        int range_y_above = data.getRange_y_above(); 
+        
         start_dir = data.getStart_dir(); 
 
         logger.info(range_x_right);
         logger.info(range_y_below);
 
-        if (range_y_below == 0 && range_x_right ==0){//already in corner 
-            logger.info("corner lets go");
-            data.setTop();
-            data.setInitialEastWest(data.getCurrDirection());
-            return action.scan();
+        if ((range_y_below == 0) && (range_x_right ==0)){//already in corner 
+            logger.info("corner");
+            return Inwards(range_x_left,range_x_right, range_y_above, range_y_below);
         }else{ 
             logger.info(start_dir);
             if (data.getStart_dir().charAt(0) == 'W'){
@@ -176,15 +179,15 @@ public class StartPoint{
         //top right
         logger.info("Bot left");
 
+        int range_x_right = data.getRange_x_right();
         int range_x_left = data.getRange_x_left();
         int range_y_below = data.getRange_y_below(); 
-        logger.info(range_y_below);
+        int range_y_above = data.getRange_y_above(); 
+        
         start_dir = data.getStart_dir(); 
 
-        if (range_y_below == 0 && range_x_left ==0){//already in corner 
-            data.setTop();
-            data.setInitialEastWest(data.getCurrDirection());
-            return action.scan();
+        if ((range_y_below == 0) && (range_x_left ==0)){//already in corner 
+            return Inwards(range_x_left,range_x_right, range_y_above, range_y_below);
         }else{ 
             if (data.getStart_dir().charAt(0) == 'E'){//repeated with bot right first part
                 return RFL(range_y_below, start_dir); 
@@ -194,6 +197,40 @@ public class StartPoint{
             }
         }
         return null;
+    }
+
+    //make sure starting point of corners is east or west 
+    public String Inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
+
+        if(((range_x_left ==0) && (range_y_above ==0)) || ((range_x_left ==0) && (range_y_below ==0))){
+            if(data.getCurrDirection().charAt(0) != 'E'){
+
+                data.setTop();
+                data.setBeforeTurnDir(data.getCurrDirection()); 
+                data.setInitialEastWest("E");
+                return action.changeDirection("E");
+
+            }else{
+                data.setTop();
+                data.setInitialEastWest("E");
+                return action.scan();
+            }
+        }else if (((range_x_right ==0) && (range_y_above ==0)) || ((range_x_right ==0) && (range_y_below ==0))){
+
+            if(data.getCurrDirection().charAt(0) != 'W'){
+                data.setTop();
+                data.setBeforeTurnDir(data.getCurrDirection()); 
+                data.setInitialEastWest("W");
+                return action.changeDirection("W");
+
+            }else{
+                logger.info("I AM HERE 2");
+                data.setTop();
+                data.setInitialEastWest("W");
+                return action.scan();
+            }
+        }
+        return action.scan();
     }
 
 //based on location assign closest corner for traversal - ensures no part of the map cut off 
@@ -254,6 +291,7 @@ public class StartPoint{
             data.setInitialEastWest(data.getCurrDirection());
             data.setBeforeTurnDir(data.getCurrDirection()); 
             String Current = data.getCurrDirection();
+            logger.info(Current);
             return action.changeDirection(Direction.left(Current));
         }
     }
@@ -296,6 +334,7 @@ public class StartPoint{
             data.setInitialEastWest(data.getCurrDirection());
             data.setBeforeTurnDir(data.getCurrDirection()); 
             String Current = data.getCurrDirection();
+            logger.info(Current);
             return action.changeDirection(Direction.right(Current));
         }
     }
