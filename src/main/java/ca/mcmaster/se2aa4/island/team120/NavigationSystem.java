@@ -30,7 +30,7 @@ public class NavigationSystem implements MissionType{
 
         if(!(data.getTop())){
             logger.info(data.getTop());
-            return start.FourCorners(range, groundFound);
+            return start.FourCorners(groundFound);
         }
         else if (!onGround && !interTurn){
             return island.Finder(); 

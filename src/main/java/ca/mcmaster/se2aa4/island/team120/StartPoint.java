@@ -27,8 +27,9 @@ public class StartPoint{
     int range_y_above; 
 
     String start_dir; 
+
     
-    public String FourCorners(int range, boolean groundFound){
+    public String FourCorners(boolean groundFound){
         range = data.getRange();
         int count = data.getStage(); 
         logger.info(count);  
@@ -42,8 +43,8 @@ public class StartPoint{
         }else if (count==1){
             if((data.getCurrDirection().charAt(0) != 'W')){
                 data.setRange_x_right(range);
+                logger.info(range);
             }
-
             if((data.getCurrDirection().charAt(0) != 'E')){
                 return action.echo("W"); //TURN RANGE INTO DATA POINT!!
             }else{
@@ -53,8 +54,8 @@ public class StartPoint{
         }else if (count == 2){
             if((data.getCurrDirection().charAt(0) != 'E')){
                 data.setRange_x_left(range);
+                logger.info(range);
             }
-
             if((data.getCurrDirection().charAt(0) != 'S')){
                 return action.echo("N");
             }else{
@@ -64,8 +65,8 @@ public class StartPoint{
         }else if (count ==3){
             if((data.getCurrDirection().charAt(0) != 'S')){
                 data.setRange_y_above(range);
+                logger.info(range);
             }
-
             if((data.getCurrDirection().charAt(0) != 'N')){
                 return action.echo("S");
             }else{
@@ -76,57 +77,16 @@ public class StartPoint{
 
             if((data.getCurrDirection().charAt(0) != 'N')){
                 data.setRange_y_below(range);
+                logger.info(range);
             }
-            logger.info("HELLO!!!");
 
             int range_x_right = data.getRange_x_right();
             int range_x_left = data.getRange_x_left();
             int range_y_below = data.getRange_y_below(); 
             int range_y_above = data.getRange_y_above(); 
 
-            logger.info("HELLO!!!");
-
-            //return Inwards(range_x_left, range_x_right, range_y_above, range_y_below);
-            if((range_x_left ==0 && range_y_above ==0) || (range_x_left ==0 && range_y_below ==0) || range_x_left == 0){
-                if(data.getCurrDirection().charAt(0) != 'E'){
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    data.setStart_dir("E");
-                    return action.changeDirection("E");
-                }else{
-                    data.setStart_dir("E");
-                    return action.scan();
-                }
-            }else if (range_x_right ==0 && range_y_above ==0 || range_x_right ==0 && range_y_below ==0 || range_x_right ==0){
-                if(data.getCurrDirection().charAt(0) != 'W'){
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    data.setStart_dir("W");
-                    return action.changeDirection("W");
-                }else{
-                    data.setStart_dir("W");
-                    return action.scan();
-                }
-                
-            }else if (range_y_above == 0){
-                if(data.getCurrDirection().charAt(0) != 'S'){
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    data.setStart_dir("S");
-                    return action.changeDirection("S");
-                }else{
-                    data.setStart_dir("S");
-                    return action.scan();
-                }
-    
-            }else if (range_y_below ==0){
-                if(data.getCurrDirection().charAt(0) != 'N'){
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    data.setStart_dir("N");
-                    return action.changeDirection("N");
-                }else{
-                    data.setStart_dir("N");
-                    return action.scan();
-                }
-            }
-
+            return Inwards(range_x_left, range_x_right, range_y_above, range_y_below);
+            
         }else if (count >=5){
             //metho for all this shit 
             int range_x_right = data.getRange_x_right();
@@ -134,206 +94,84 @@ public class StartPoint{
             int range_y_below = data.getRange_y_below(); 
             int range_y_above = data.getRange_y_above(); 
 
-            if (range_x_right > range_x_left){
-                if (range_y_below > range_y_above){
-                    data.setIsStartingLeft(true);
-                    return TopLeft(range, groundFound);
-                }else{
-                    return BotLeft(range, groundFound);
-                }
-
-            }else{
-                if (range_y_below > range_y_above){
-                    data.setIsStartingLeft(false);
-                    return TopRight(range, groundFound);
-                    
-                }else{
-                    return BotRight(range, groundFound);
-                }
-            }
+            return corners(range_x_right, range_x_left, range_y_above, range_y_below);
         }
         return null;
     }
 
-    public String TopLeft(int range, boolean groundFound){
-        range = data.getRange();
-
+    public String TopLeft(int range){
         //top left
         logger.info("Top Left");
-        int count = data.getStage(); 
 
         int range_x_left = data.getRange_x_left();
         int range_y_above = data.getRange_y_above(); 
-
         start_dir = data.getStart_dir(); 
 
         if (range_y_above == 0 && range_x_left ==0){
-            logger.info(range_y_above);
             data.setTop();
             return action.scan();
         }else{ 
             if (data.getStart_dir() == "E"){
-                if (count== 5){
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("N");
-                }else{
-                    while(range_y_above > 3){
-                        data.setRange_y_above(range_y_above-1); 
-                        int counter = data.getRange_y_above(); 
-                        logger.info(counter);
-                        logger.info(range_y_above);
-                        return action.fly(); 
-                    }
-                    logger.info(data.getRange_y_above());
-                    data.setTop();
-                    logger.info(data.getTop());
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("E");
-                }
+                return LFR(range_y_above, start_dir); 
             }else if(data.getStart_dir() == "S"){//repeated with top right second parth 
                 //turn west and go forward turn back south -stop one before 
-                if (count==0){
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    action.changeDirection("W");
-                }else{
-                    while(range_x_left> 1){
-                        data.setRange_x_left(range_x_left--); 
-                        return action.fly(); 
-                    }
-                    if(range_x_left==1){
-                        data.setBeforeTurn(data.getCurrDirection()); 
-                        return action.changeDirection("N");
-                    }
-                    data.setTop();
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("E");
-                }
+                return RFL(range_x_left, start_dir);
             }
         }
-        return null;//maybe change to scan
+        return null;
     }
   
     
-    public String TopRight(int range, boolean groundFound){
-        range = data.getRange();
-
-        //top right
+    public String TopRight(int range){
         logger.info("Top right");
-        int count = data.getStage(); 
-        logger.info(count);
         
         int range_x_right = data.getRange_x_right();
         int range_y_above = data.getRange_y_above(); 
+        start_dir = data.getStart_dir(); 
 
         if (range_y_above == 0 && range_x_right ==0){
-            logger.info(range_y_above);
             data.setTop();
             return action.scan();
         }else{ 
             if (data.getCurrDirection() == "W"){
-                if (count==0){
-                    logger.info(count);
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("N");
-                }else{
-                    logger.info(count);
-                    while(range_y_above > 1){
-                        data.setRange_y_above(range_y_above--); 
-                        return action.fly(); 
-                    }
-                    logger.info(range_y_above);
-                    data.setTop();
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("W");
-                }
+                return RFL(range_y_above, start_dir);
 
             }else if(data.getCurrDirection() == "S"){
-                if (count==0){
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    action.changeDirection("E");
-                }else{
-                    while(range_x_right> 1){
-                        data.setRange_x_right(range_x_right--); 
-                        return action.fly(); 
-                    }
-                    if(range_x_right==1){
-                        data.setBeforeTurn(data.getCurrDirection()); 
-                        return action.changeDirection("N");
-                    }
-                    data.setTop();
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("W");
-                }
+                return LFR(range_x_right, start_dir); 
             }
         }
         return null;
     }
 
-    public String BotRight(int range, boolean groundFound){
-        range = data.getRange();
-
-        //top right
+    public String BotRight(int range){
         logger.info("Bot right");
         int count = data.getStage(); 
-        logger.info(count);
         
         int range_x_right = data.getRange_x_right();
         int range_y_below = data.getRange_y_below(); 
+        start_dir = data.getStart_dir(); 
 
         if (range_y_below == 0 && range_x_right ==0){
-            logger.info(range_y_below);
             data.setTop();
             return action.scan();
         }else{ 
             if (data.getCurrDirection() == "W"){
-                if (count==0){
-                    logger.info(count);
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("S");
-                }else{
-                    logger.info(count);
-                    while(range_y_below > 1){
-                        data.setRange_y_below(range_y_below--); 
-                        return action.fly(); 
-                    }
-                    logger.info(range_y_below);
-                    data.setTop();
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("W");
-                }
+                return RFL(range_y_below, start_dir);
 
             }else if(data.getCurrDirection() == "N"){//repeated 
-                if (count==0){
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("E");
-                }else{
-                    while(range_x_right> 1){
-                        data.setRange_x_right(range_x_right--); 
-                        return action.fly(); 
-                    }
-                    if(range_x_right==1){
-                        data.setBeforeTurn(data.getCurrDirection()); 
-                        return action.changeDirection("S");
-                    }
-                    data.setTop();
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("W");
-                }
+                return LFR(range_x_right, start_dir); 
             }
         }
         return null;
     }
 
-    public String BotLeft(int range, boolean groundFound){
-        range = data.getRange();
-
+    public String BotLeft(int range){
         //top right
         logger.info("Bot left");
-        int count = data.getStage(); 
-        logger.info(count);
 
         int range_x_left = data.getRange_x_left();
         int range_y_below = data.getRange_y_below(); 
+        start_dir = data.getStart_dir(); 
 
         if (range_y_below == 0 && range_x_left ==0){
             logger.info(range_y_below);
@@ -341,46 +179,143 @@ public class StartPoint{
             return action.scan();
         }else{ 
             if (data.getCurrDirection() == "W"){//repeated with bot right first part
-                if (count==0){
-                    logger.info(count);
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("S");
-                }else{
-                    logger.info(count);
-                    while(range_y_below > 1){
-                        data.setRange_y_below(range_y_below--); 
-                        return action.fly(); 
-                    }
-                    logger.info(range_y_below);
-                    data.setTop();
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("W");
-                }
+                return LFR(range_x_left, start_dir); 
 
             }else if(data.getCurrDirection() == "N"){
-                if (count==0){
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("W");
-                }else{
-                    while(range_x_left> 1){
-                        data.setRange_x_left(range_x_left--); 
-                        return action.fly(); 
-                    }
-                    if(range_x_left==1){
-                        data.setBeforeTurn(data.getCurrDirection()); 
-                        return action.changeDirection("S");
-                    }
-                    data.setTop();
-                    data.setBeforeTurn(data.getCurrDirection()); 
-                    return action.changeDirection("E");
-                }
+                return RFL(range_y_below, start_dir);
             }
         }
         return null;
     }
 
     public String Inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
+        if((range_x_left ==0 && range_y_above ==0) || (range_x_left ==0 && range_y_below ==0) || range_x_left == 0){
+            if(data.getCurrDirection().charAt(0) != 'E'){
+                data.setBeforeTurn(data.getCurrDirection()); 
+                data.setStart_dir("E");
+                return action.changeDirection("E");
+            }else{
+                data.setStart_dir("E");
+                return action.scan();
+            }
+        }else if (range_x_right ==0 && range_y_above ==0 || range_x_right ==0 && range_y_below ==0 || range_x_right ==0){
+            if(data.getCurrDirection().charAt(0) != 'W'){
+                data.setBeforeTurn(data.getCurrDirection()); 
+                data.setStart_dir("W");
+                return action.changeDirection("W");
+            }else{
+                data.setStart_dir("W");
+                return action.scan();
+            }
+        }else if (range_y_above == 0){
+            if(data.getCurrDirection().charAt(0) != 'S'){
+                data.setBeforeTurn(data.getCurrDirection()); 
+                data.setStart_dir("S");
+                return action.changeDirection("S");
+            }else{
+                data.setStart_dir("S");
+                return action.scan();
+            }
+        }else if (range_y_below ==0){
+            if(data.getCurrDirection().charAt(0) != 'N'){
+                data.setBeforeTurn(data.getCurrDirection()); 
+                data.setStart_dir("N");
+                return action.changeDirection("N");
+            }else{
+                data.setStart_dir("N");
+                return action.scan();
+            }
+        }
+        return null;
+    }
 
-        return null; 
+    public String corners(int range_x_right, int range_x_left,int range_y_above,int range_y_below){
+        if (range_x_right > range_x_left){
+            if (range_y_below > range_y_above){
+                data.setIsStartingLeft(true);
+                return TopLeft(range);
+            }else{
+                return BotLeft(range);
+            }
+        }else{
+            if (range_y_below > range_y_above){
+                data.setIsStartingLeft(false);
+                return TopRight(range);
+                
+            }else{
+                return BotRight(range);
+            }
+        }
+    }
+
+    public String RFL(int range, String start_dir){
+        logger.info("RFL");
+        int count = data.getStage(); 
+        if (count==5){
+                data.setBeforeTurn(data.getCurrDirection()); 
+                String Current = data.getCurrDirection();
+                return action.changeDirection(Direction.right(Current));
+        }else{
+            logger.info(range);
+            while(range > 3){
+                if (data.getCurrDirection().charAt(0) == 'N'){
+                    data.setRange_y_above((range-1)); 
+                    return action.fly(); 
+                }else if(data.getCurrDirection().charAt(0) == 'S'){
+                    data.setRange_y_below((range-1)); 
+                    return action.fly(); 
+                }else if(data.getCurrDirection().charAt(0) == 'W'){
+                    data.setRange_x_left((range-1)); 
+                    return action.fly(); 
+                }else if(data.getCurrDirection().charAt(0) == 'E'){
+                    data.setRange_x_right((range-1)); 
+                    return action.fly(); 
+                }
+            }
+            if ((start_dir == "S" || start_dir == "N") && (data.getExtra() != true)){
+                data.setBeforeTurn(data.getCurrDirection()); 
+                String Current = data.getCurrDirection();
+                data.setExtra(); 
+                return action.changeDirection(Direction.left(Current));
+            }
+            data.setTop();
+            data.setBeforeTurn(data.getCurrDirection()); 
+            String Current = data.getCurrDirection();
+            return action.changeDirection(Direction.left(Current));
+        }
+    }
+
+
+    public String LFR(int range, String start_dir){
+        logger.info("LFR");
+        int count = data.getStage(); 
+        if (count == 5){
+            data.setBeforeTurn(data.getCurrDirection()); 
+            String Current = data.getCurrDirection();
+            return action.changeDirection(Direction.left(Current));
+        }else{
+            while(range > 3){
+                if (data.getCurrDirection().charAt(0) == 'N'){
+                    data.setRange_y_above((range-1)); 
+                }else if(data.getCurrDirection().charAt(0) == 'S'){
+                    data.setRange_y_below((range-1)); 
+                }else if(data.getCurrDirection().charAt(0) == 'W'){
+                    data.setRange_x_left((range-1)); 
+                }else if(data.getCurrDirection().charAt(0) == 'E'){
+                    data.setRange_x_right((range-1)); 
+                }
+                return action.fly(); 
+            }
+            if ((start_dir == "S" || start_dir == "N") && (data.getExtra() != true)){
+                data.setBeforeTurn(data.getCurrDirection()); 
+                String Current = data.getCurrDirection();
+                data.setExtra(); 
+                return action.changeDirection(Direction.right(Current));
+            }
+            data.setTop();
+            data.setBeforeTurn(data.getCurrDirection()); 
+            String Current = data.getCurrDirection();
+            return action.changeDirection(Direction.right(Current));
+        }
     }
 }

@@ -19,6 +19,7 @@ public class Data {
     private static boolean goSouth = false;
     private static boolean checkDone= true;
     private static boolean top;
+    private static boolean extra;
     private static int range_x_right = 0;
     private static int range_x_left = 0;
     private static int range_y_below = 0; 
@@ -186,6 +187,14 @@ public class Data {
         top = true; 
     }
 
+    public boolean getExtra(){
+        return extra; 
+    }
+    public void setExtra(){
+        extra = true; 
+    }
+
+
 
     public int getRange_x_left(){
         return range_x_left;
@@ -293,5 +302,6 @@ public class Data {
     public String getStart_dir(){
         return start_dir;
     }
+
 
 }
