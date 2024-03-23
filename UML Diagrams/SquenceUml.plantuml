@@ -14,7 +14,8 @@ participant Tracker as "Tracker"
 
 
 CommandCenter -> Explorer: Initiate Rescue Mission
-Explorer -> NavigationSystem: Phase 1: Starting Point
+Explorer -> NavigationSystem: Start Mission
+NavigationSystem -> StartPoint: Phase 1: Starting Point
 loop until in one of four corners
     NavigationSystem -> StartPoint: Update Counter
     Radar -> StartPoint: Get Current location
@@ -29,7 +30,7 @@ loop until Land is Found
     FindIsland -> NavigationSystem: Land found?
 end
 FindIsland -> NavigationSystem: Next Phase
-Explorer --> NavigationSystem: Phase 3: Traverse Land
+NavigationSystem --> GridSearch: Phase 3: Traverse Land
 NavigationSystem -> GridSearch: Travel on island
 loop until Points of Interest Found
     GridSearch -> Scanner: Check for Points of Interest

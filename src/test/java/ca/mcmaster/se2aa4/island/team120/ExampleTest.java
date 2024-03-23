@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
-
+ 
     @Test
     public void testGridSearch() { 
         Actions action = new Actions();
@@ -83,7 +83,26 @@ public class ExampleTest {
         assertEquals("E", Direction.left("S"));
         assertEquals("N", Direction.left("E"));
     }
+    
+    /*@Test
+    public void testStartPointCount0() {
+        // Create an instance of StartPoint
+        StartPoint startPoint = new StartPoint();
 
+        // Set up the count to 0 and current direction to North
+        startPoint.data.setStage(0);
+        startPoint.data.setCurrDirection("E");
 
+        // Expected action when count is 0 and current direction is east
+        String expectedAction = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}";
+
+        // Invoke method under test
+        String result = startPoint.fourCorners(false);
+
+        // Verify that the method returns the expected action
+        assertEquals(expectedAction, result);
+    }
+
+*/
 
 }

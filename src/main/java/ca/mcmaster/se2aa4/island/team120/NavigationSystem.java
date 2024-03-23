@@ -16,6 +16,9 @@ public class NavigationSystem implements MissionType{
     Actions action= new Actions();
 
     public String run(int batteryLevel, int startingBatteryLevel){ 
+        logger.info(data.getTop());
+        logger.info(data.getCurrDirection());
+        
         if(!(data.getTop())){
             return start.fourCorners(data.getGroundFound());
         }
