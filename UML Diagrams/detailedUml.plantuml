@@ -98,7 +98,6 @@
         +run(batteryLevel: int, startingBatteryLevel: int): String
     }
 
-
     class DecisionBoard{
         -data: Data
         -rangeCheck: int

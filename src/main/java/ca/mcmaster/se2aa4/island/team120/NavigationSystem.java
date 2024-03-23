@@ -11,40 +11,31 @@ public class NavigationSystem implements MissionType{
     Coordinates coords = new Coordinates();
     Actions action= new Actions();
 
-    private static boolean interTurn;
-    private static boolean hasChangedDir;
-    private static boolean onGround;
-    private static String currentDirection;
     private static boolean groundFound;
-    private static int range;
     private static boolean checkDone;
+    private static String currentDirection;
 
     public String run(int batteryLevel, int startingBatteryLevel){ 
         
         //initializes variables
-        interTurn = data.getInterTurn();
-        onGround = data.getOnGround();
-        hasChangedDir= data.getHasChangedDir();
-        currentDirection = data.getCurrDirection();
         groundFound = data.getGroundFound();
-        range = data.getRange();
         checkDone = data.getCheckDone();
+        currentDirection = data.getCurrDirection();
 
         if(!(data.getTop())){
             return start.FourCorners(groundFound);
         }
-        else if (!onGround && !interTurn){
+        else if (!data.getOnGround() && !data.getInterTurn()){
             return island.Finder(); 
         }
-        else if(interTurn){
+        else if(data.getInterTurn()){
             data.setHasChangedDir(true);
-            
             return interlace.Turn();
         }
-        else if(!(interTurn) && hasChangedDir){
+        else if(!(data.getInterTurn()) && data.getHasChangedDir()){
             return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
         }
-        else if (!(interTurn) && !(hasChangedDir)){
+        else if (!(data.getInterTurn()) && !(data.getHasChangedDir())){
             return algoRun.search(currentDirection, batteryLevel, startingBatteryLevel, checkDone); 
         }
         else{
