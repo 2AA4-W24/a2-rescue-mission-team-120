@@ -37,7 +37,6 @@ public class Data {
     private static String initDir;
 
 
-
     public void setLastDirection(String lastDirection){
         last = lastDirection;
     }

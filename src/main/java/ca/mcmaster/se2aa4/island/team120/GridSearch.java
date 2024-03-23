@@ -8,8 +8,6 @@ public class GridSearch implements SearchIsland{
     //going to place our orginal algo for creeks - just going up and down the island no face implementations 
     //NEED TO CREATE INTERFACE FOR ALL ALGOS THAT GO IN NAVIGATION SYSTEM 
 
-    private final Logger logger = LogManager.getLogger();
- 
     Actions action= new Actions();
     Direction direction= new Direction();
     Data data= new Data();
@@ -86,6 +84,7 @@ public class GridSearch implements SearchIsland{
         return action.stop();
     }
     
+
     //drone flies one step ahead to account for the square 3x3 tile which gets skipped while changing heading
     public String firstDirStep(){
         //moves onto next turning cycle step

@@ -70,14 +70,8 @@ public class Explorer implements IExplorerRaid {
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
 
-        
-        if (batteryLevel==0){
-            deliverFinalReport();
-        }
-
         count ++; 
         data.setStage(count);
-        logger.info("COUNT VALUE {}", data.getStage());
 
         DecisionBoard updateInfo = new DecisionBoard();
         updateInfo.makeDecision(response);
