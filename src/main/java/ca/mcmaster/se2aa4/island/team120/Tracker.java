@@ -34,7 +34,6 @@ public class Tracker{
 
         if (type == "Creek" && !(x_coords.containsKey(id))){
             creek_counter+=1; 
-
             x_coords.put(id, x);
             y_coords.put(id, y);
             logger.info("creek stored", creek_counter);
@@ -84,7 +83,7 @@ public class Tracker{
                 currentIndex++;
             }
         }
-        return null; 
+        return "no creek found"; 
     }
 
     public static String getClosetCreekCoords(){

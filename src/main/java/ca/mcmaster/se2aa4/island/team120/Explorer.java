@@ -14,22 +14,10 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private Integer batteryLevel; //so we can track battery level 
-    private String currentDirection; //so we can know from parsing info what our starter direction is 
-    private Integer range = 0;
-    private String creeks;
-    private String biomes;
-    private Integer fly;
-    private Integer signal;
-    private Boolean groundFound = false;
-    private Boolean reachGround;
-    private String lastChecked;
-    private String newDirection;
-    private Boolean onGround = false;
-    private Integer scanned;
+
     private Integer startingBatteryLevel;
     private Integer count = 0; 
     private Integer rangeCheck = 0;
-    private Boolean checkDone;
 
     private int x;
     private int y; 
@@ -48,30 +36,23 @@ public class Explorer implements IExplorerRaid {
         data.setCurrDirection(info.getString("heading"));
         logger.info("heading {}", info.getString("heading"));
         logger.info("direction {}", data.getCurrDirection());
+
         data.setLastDirection(data.getCurrDirection());
         data.setNewDirection(data.getCurrDirection());
-        data.setFly(1);
-        data.setSignal(0);
-        data.setScanned(1);
+
         data.setStage(0);
 
         batteryLevel = info.getInt("budget");
         startingBatteryLevel = info.getInt("budget");
-        logger.info("The drone is facing {}", currentDirection);
+        logger.info("The drone is facing {}", data.getCurrDirection());
         logger.info("Battery level is {}", batteryLevel);
     }
 
     @Override
     public String takeDecision() {
-        signal= data.getSignal();
-        fly= data.getFly();
-        scanned= data.getScanned();
-        currentDirection = data.getCurrDirection();
-        lastChecked= data.getLastDirection();
-        checkDone = data.getCheckDone();
 
         NavigationSystem decisionMaker = new NavigationSystem();
-        String decision = decisionMaker.run(currentDirection, groundFound, range, rangeCheck, batteryLevel, startingBatteryLevel, checkDone);
+        String decision = decisionMaker.run(batteryLevel, startingBatteryLevel);
         return decision.toString();
     }
 
@@ -90,15 +71,14 @@ public class Explorer implements IExplorerRaid {
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
 
-
-        logger.info("COUNT VALUE {}", data.getStage());
-        count = data.getStage();
-        data.setStage(count+1);
-        logger.info("COUNT VALUE {}", data.getStage());
         
         if (batteryLevel==0){
             deliverFinalReport();
         }
+
+        count ++; 
+        data.setStage(count);
+        logger.info("COUNT VALUE {}", data.getStage());
 
         DecisionBoard updateInfo = new DecisionBoard();
         updateInfo.makeDecision(response);
@@ -106,11 +86,10 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        logger.info("hello");
         logger.info(Tracker.getNumCreeks());
         logger.info(Tracker.getEmergencySite());
         logger.info(Tracker.CurrentClosest());
         logger.info(Tracker.getClosetCreekCoords());
-        return "no creek found";
+        return Tracker.getClosetCreekCoords();
     }
 }

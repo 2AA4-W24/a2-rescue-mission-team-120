@@ -32,7 +32,7 @@ public class StartPoint{
     public String FourCorners(boolean groundFound){
         range = data.getRange();
         int count = data.getStage(); 
-        logger.info(count);  
+        logger.info("Count: "+ count);  
 
         if(count==0){
             if((data.getCurrDirection().charAt(0) != 'W')){
@@ -191,7 +191,7 @@ public class StartPoint{
     public String Inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
         if((range_x_left ==0 && range_y_above ==0) || (range_x_left ==0 && range_y_below ==0) || range_x_left == 0){
             if(data.getCurrDirection().charAt(0) != 'E'){
-                data.setBeforeTurn(data.getCurrDirection()); 
+                data.setBeforeTurnDir(data.getCurrDirection()); 
                 data.setStart_dir("E");
                 return action.changeDirection("E");
             }else{
@@ -200,8 +200,7 @@ public class StartPoint{
             }
         }else if (range_x_right ==0 && range_y_above ==0 || range_x_right ==0 && range_y_below ==0 || range_x_right ==0){
             if(data.getCurrDirection().charAt(0) != 'W'){
-                data.setBeforeTurn(data.getCurrDirection()); 
-                data.setStart_dir("W");
+                data.setBeforeTurnDir(data.getCurrDirection()); 
                 return action.changeDirection("W");
             }else{
                 data.setStart_dir("W");
@@ -209,8 +208,7 @@ public class StartPoint{
             }
         }else if (range_y_above == 0){
             if(data.getCurrDirection().charAt(0) != 'S'){
-                data.setBeforeTurn(data.getCurrDirection()); 
-                data.setStart_dir("S");
+                data.setBeforeTurnDir(data.getCurrDirection()); 
                 return action.changeDirection("S");
             }else{
                 data.setStart_dir("S");
@@ -218,7 +216,7 @@ public class StartPoint{
             }
         }else if (range_y_below ==0){
             if(data.getCurrDirection().charAt(0) != 'N'){
-                data.setBeforeTurn(data.getCurrDirection()); 
+                data.setBeforeTurnDir(data.getCurrDirection()); 
                 data.setStart_dir("N");
                 return action.changeDirection("N");
             }else{
@@ -252,7 +250,7 @@ public class StartPoint{
         logger.info("RFL");
         int count = data.getStage(); 
         if (count==5){
-                data.setBeforeTurn(data.getCurrDirection()); 
+                data.setBeforeTurnDir(data.getCurrDirection()); 
                 String Current = data.getCurrDirection();
                 return action.changeDirection(Direction.right(Current));
         }else{
@@ -273,13 +271,13 @@ public class StartPoint{
                 }
             }
             if ((start_dir == "S" || start_dir == "N") && (data.getExtra() != true)){
-                data.setBeforeTurn(data.getCurrDirection()); 
+                data.setBeforeTurnDir(data.getCurrDirection()); 
                 String Current = data.getCurrDirection();
                 data.setExtra(); 
                 return action.changeDirection(Direction.left(Current));
             }
             data.setTop();
-            data.setBeforeTurn(data.getCurrDirection()); 
+            data.setBeforeTurnDir(data.getCurrDirection()); 
             String Current = data.getCurrDirection();
             return action.changeDirection(Direction.left(Current));
         }
@@ -290,7 +288,7 @@ public class StartPoint{
         logger.info("LFR");
         int count = data.getStage(); 
         if (count == 5){
-            data.setBeforeTurn(data.getCurrDirection()); 
+            data.setBeforeTurnDir(data.getCurrDirection()); 
             String Current = data.getCurrDirection();
             return action.changeDirection(Direction.left(Current));
         }else{
@@ -307,13 +305,13 @@ public class StartPoint{
                 return action.fly(); 
             }
             if ((start_dir == "S" || start_dir == "N") && (data.getExtra() != true)){
-                data.setBeforeTurn(data.getCurrDirection()); 
+                data.setBeforeTurnDir(data.getCurrDirection()); 
                 String Current = data.getCurrDirection();
                 data.setExtra(); 
                 return action.changeDirection(Direction.right(Current));
             }
             data.setTop();
-            data.setBeforeTurn(data.getCurrDirection()); 
+            data.setBeforeTurnDir(data.getCurrDirection()); 
             String Current = data.getCurrDirection();
             return action.changeDirection(Direction.right(Current));
         }

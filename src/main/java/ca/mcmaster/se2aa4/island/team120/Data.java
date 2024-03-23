@@ -6,7 +6,7 @@ public class Data {
     private static int fly;
     private static int scanned;
     private static String current;
-    private static int stage;
+    private static int stage = 0;
     private static int count;
     private static int changeDir;
     private static String newDir;
@@ -26,15 +26,17 @@ public class Data {
     private static int range_y_above = 0; 
     private static int range; 
     private static boolean isStartingLeft;
-    public static boolean turned=false;
+    public static boolean hasChangedDir=false;
     private static boolean inPos = true;
     private static int counting = 0;
     private static String beforeTurn;
 
     private static int rangeChecker = -1;
     private static boolean groundLocated;
+    private static int phase = 0;
 
     private static String start_dir; 
+
 
 
     public void setLastDirection(String lastDirection){
@@ -236,12 +238,12 @@ public class Data {
         isStartingLeft= newIsStartingLeft;
     }
 
-    public void setTurned(boolean newTurned){
-        turned= newTurned;
+    public void setHasChangedDir(boolean newHasChangedDir){
+        hasChangedDir= newHasChangedDir;
     }
 
-    public boolean getTurned(){
-        return turned;
+    public boolean getHasChangedDir(){
+        return hasChangedDir;
     }
 
 
@@ -261,11 +263,11 @@ public class Data {
         counting = counter;
     }
 
-    public String getBeforeTurn(){
+    public String getBeforeTurnDir(){
         return beforeTurn;
     }
 
-    public void setBeforeTurn(String beforeTurnDirection){
+    public void setBeforeTurnDir(String beforeTurnDirection){
         beforeTurn = beforeTurnDirection;
     }
 
@@ -304,4 +306,12 @@ public class Data {
     }
 
 
+
+    public int getPhase(){
+        return phase;
+    }
+
+    public void setPhase(int newPhase){
+        phase = newPhase;
+    }
 }
