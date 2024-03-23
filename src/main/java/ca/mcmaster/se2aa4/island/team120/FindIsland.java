@@ -96,7 +96,7 @@ public class FindIsland {
     }
 
     public String getInPos(Actions task, String rightDir, String leftDir){
-        data.setBeforeTurn(currentDirection);
+        data.setBeforeTurnDir(currentDirection);
         switch (count){
             case 0: 
                 data.setCounter(1);

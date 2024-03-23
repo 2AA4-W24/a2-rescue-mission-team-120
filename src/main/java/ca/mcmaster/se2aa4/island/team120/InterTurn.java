@@ -54,84 +54,9 @@ public class InterTurn{
 
             default:
                 throw new IllegalArgumentException("nope.");
-            }
-
         }
-        /*
-        if (phase == 0){
-            return firstPhase(task, leftDir, rightDir);
-        }
-        else if (phase == 1){
-            if (data.getRange() > 2){
-                data.setCountAlgo(0);
-                data.setPhase(3);
-                return task.scan();
-            }
-            else{
-                data.setPhase(2);
-                return task.fly();
-            }
-        }
-        else if (phase == 2){
-            data.setPhase(1);
-            return task.echo(lastChecked);
-        }
-
-        else if (phase == 3){
-             if (count == 0){
-                logger.info("PHASE 1 CHANGE DIRECTION");
-                data.setCountAlgo(1);
-                data.setBeforeTurnDir(data.getCurrDirection());
-                return task.changeDirection(lastChecked);
-            }
-            else if(count == 1){
-                logger.info("PHASE 2 FLY");
-                data.setLastDirection(currentDirection);
-                data.setCountAlgo(2);
-                return task.fly();
-            }
-            else if (count ==2){
-                data.setCountAlgo(3);
-                if (goNorth){
-                    data.setSouthAlgo(1);
-                    data.setNorthAlgo(0);
-                    data.setBeforeTurnDir(data.getCurrDirection());
-                    return task.changeDirection("S");
-
-                }else if(goSouth){
-                    data.setSouthAlgo(0);
-                    data.setNorthAlgo(1);
-                    data.setBeforeTurnDir(data.getCurrDirection());
-                    return task.changeDirection("N");
-                }
-                return task.changeDirection(lastChecked);
-            }
-            else if (count == 3){
-                data.setCountAlgo(4);
-                return task.echo(currentDirection);
-            }
-            else if (count == 4){
-                if (data.getReachGround()){
-                    data.setCountAlgo(5);
-                    return task.fly();
-                }
-                data.setCountAlgo(3);
-                return task.fly();
-            }
-            else if(count==5){
-                data.setCountAlgo(6);
-                return task.scan();
-            }
-            else if(count==6){
-                data.setInterTurn(false);
-                data.setIsStartingLeft(!(data.getIsStartingLeft()));
-                return task.scan();
-            }
-        }
-        return decision.toString();
     }
-     */
-
+    
     public String firstPhase(Actions task, String leftDir, String rightDir){
         if(data.getGroundFound()){
             data.setPhase(1);
@@ -163,7 +88,7 @@ public class InterTurn{
             case 0:
                 logger.info("PHASE 1 CHANGE DIRECTION");
                 data.setCountAlgo(1);
-                data.setBeforeTurn(data.getCurrDirection());
+                data.setBeforeTurnDir(data.getCurrDirection());
                 return task.changeDirection(lastChecked);
 
             case 1:
@@ -177,13 +102,13 @@ public class InterTurn{
                 if (goNorth){
                     data.setSouthAlgo(1);
                     data.setNorthAlgo(0);
-                    data.setBeforeTurn(data.getCurrDirection());
+                    data.setBeforeTurnDir(data.getCurrDirection());
                     return task.changeDirection("S");
 
                 }else if(goSouth){
                     data.setSouthAlgo(0);
                     data.setNorthAlgo(1);
-                    data.setBeforeTurn(data.getCurrDirection());
+                    data.setBeforeTurnDir(data.getCurrDirection());
                     return task.changeDirection("N");
                 }
                 return task.changeDirection(lastChecked);
