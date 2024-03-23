@@ -104,22 +104,44 @@ public class FindIsland {
         switch (count){
             case 0: 
                 data.setCounter(1);
-                data.setNewDirection(rightDir);
+                if (data.getInitialEastWest().equals("E")){
+                    data.setNewDirection(rightDir);
+                }
+                else if (data.getInitialEastWest().equals("W")){
+                    data.setNewDirection(leftDir);
+                }
                 return task.scan();
+
             case 1:
                 data.setCounter(2);
                 return task.fly();
+
             case 2:
                 data.setCounter(3);
-                data.setNewDirection(leftDir);
+                if (data.getInitialEastWest().equals("E")){
+                    data.setNewDirection(leftDir);
+                }
+                else if (data.getInitialEastWest().equals("W")){
+                    data.setNewDirection(rightDir);
+                }
                 return task.scan();
             case 3:
                 data.setCounter(4);
-                data.setNewDirection(leftDir);
+                if (data.getInitialEastWest().equals("E")){
+                    data.setNewDirection(leftDir);
+                }
+                else if (data.getInitialEastWest().equals("W")){
+                    data.setNewDirection(rightDir);
+                }
                 return task.scan();
             case 4:
                 data.setNotInPos(false);
-                data.setNewDirection(rightDir);
+                if (data.getInitialEastWest().equals("E")){
+                    data.setNewDirection(rightDir);
+                }
+                else if (data.getInitialEastWest().equals("W")){
+                    data.setNewDirection(leftDir);
+                }
                 return task.scan();
             default:
                 throw new IllegalArgumentException("nope.");
