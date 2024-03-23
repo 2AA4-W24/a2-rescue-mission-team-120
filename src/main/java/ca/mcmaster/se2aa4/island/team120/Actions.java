@@ -24,7 +24,6 @@ public class Actions{
         decision.put("action", "fly");
         //updates coordinates based on current facing direction
         coords.flyLocation(data.getCurrDirection()); 
-
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }

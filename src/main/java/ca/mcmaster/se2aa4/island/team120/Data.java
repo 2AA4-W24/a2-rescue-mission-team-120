@@ -202,7 +202,6 @@ public class Data {
         extra = true; 
     }
 
-
     public int getRange_x_left(){
         return range_x_left;
     }
