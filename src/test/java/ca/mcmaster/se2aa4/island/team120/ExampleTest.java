@@ -1,17 +1,19 @@
 package ca.mcmaster.se2aa4.island.team120;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Test;
 
 
 //ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
-/*
+
     @Test
-    public void testGridSearch() { 
+    public void testGridSearchBatteryLevelThreshold() { 
         Actions action = new Actions();
         GridSearch algoRun= new GridSearch(); 
         //test for battery level above 17.5% of starting battery level
@@ -45,29 +47,10 @@ public class ExampleTest {
 
     }
 
-    @Test
-    public void testFly() {
-        Actions actions = new Actions();
+    //Grid Search unit tests end
 
-        //execute fly method action
-        String result = actions.fly();
-        //actions.fly();
+    
 
-        assertEquals("{\"action\":\"fly\"}", result);
-
-    }
-
-    @Test
-    public void testChangeDirection() {
-        Actions actions = new Actions();
-        Coordinates coords = new Coordinates();
-
-        String result = actions.changeDirection("south");
-
-        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"south\"}}", result);
-        assertEquals(0, coords.x_coords());
-        assertEquals(0, coords.y_coords());
-    }
 
     @Test
     public void testSetAndGetCurrDirection() {
@@ -197,7 +180,7 @@ public class ExampleTest {
         navigationSystem.data.setLastDirection("E");
         assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", navigationSystem.run(100, 1000));
     }
-     */
+    
 }
     
 
