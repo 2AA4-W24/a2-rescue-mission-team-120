@@ -3,10 +3,13 @@ package ca.mcmaster.se2aa4.island.team120;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 //ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
-    /*
+ /*
     @Test
     public void testGridSearch() { 
         Actions action = new Actions();
@@ -112,7 +115,7 @@ public class ExampleTest {
         assertEquals(leftDir, findIsland.data.getNewDirection());
     }
     
-    /*@Test
+    @Test
     public void testStartPointCount0() {
         // Create an instance of StartPoint
         StartPoint startPoint = new StartPoint();
@@ -129,6 +132,43 @@ public class ExampleTest {
 
         // Verify that the method returns the expected action
         assertEquals(expectedAction, result);
-    }*/
+    }
 
+    @Test    
+    public void testTracker() {
+        Tracker tracker = new Tracker();
+
+        // Test adding a Creek
+        tracker.POI("Creek", "creek1");
+
+        assertEquals(1, Tracker.getNumCreeks());
+        assertTrue(Tracker.x_coords.containsKey("creek1"));
+        assertTrue(Tracker.y_coords.containsKey("creek1"));
+
+        // Test adding an Emergency site
+        tracker.POI("Emergency", "emergency1");
+        assertEquals("Emergency X coordinate: 0        Emergency y coordinate: 0", Tracker.getEmergencySite());
+    }
+
+    @Test
+
+    public void testScanner() {
+        JSONObject scannedResponse = new JSONObject();
+        scannedResponse.put("creeks", new JSONArray());
+
+        PhotoScanner scanner = new PhotoScanner(scannedResponse);
+
+        assertTrue(scanner.isScanned());
+    }
+
+    @Test
+
+    public void testRadar(){
+        JSONObject groundResponse = new JSONObject();
+        groundResponse.put("found", "GROUND");
+
+        Radar radarTest = new Radar(groundResponse);
+        assertTrue(radarTest.isGround());//checks if returns true
+    }
+    */
 }
