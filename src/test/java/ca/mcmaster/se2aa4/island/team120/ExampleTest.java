@@ -19,6 +19,7 @@ public class ExampleTest {
         //test for battery level above 17.5% of starting battery level
         int batteryLevel = 300;
         int startingBatteryLevel = 1000;
+        
         assertEquals(action.fly(), algoRun.search(batteryLevel, startingBatteryLevel));
         //test for battery level below 17.5% of starting battery level
         batteryLevel = 100;
@@ -34,7 +35,6 @@ public class ExampleTest {
         data.setGroundFound(false);
         data.setNewDirection("W");
         data.setCurrDirection(data.getNewDirection());
-
         assertEquals(action.echo("W"), findIsland.finder());
     }
 
@@ -43,8 +43,9 @@ public class ExampleTest {
         Actions action = new Actions();
         InterTurn interlace = new InterTurn();
         Data data = new Data();
-
-
+        data.setLastDirection("S");
+        data.setPhase(0);
+        assertEquals(action.fly(), interlace.turn());
     }
 
     @Test
@@ -175,7 +176,6 @@ public class ExampleTest {
         navigationSystem.data.setLastDirection("E");
         assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", navigationSystem.run(100, 1000));
     }
-    
 }
     
 

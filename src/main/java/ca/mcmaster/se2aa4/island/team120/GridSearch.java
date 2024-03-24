@@ -154,6 +154,8 @@ public class GridSearch implements SearchIsland{
             data.setBeforeTurnDir(currentDirection);
             //moves onto next turning cycle step
             data.setChangeDirAlgo(4);
+            logger.info("HAM");
+
             return action.changeDirection("E");
         }
         //if drone is searching from righ to left, drone turns west
@@ -161,6 +163,8 @@ public class GridSearch implements SearchIsland{
             data.setBeforeTurnDir(currentDirection);
             //moves onto next turning cycle step
             data.setChangeDirAlgo(4);
+            logger.info("FISH");
+
             return action.changeDirection("W");
         }
 
@@ -177,6 +181,8 @@ public class GridSearch implements SearchIsland{
             //updates which direction the drone is currently facing
             data.setNorthAlgo(1);
             data.setSouthAlgo(0);
+            logger.info("PANCAKE");
+
             return action.changeDirection("N");
         }
         //if drone was originally facing north, it faces south
@@ -185,6 +191,7 @@ public class GridSearch implements SearchIsland{
             //updates which direction the drone is currently facing
             data.setNorthAlgo(0);
             data.setSouthAlgo(1);
+            logger.info("LOBSTER");
             return action.changeDirection("S");
         }
     }
