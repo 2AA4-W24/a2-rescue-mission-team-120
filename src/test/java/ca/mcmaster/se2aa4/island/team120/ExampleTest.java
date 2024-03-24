@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 //ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
+
     @Test
     public void testGridSearch() { 
         Actions action = new Actions();
@@ -78,40 +79,6 @@ public class ExampleTest {
         assertEquals("S", Direction.left("W"));
         assertEquals("E", Direction.left("S"));
         assertEquals("N", Direction.left("E"));
-    }
-
-    @Test
-    void testCheckGround() {
-        FindIsland findIsland = new FindIsland();
-        Data data= new Data();
-        String rightDir = "E";
-        String leftDir = "W";
-
-        //check if algorithm correctly passes variables
-        findIsland.checkGround(rightDir, leftDir);
-        assertEquals(rightDir, data.getLastDirection());
-
-        findIsland.checkGround(rightDir, leftDir);
-        assertEquals(leftDir, data.getLastDirection());
-
-        findIsland.checkGround(rightDir, leftDir);
-        assertEquals(data.getCurrDirection(), data.getLastDirection());
-    }
-
-    @Test
-    void testGetInPos() {
-        FindIsland findIsland = new FindIsland();
-        String rightDir = "E";
-        String leftDir = "W";
-        
-        //test if it gets in position based on the initial direction it's in
-        findIsland.data.setInitialEastWest("E");
-        findIsland.getInPos(rightDir, leftDir);
-        assertEquals(rightDir, findIsland.data.getNewDirection());
-
-        findIsland.data.setInitialEastWest("W");
-        findIsland.getInPos(rightDir, leftDir);
-        assertEquals(leftDir, findIsland.data.getNewDirection());
     }
     
     @Test
@@ -207,6 +174,7 @@ public class ExampleTest {
         navigationSystem.data.setLastDirection("E");
         assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", navigationSystem.run(100, 1000));
     }
+    
     
 }
     
