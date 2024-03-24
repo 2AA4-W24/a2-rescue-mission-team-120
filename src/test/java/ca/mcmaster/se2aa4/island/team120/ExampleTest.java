@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 //ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
-    /*
+/*
     @Test
     public void testGridSearch() { 
         Actions action = new Actions();
@@ -157,7 +157,6 @@ public class ExampleTest {
     }
 
     @Test
-
     public void testScanner() {
         //scanner test
         JSONObject scannedResponse = new JSONObject();
@@ -180,7 +179,6 @@ public class ExampleTest {
     }
 
     @Test
-
     public void testRadar(){
         JSONObject groundResponse = new JSONObject();
         groundResponse.put("found", "GROUND");
@@ -188,13 +186,9 @@ public class ExampleTest {
         //is ground method
         Radar radarTest = new Radar(groundResponse);
         assertTrue(radarTest.isGround());//checks if returns true
-<<<<<<< HEAD
-    }*/
-=======
 
         //is echoed method
         assertTrue(radarTest.isEchoed());//checks if returns true
     }
-    */
->>>>>>> 18f3d595ed2dda659d8cdeaa2733850b3c5c086d
+ */
 }

@@ -38,15 +38,7 @@ public class InterTurn{
             // drone will continuously check in the same direction that land was last found
             // and fly in that direction until it is no longer found
             case 1:
-                if (data.getRange() > 2){
-                    data.setCountAlgo(0);
-                    data.setPhase(3);
-                    return task.scan();
-                }
-                else{
-                    data.setPhase(2);
-                    return task.fly();
-                }
+                return secondPhase();
             case 2:
                 data.setPhase(1);
                 return task.echo(lastChecked);
@@ -63,7 +55,7 @@ public class InterTurn{
     // method for drone to check if land is land is to the right or left and if land is found,
     // then through goal direction, sets the end direction based on the direction of the land found
 
-    public String firstPhase(String leftDir, String rightDir){
+    private String firstPhase(String leftDir, String rightDir){
         if(data.getGroundFound()){
             data.setPhase(1);
             goalDirection(leftDir, rightDir);
@@ -86,8 +78,20 @@ public class InterTurn{
         return "";
     }
 
+    private String secondPhase(){
+        if (data.getRange() > 2){
+            data.setCountAlgo(0);
+            data.setPhase(3);
+            return task.scan();
+        }
+        else{
+            data.setPhase(2);
+            return task.fly();
+        }
+    }
+
     // method to set the final end direction of the drone
-    public void goalDirection(String leftDir, String rightDir){
+    private void goalDirection(String leftDir, String rightDir){
         if (lastChecked == leftDir){
             data.setGoNorth(true);
         }
