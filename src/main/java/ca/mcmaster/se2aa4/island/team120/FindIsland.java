@@ -82,7 +82,7 @@ public class FindIsland {
 
     //method to check if theres ground located to the left, right, and in front of the drone
     //if land is detected, update heading to that direction through decisionBoard class
-    public String checkGround(String rightDir, String leftDir){
+    private String checkGround(String rightDir, String leftDir){
         if (lastChecked.equals(currentDirection)){
             data.setLastDirection(rightDir);
             return task.echo(rightDir);
@@ -103,7 +103,7 @@ public class FindIsland {
 
     //method for drone to get in the correct position/coordinates to begin land exploration
     //shifts one x coordinate 
-    public String getInPos(String rightDir, String leftDir){
+    private String getInPos(String rightDir, String leftDir){
         data.setBeforeTurnDir(currentDirection);
         switch (count){
             case 0: 
