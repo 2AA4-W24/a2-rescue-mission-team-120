@@ -13,9 +13,9 @@ public class Runner {
                     .exploring(new File(filename))
                     .withSeed(42L)
                     .startingAt(1, 1, "EAST")
-                    .backBefore(7000)
+                    .backBefore(16500)
                     .withCrew(5)
-                    .collecting(1000, "WOOD")
+                    .collecting(500, "WOOD")
                     .storingInto("./outputs")
                     .withName("Island")
                     .fire();
@@ -27,3 +27,5 @@ public class Runner {
     }
 
 }
+
+

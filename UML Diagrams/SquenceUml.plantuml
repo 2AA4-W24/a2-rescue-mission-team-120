@@ -1,0 +1,44 @@
+@startuml
+title Drone Rescue Mission
+
+actor CommandCenter as "Command Center"
+participant Explorer as "Explorer"
+participant NavigationSystem as "Navigation System"
+participant StartPoint as "StartPoint"
+participant FindIsland as "FindIsland"
+participant GridSearch as "GridSearch"
+participant Radar as "Radar"
+participant Coordinates as "Coordinates"
+participant Scanner as "Scanner"
+participant Tracker as "Tracker"
+
+
+CommandCenter -> Explorer: Initiate Rescue Mission
+Explorer -> NavigationSystem: Start Mission
+NavigationSystem -> StartPoint: Phase 1: Starting Point
+loop until in one of four corners
+    NavigationSystem -> StartPoint: Update Counter
+    Radar -> StartPoint: Get Current location
+    NavigationSystem -> Coordinates: Fly and Update Coordinates
+end
+StartPoint -> NavigationSystem: Next Phase 
+NavigationSystem-> FindIsland: Phase 2: Find Land
+loop until Land is Found
+    NavigationSystem -> FindIsland: Find Island
+    FindIsland -> Radar: Echo for land
+    FindIsland-> Coordinates: Update Coordinates
+    FindIsland -> NavigationSystem: Land found?
+end
+FindIsland -> NavigationSystem: Next Phase
+NavigationSystem --> GridSearch: Phase 3: Traverse Land
+NavigationSystem -> GridSearch: Travel on island
+loop until Points of Interest Found
+    GridSearch -> Scanner: Check for Points of Interest
+    Scanner --> GridSearch : Points of Interest found
+    GridSearch  -> Tracker: Track Points of Interest
+    Tracker --> GridSearch: Points of Interest Tracked, Keep Searching
+end
+Tracker -> Explorer: Return POI information 
+Explorer -> CommandCenter: Output Closest Creek to Emergency Site
+@enduml
+

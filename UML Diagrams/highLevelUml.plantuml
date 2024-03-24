@@ -1,0 +1,100 @@
+@startuml "Hello world"
+class Actions {
+    }
+
+class Data {
+
+}
+
+class DecisionBoard{
+
+}
+class Explorer {
+}
+
+
+class Coordinates {
+
+ }
+
+class Direction {
+}
+
+    class FindIsland {
+}
+
+class GridSearch {
+    }
+
+class InterTurn {
+}
+
+interface MissionType {
+    }
+
+class NavigationSystem {
+
+}
+
+
+class PhotoScanner {
+}
+
+class Radar {
+}
+
+interface SearchIsland {
+}
+
+class StartPoint {
+   
+}
+ 
+
+Explorer-->Direction
+Explorer-->Tracker
+Explorer-->Actions
+Explorer--> Coordinates
+Explorer-->Data
+Explorer-->DecisionBoard
+Explorer-->NavigationSystem
+
+
+Actions-->Coordinates
+Actions-->Tracker
+Actions-->Data
+
+DecisionBoard-->Data
+DecisionBoard-->PhotoScanner
+DecisionBoard-->Radar
+
+FindIsland-->Data
+FindIsland-->Actions
+
+GridSearch ..|> SearchIsland
+GridSearch--> Actions
+GridSearch--> Direction
+GridSearch--> Data
+
+InterTurn-->Data
+InterTurn-->Coordinates
+InterTurn-->Actions
+
+NavigationSystem ..|> MissionType
+NavigationSystem--> FindIsland
+NavigationSystem--> GridSearch
+NavigationSystem--> InterTurn
+NavigationSystem--> StartPoint
+NavigationSystem--> Data
+NavigationSystem--> Coordinates
+NavigationSystem--> Actions
+
+PhotoScanner--> Tracker
+
+StartPoint-->Actions
+StartPoint-->Coordinates
+StartPoint-->Direction
+StartPoint-->Data
+
+Tracker-->Coordinates
+@enduml
