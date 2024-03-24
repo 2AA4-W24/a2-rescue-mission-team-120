@@ -43,7 +43,7 @@ public class Tracker{
         }
     }
 
-    public static int getNumCreeks(){
+    private static int getNumCreeks(){
         return creek_counter;
     }
 

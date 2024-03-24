@@ -116,7 +116,7 @@ public class ExampleTest {
     }
     
     @Test
-    public void testStartPointCount0() {
+    public void testStartPointCount() {
         // Create an instance of StartPoint
         StartPoint startPoint = new StartPoint();
 
@@ -138,27 +138,45 @@ public class ExampleTest {
     public void testTracker() {
         Tracker tracker = new Tracker();
 
-        // Test adding a Creek
+        // Testing POI 
         tracker.POI("Creek", "creek1");
 
-        assertEquals(1, Tracker.getNumCreeks());
         assertTrue(Tracker.x_coords.containsKey("creek1"));
         assertTrue(Tracker.y_coords.containsKey("creek1"));
 
-        // Test adding an Emergency site
+        // Testing class emergency site 
         tracker.POI("Emergency", "emergency1");
         assertEquals("Emergency X coordinate: 0        Emergency y coordinate: 0", Tracker.getEmergencySite());
+
+        // Testing class current creek
+        assertEquals("creek1",Tracker.CurrentClosest()); 
+        
+        //Testing closest coords
+        assertEquals("Closest Creek X coordinate: 0        Closest Creek y coordinate: 0", Tracker.getClosetCreekCoords());
+
     }
 
     @Test
 
     public void testScanner() {
+        //scanner test
         JSONObject scannedResponse = new JSONObject();
         scannedResponse.put("creeks", new JSONArray());
 
         PhotoScanner scanner = new PhotoScanner(scannedResponse);
 
         assertTrue(scanner.isScanned());
+
+        //is creek test 
+        JSONObject NoCreeks = new JSONObject();
+        PhotoScanner isCreek= new PhotoScanner(NoCreeks);
+        assertFalse(isCreek.isCreek());
+
+        //is site test
+        JSONObject NoSites = new JSONObject();
+        PhotoScanner isSite = new PhotoScanner(NoSites);
+        assertFalse(isSite.isSite());
+
     }
 
     @Test
@@ -167,7 +185,16 @@ public class ExampleTest {
         JSONObject groundResponse = new JSONObject();
         groundResponse.put("found", "GROUND");
 
+        //is ground method
         Radar radarTest = new Radar(groundResponse);
         assertTrue(radarTest.isGround());//checks if returns true
+<<<<<<< HEAD
     }*/
+=======
+
+        //is echoed method
+        assertTrue(radarTest.isEchoed());//checks if returns true
+    }
+    */
+>>>>>>> 18f3d595ed2dda659d8cdeaa2733850b3c5c086d
 }
