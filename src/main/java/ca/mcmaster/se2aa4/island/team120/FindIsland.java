@@ -38,6 +38,7 @@ public class FindIsland {
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
+        logger.info("IN HERE");
 
         //after the echo phase is performed, if ground is found in a new direction, switch heading to that direction
         if ((groundFound && newDirection != currentDirection)){
@@ -48,6 +49,7 @@ public class FindIsland {
 
         //if ground has been found, begin phase pattern to get to the first bit of land found
         switch (phase){
+
             case 0:
                 if (groundFound){
                     //as algo skips one column of land, initiate action pattern to go back
@@ -59,6 +61,7 @@ public class FindIsland {
                 }
                 //if ground still hasn't been found, continue ground checking pattern
                 else{
+                    logger.info("cheese");
                     return checkGround(rightDir, leftDir);
                 }
             case 1:
@@ -81,15 +84,17 @@ public class FindIsland {
     //method to check if theres ground located to the left, right, and in front of the drone
     //if land is detected, update heading to that direction through decisionBoard class
     public String checkGround(String rightDir, String leftDir){
-        if (lastChecked == currentDirection){
+        if (lastChecked.equals(currentDirection)){
             data.setLastDirection(rightDir);
             return task.echo(rightDir);
         } 
-        else if (lastChecked == rightDir){
+
+        else if (lastChecked.equals(rightDir)){
             data.setLastDirection(leftDir);
             return task.echo(leftDir);
         } 
-        else if (lastChecked == leftDir){
+
+        else if (lastChecked.equals(leftDir)){
             data.setLastDirection(currentDirection);
             data.setPhase(4);
             return task.echo(currentDirection);
