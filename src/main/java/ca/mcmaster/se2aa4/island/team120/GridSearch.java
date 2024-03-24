@@ -32,19 +32,16 @@ public class GridSearch implements SearchIsland{
     }
 
     public String search(int batteryLevel, int startingBatteryLevel){
-        //if the battery goes below 17.5% of its original battery, island search stops.
-        while(batteryLevel> 0.175*startingBatteryLevel){
-
-            //if drone senses the presence of ground ahead, it goes through
-            //the island search cycle of scanning, echoing, and flying.
-            if((rangeCheck>=0) && checkDone){
-                return islandSearchCycle(); 
-            }
-            //drone no longer senses ground ahead, initiating turn cycle
-            return turnCycle();
+        //if drone senses the presence of ground ahead, it goes through
+        //the island search cycle of scanning, echoing, and flying.
+        if((rangeCheck>=0) && checkDone){
+            return islandSearchCycle(); 
         }
+        //drone no longer senses ground ahead, initiating turn cycle
+        return turnCycle();
+        
         //stop drone if battery goes below set threshold
-        return action.stop();
+
     }
 
 
@@ -162,6 +159,8 @@ public class GridSearch implements SearchIsland{
         else{
             data.setBeforeTurnDir(currentDirection);
             //moves onto next turning cycle step
+            
+            logger.info("DID FIRST TURN");
             data.setChangeDirAlgo(4);
             logger.info("FISH");
 
@@ -174,7 +173,7 @@ public class GridSearch implements SearchIsland{
     private String secondTurn(String currentDirection){
         //moves onto next turning cycle step
         data.setChangeDirAlgo(5);
-
+        logger.info("DID SECOND TURN");
         //if drone was originally facing south, it turns north
         if ((currentDirection.equals("E")|| currentDirection.equals("W"))  && south==1){
             data.setBeforeTurnDir(currentDirection);
