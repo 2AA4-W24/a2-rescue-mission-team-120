@@ -85,18 +85,19 @@ public class ExampleTest {
     @Test
     void testCheckGround() {
         FindIsland findIsland = new FindIsland();
+        Data data= new Data();
         String rightDir = "E";
         String leftDir = "W";
 
         //check if algorithm correctly passes variables
         findIsland.checkGround(rightDir, leftDir);
-        assertEquals(rightDir, findIsland.data.getLastDirection());
+        assertEquals(rightDir, data.getLastDirection());
 
         findIsland.checkGround(rightDir, leftDir);
-        assertEquals(leftDir, findIsland.data.getLastDirection());
+        assertEquals(leftDir, data.getLastDirection());
 
         findIsland.checkGround(rightDir, leftDir);
-        assertEquals(FindIsland.currentDirection, findIsland.data.getLastDirection());
+        assertEquals(data.getCurrDirection(), data.getLastDirection());
     }
 
     @Test
@@ -189,6 +190,24 @@ public class ExampleTest {
 
         //is echoed method
         assertTrue(radarTest.isEchoed());//checks if returns true
+    }
+
+    @Test 
+    public void NavSystemCheck() {
+        NavigationSystem navigationSystem = new NavigationSystem();
+        StartPoint startPoint = new StartPoint();
+
+        // Simulate different scenarios by setting data flags
+        navigationSystem.data.getTop();
+        startPoint.data.setStage(0);
+        startPoint.data.setCurrDirection("E");
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}", navigationSystem.run(100, 1000));
+
+        navigationSystem.data.setTop();
+        navigationSystem.data.setOnGround(false);
+        navigationSystem.data.setInterTurn(false);
+        navigationSystem.data.setLastDirection("E");
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", navigationSystem.run(100, 1000));
     }
     */
 }
