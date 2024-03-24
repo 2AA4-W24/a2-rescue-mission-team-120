@@ -16,12 +16,6 @@ public class NavigationSystem implements MissionType{
     Actions action= new Actions();
 
     public String run(int batteryLevel, int startingBatteryLevel){ 
-        logger.info(data.getTop());
-        logger.info("Has changed dir: " + data.getHasChangedDir());
-        logger.info("South?!: " + data.getSouthAlgo());
-        logger.info("North?!: " + data.getNorthAlgo());
-        logger.info("Am i starting left? : " + data.getIsStartingLeft());
-        
         if(!(data.getTop())){
             return start.fourCorners(data.getGroundFound());
         }
