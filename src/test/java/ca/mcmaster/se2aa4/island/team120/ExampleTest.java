@@ -47,11 +47,6 @@ public class ExampleTest {
 
     }
 
-    //Grid Search unit tests end
-
-    
-
-
     @Test
     public void testSetAndGetCurrDirection() {
         Data data = new Data();
