@@ -7,7 +7,7 @@ import org.json.JSONObject;
 public class FindIsland {
     private final Logger logger = LogManager.getLogger();
     private static String lastChecked;
-    private static String currentDirection;
+    static String currentDirection;
     private static String newDirection;
 
     private static Integer count;
