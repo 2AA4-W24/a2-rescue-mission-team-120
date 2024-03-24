@@ -49,7 +49,8 @@ public class ExampleTest {
         data.setGroundFound(false);
         data.setNewDirection("W");
         data.setCurrDirection(data.getNewDirection());
-        assertEquals(action.echo("W"), findIsland.finder());
+        data.setLastDirection("W");
+        assertEquals(action.echo("N"), findIsland.finder());
     }
 
     @Test
