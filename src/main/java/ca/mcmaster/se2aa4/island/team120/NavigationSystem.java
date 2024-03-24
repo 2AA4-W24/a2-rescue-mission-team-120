@@ -17,7 +17,7 @@ public class NavigationSystem implements MissionType{
 
     public String run(int batteryLevel, int startingBatteryLevel){ 
         if(!(data.getTop())){
-            return start.fourCorners(data.getGroundFound());
+            return start.fourCorners();
         }
         else if (!(data.getOnGround()) && !(data.getInterTurn())){
             logger.info("running finder");

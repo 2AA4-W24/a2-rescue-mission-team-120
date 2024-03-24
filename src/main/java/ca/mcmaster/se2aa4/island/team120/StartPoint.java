@@ -26,7 +26,7 @@ public class StartPoint{
     String start_dir; 
 
     //run through count casses to scan intial surrondings and make a decision based o nthat 
-    public String fourCorners(boolean groundFound){
+    public String fourCorners(){
         range = data.getRange();
         logger.info(range);
         int count = data.getStage(); 
@@ -95,7 +95,7 @@ public class StartPoint{
         return null;
     }
 
-    public String topLeft(){//top left logic 
+    private String topLeft(){//top left logic 
         //top left
         data.setIsStartingLeft(true);
         logger.info("Top Left");
@@ -120,7 +120,7 @@ public class StartPoint{
     }
   
     
-    public String topRight(){//top right logic 
+    private String topRight(){//top right logic 
         data.setIsStartingLeft(false);
         logger.info("Top right");
         
@@ -147,7 +147,7 @@ public class StartPoint{
         return null;
     }
 
-    public String botRight(){//bottom right logic 
+    private String botRight(){//bottom right logic 
         logger.info("Bot right");
         data.setIsStartingLeft(false);
         int range_x_right = data.getRange_x_right();
@@ -174,7 +174,7 @@ public class StartPoint{
         return null;
     }
 
-    public String botLeft(){//bottom left logic 
+    private String botLeft(){//bottom left logic 
         //top right
         logger.info("Bot left");
         data.setIsStartingLeft(true);
@@ -200,7 +200,7 @@ public class StartPoint{
     }
 
     //make sure starting point of corners is east or west 
-    public String Inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
+    private String Inwards(int range_x_left, int range_x_right, int range_y_above, int range_y_below){
 
         if(((range_x_left ==0) && (range_y_above ==0)) || ((range_x_left ==0) && (range_y_below ==0))){
             if(data.getCurrDirection().charAt(0) != 'E'){
@@ -231,7 +231,7 @@ public class StartPoint{
     }
 
 //based on location assign closest corner for traversal - ensures no part of the map cut off 
-    public String corners(int range_x_right, int range_x_left,int range_y_above,int range_y_below){
+    private String corners(int range_x_right, int range_x_left,int range_y_above,int range_y_below){
         if (range_x_right > range_x_left){
             if (range_y_below > range_y_above){
                 data.setIsStartingLeft(true);
@@ -251,7 +251,7 @@ public class StartPoint{
     }
 
 //right, fly (while loop), left turn (+condition for ending E/W)
-    public String RFL(int range, String start_dir){
+    private String RFL(int range, String start_dir){
         logger.info("RFL");
         int count = data.getStage(); 
 
@@ -294,7 +294,7 @@ public class StartPoint{
     }
 
 //left, fly (while loop), right turn (+condition for ending E/W)
-    public String LFR(int range, String start_dir){
+    private String LFR(int range, String start_dir){
         logger.info("LFR");
         int count = data.getStage(); 
         if (count == 5){
