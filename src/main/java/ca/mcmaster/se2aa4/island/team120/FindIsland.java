@@ -49,7 +49,6 @@ public class FindIsland {
 
         //if ground has been found, begin phase pattern to get to the first bit of land found
         switch (phase){
-
             case 0:
                 if (groundFound){
                     //as algo skips one column of land, initiate action pattern to go back
@@ -109,8 +108,10 @@ public class FindIsland {
         switch (count){
             case 0: 
                 data.setCounter(1);
+                logger.info("FLUNKED{}",data.getInitialEastWest());
                 if (data.getInitialEastWest().equals("E")){
                     data.setNewDirection(rightDir);
+                    logger.info("BAHAHA{}",data.getNewDirection());
                 }
                 else if (data.getInitialEastWest().equals("W")){
                     data.setNewDirection(leftDir);
