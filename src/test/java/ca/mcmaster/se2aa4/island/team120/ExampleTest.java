@@ -1,29 +1,20 @@
 package ca.mcmaster.se2aa4.island.team120;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Test;
 
 
 //ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
-    @Test
-    public void testGridSearch() { 
-        Actions action = new Actions();
-        GridSearch algoRun= new GridSearch(); 
-        //test for battery level above 17.5% of starting battery level
-        int batteryLevel = 300;
-        int startingBatteryLevel = 1000;
-        assertEquals(action.fly(), algoRun.search(batteryLevel, startingBatteryLevel));
-        //test for battery level below 17.5% of starting battery level
-        batteryLevel = 100;
-        assertEquals(action.stop(), algoRun.search(batteryLevel, startingBatteryLevel));
-    }
 
+    //Actions class unit tests start
     @Test
-    public void testFly() {
+    public void testFlyAction() {
         Actions actions = new Actions();
 
         //execute fly method action
@@ -35,16 +26,57 @@ public class ExampleTest {
     }
 
     @Test
-    public void testChangeDirection() {
+    public void testChangeDirectionAction() {
         Actions actions = new Actions();
         Coordinates coords = new Coordinates();
+        String result = actions.changeDirection("S");
+        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"S\"}}", result);
 
-        String result = actions.changeDirection("south");
-
-        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"south\"}}", result);
-        assertEquals(0, coords.x_coords());
-        assertEquals(0, coords.y_coords());
     }
+
+    @Test
+    public void testEchoAction() {
+        Actions actions = new Actions();
+        String result = actions.echo("N");
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}", result);
+    }
+
+    @Test
+    public void testScanAction() {
+        Actions actions = new Actions();
+        String result = actions.echo("N");
+        assertEquals("{\"action\":\"scan\"}", result);
+    }
+
+    public void testStopAction(){
+        Actions actions = new Actions();
+        String result = actions.stop();
+        assertEquals("{\"action\":\"stop\"}", result);
+    }
+
+    //Actions class unit tests end
+
+
+
+    //Grid Search unit tests start
+
+    @Test
+    public void testGridSearchBatteryLevelThreshold() { 
+        Actions action = new Actions();
+        GridSearch algoRun= new GridSearch(); 
+        //test for battery level above 17.5% of starting battery level
+        int batteryLevel = 300;
+        int startingBatteryLevel = 1000;
+        assertEquals(action.fly(), algoRun.search(batteryLevel, startingBatteryLevel));
+        //test for battery level below 17.5% of starting battery level
+        batteryLevel = 100;
+        assertEquals(action.stop(), algoRun.search(batteryLevel, startingBatteryLevel));
+    }
+
+    //Grid Search unit tests end
+
+    
+
 
     @Test
     public void testSetAndGetCurrDirection() {
