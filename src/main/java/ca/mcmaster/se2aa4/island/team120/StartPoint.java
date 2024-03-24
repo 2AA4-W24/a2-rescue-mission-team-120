@@ -97,6 +97,7 @@ public class StartPoint{
 
     public String topLeft(){//top left logic 
         //top left
+        data.setIsStartingLeft(true);
         logger.info("Top Left");
 
         int range_x_right = data.getRange_x_right();
@@ -121,6 +122,7 @@ public class StartPoint{
   
     
     public String topRight(){//top right logic 
+        data.setIsStartingLeft(false);
         logger.info("Top right");
         
         int range_x_right = data.getRange_x_right();
@@ -148,7 +150,7 @@ public class StartPoint{
 
     public String botRight(){//bottom right logic 
         logger.info("Bot right");
-        
+        data.setIsStartingLeft(false);
         int range_x_right = data.getRange_x_right();
         int range_x_left = data.getRange_x_left();
         int range_y_below = data.getRange_y_below(); 
@@ -176,6 +178,7 @@ public class StartPoint{
     public String botLeft(){//bottom left loggic 
         //top right
         logger.info("Bot left");
+        data.setIsStartingLeft(true);
 
         int range_x_right = data.getRange_x_right();
         int range_x_left = data.getRange_x_left();

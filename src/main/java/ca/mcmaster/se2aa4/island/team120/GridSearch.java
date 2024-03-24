@@ -8,7 +8,7 @@ public class GridSearch implements SearchIsland{
     Actions action= new Actions();
     Direction direction= new Direction();
     Data data= new Data();
-
+    private final Logger logger = LogManager.getLogger();
     private int changeDir;
     private int south;
     private int north;
@@ -223,6 +223,8 @@ public class GridSearch implements SearchIsland{
 
     //sets/resets variables to end island in current direction
     private String beyondMapBounds(String currentDirection, boolean hasChangedDir){
+        logger.info(data.getChangeDirAlgo());
+        logger.info("Loser i snuck here");
         data.setInterTurn(true);
         data.setOnGround(false);
         data.setPhase(0);

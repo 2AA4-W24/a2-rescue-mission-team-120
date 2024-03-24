@@ -17,7 +17,10 @@ public class NavigationSystem implements MissionType{
 
     public String run(int batteryLevel, int startingBatteryLevel){ 
         logger.info(data.getTop());
-        logger.info(data.getCurrDirection());
+        logger.info("Has changed dir: " + data.getHasChangedDir());
+        logger.info("South?!: " + data.getSouthAlgo());
+        logger.info("North?!: " + data.getNorthAlgo());
+        logger.info("Am i starting left? : " + data.getIsStartingLeft());
         
         if(!(data.getTop())){
             return start.fourCorners(data.getGroundFound());
@@ -29,17 +32,17 @@ public class NavigationSystem implements MissionType{
         else if(data.getInterTurn()){
             logger.info("interlace");
             data.setHasChangedDir(true);
-            
             return interlace.turn();
         }
-        else if(!(data.getInterTurn()) && data.getHasChangedDir()){
+        else if (!(data.getInterTurn()) && !(data.getHasChangedDir())){
             logger.info("algo search");
             return algoRun.search(batteryLevel, startingBatteryLevel); 
         }
-        else if (!(data.getInterTurn()) && !(data.getHasChangedDir())){
-            logger.info("algo search2");
+        else if(!(data.getInterTurn()) && data.getHasChangedDir()){
+            logger.info("algo search backwards");
             return algoRun.search(batteryLevel, startingBatteryLevel); 
         }
+
         else{
             logger.info("stop");
             return action.stop();
