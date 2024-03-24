@@ -38,7 +38,6 @@ public class FindIsland {
 
         String rightDir = Direction.right(currentDirection);
         String leftDir = Direction.left(currentDirection);
-        logger.info("IN HERE");
 
         //after the echo phase is performed, if ground is found in a new direction, switch heading to that direction
         if ((groundFound && newDirection != currentDirection)){
@@ -60,7 +59,6 @@ public class FindIsland {
                 }
                 //if ground still hasn't been found, continue ground checking pattern
                 else{
-                    logger.info("cheese");
                     return checkGround(rightDir, leftDir);
                 }
             case 1:
@@ -76,7 +74,7 @@ public class FindIsland {
                 data.setPhase(0);
                 return task.fly();
             default:
-                throw new IllegalArgumentException("ERROR OCCURED");
+                throw new IllegalArgumentException("Phase Invalid");
         }
     }
 
@@ -108,10 +106,8 @@ public class FindIsland {
         switch (count){
             case 0: 
                 data.setCounter(1);
-                logger.info("FLUNKED{}",data.getInitialEastWest());
                 if (data.getInitialEastWest().equals("E")){
                     data.setNewDirection(rightDir);
-                    logger.info("BAHAHA{}",data.getNewDirection());
                 }
                 else if (data.getInitialEastWest().equals("W")){
                     data.setNewDirection(leftDir);
@@ -150,7 +146,7 @@ public class FindIsland {
                 }
                 return task.scan();
             default:
-                throw new IllegalArgumentException("nope.");
+                throw new IllegalArgumentException("Invalid Counter Step");
         }
     }
 }

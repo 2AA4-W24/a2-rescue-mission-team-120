@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 //ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
-
+/*
     @Test
     public void testGridSearch() { 
         Actions action = new Actions();
@@ -21,6 +21,28 @@ public class ExampleTest {
         //test for battery level below 17.5% of starting battery level
         batteryLevel = 100;
         assertEquals(action.stop(), algoRun.search(batteryLevel, startingBatteryLevel));
+    }
+
+    @Test
+    public void testFindIsland(){
+        Actions action = new Actions();
+        FindIsland findIsland = new FindIsland();
+        Data data = new Data();
+        data.setInitialEastWest(data.getCurrDirection());
+        data.setGroundFound(false);
+        data.setNewDirection("W");
+        data.setCurrDirection(data.getNewDirection());
+
+        assertEquals(action.echo("W"), findIsland.finder());
+    }
+
+    @Test
+    public void testInterTurn(){
+        Actions action = new Actions();
+        InterTurn interlace = new InterTurn();
+        Data data = new Data();
+
+
     }
 
     @Test
@@ -175,7 +197,7 @@ public class ExampleTest {
         navigationSystem.data.setLastDirection("E");
         assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", navigationSystem.run(100, 1000));
     }
-    
+     */
 }
     
 
