@@ -152,4 +152,14 @@ public class ExampleTest {
 
         assertTrue(scanner.isScanned());
     }
+
+    @Test
+
+    public void testRadar(){
+        JSONObject groundResponse = new JSONObject();
+        groundResponse.put("found", "GROUND");
+
+        Radar radarTest = new Radar(groundResponse);
+        assertTrue(radarTest.isGround());//checks if returns true
+    }
 }
