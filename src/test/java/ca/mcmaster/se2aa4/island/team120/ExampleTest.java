@@ -179,7 +179,6 @@ public class ExampleTest {
     }
 
     @Test
-
     public void testRadar(){
         JSONObject groundResponse = new JSONObject();
         groundResponse.put("found", "GROUND");

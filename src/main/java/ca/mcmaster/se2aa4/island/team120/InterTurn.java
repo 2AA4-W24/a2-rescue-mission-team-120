@@ -69,12 +69,18 @@ public class InterTurn{
             goalDirection(leftDir, rightDir);
             return task.fly();
         }
+        //if didnt find any ground in echoed directions move forwards
+        else if(data.getNotFound() == true){
+            data.setNotFound(false);
+            return task.fly();
+        }
         else if(lastChecked.equals(leftDir)){
             data.setLastDirection(rightDir);
             return task.echo(rightDir);
         }
         else if (lastChecked.equals(rightDir)){
             data.setLastDirection(leftDir);
+            data.setNotFound(true);
             return task.echo(leftDir);
         }
         return "";
@@ -89,6 +95,7 @@ public class InterTurn{
             data.setGoSouth(true);
         }
     }
+
 
     // method to initiate turning phase of the drone
     // once it's echoes no more land, it turns twice in that direction to perform a u-turn
