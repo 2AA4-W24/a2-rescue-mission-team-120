@@ -16,30 +16,34 @@ public class NavigationSystem implements MissionType{
     Actions action= new Actions();
 
     public String run(int batteryLevel, int startingBatteryLevel){ 
-        if(!(data.getTop())){
-            return start.fourCorners();
-        }
-        else if (!(data.getOnGround()) && !(data.getInterTurn())){
-            logger.info("running finder");
-            return island.finder(); 
-        }
-        else if(data.getInterTurn()){
-            logger.info("interlace");
-            data.setHasChangedDir(true);
-            return interlace.turn();
-        }
-        else if (!(data.getInterTurn()) && !(data.getHasChangedDir())){
-            logger.info("algo search");
-            return algoRun.search(batteryLevel, startingBatteryLevel); 
-        }
-        else if(!(data.getInterTurn()) && data.getHasChangedDir()){
-            logger.info("algo search backwards");
-            return algoRun.search(batteryLevel, startingBatteryLevel); 
-        }
+        while(batteryLevel> 0.175*startingBatteryLevel){
+            if(!(data.getTop())){
+                return start.fourCorners();
+            }
+            else if (!(data.getOnGround()) && !(data.getInterTurn())){
+                logger.info("running finder");
+                return island.finder(); 
+            }
+            else if(data.getInterTurn()){
+                logger.info("interlace");
+                data.setHasChangedDir(true);
+                return interlace.turn();
+            }
+            else if (!(data.getInterTurn()) && !(data.getHasChangedDir())){
+                logger.info("algo search");
+                return algoRun.search(batteryLevel, startingBatteryLevel); 
+            }
+            else if(!(data.getInterTurn()) && data.getHasChangedDir()){
+                logger.info("algo search backwards");
+                return algoRun.search(batteryLevel, startingBatteryLevel); 
+            }
 
-        else{
-            logger.info("stop");
-            return action.stop();
+            else{
+                logger.info("stop");
+                return action.stop();
+            }
         }
+        //battery below threshold
+        return action.stop();
     }
 }
