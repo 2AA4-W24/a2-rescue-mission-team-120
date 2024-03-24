@@ -100,7 +100,7 @@ public class ExampleTest {
         String expectedAction = "{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}";
 
         // Invoke method under test
-        String result = startPoint.fourCorners(false);
+        String result = startPoint.fourCorners();
 
         // Verify that the method returns the expected action
         assertEquals(expectedAction, result);
