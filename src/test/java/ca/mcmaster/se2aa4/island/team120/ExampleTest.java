@@ -96,7 +96,7 @@ public class ExampleTest {
         assertEquals(leftDir, findIsland.data.getLastDirection());
 
         findIsland.checkGround(rightDir, leftDir);
-        assertEquals(findIsland.data.getCurrDirection(), findIsland.data.getLastDirection());
+        assertEquals(FindIsland.currentDirection, findIsland.data.getLastDirection());
     }
 
     @Test
@@ -190,5 +190,8 @@ public class ExampleTest {
         //is echoed method
         assertTrue(radarTest.isEchoed());//checks if returns true
     }
- */
+    */
+>>>>>>> 18f3d595ed2dda659d8cdeaa2733850b3c5c086d
 }
+    
+
