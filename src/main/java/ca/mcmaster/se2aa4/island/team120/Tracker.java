@@ -34,12 +34,10 @@ public class Tracker{
             creek_counter+=1; 
             x_coords.put(id, x);
             y_coords.put(id, y);
-            //logger.info("creek stored", creek_counter);
         }else if (type == "Emergency"){
             emergency[0] = x;
             emergency[1]= y; 
             ESite = id; 
-            //logger.info("emergency site {}", id);
         }
     }
 
@@ -48,7 +46,6 @@ public class Tracker{
     }
 
     public static String getEmergencySite(){
-        logger.info(ESite);
         return "Emergency X coordinate: " + emergency[0] + "        Emergency y coordinate: " + emergency[1];
     }
     
@@ -66,7 +63,6 @@ public class Tracker{
                     closestCreek = entry.getKey();
                 }
             }
-            //logger.info(closestCreek);
             return closestCreek; 
             
         }else{

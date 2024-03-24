@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.island.team120;
 
 public class Direction{
+    //returns back the right and left directions of the drone based on its current direction
     public static String right(String currDir){
         switch (currDir){
             case "N":

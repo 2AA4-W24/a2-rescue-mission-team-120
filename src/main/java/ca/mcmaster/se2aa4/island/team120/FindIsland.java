@@ -99,8 +99,8 @@ public class FindIsland {
         return "";
     }
 
-    //method for drone to get in the correct position/coordinates to begin land exploration
-    //shifts one x coordinate 
+    // method for drone to get in the correct position/coordinates to begin land exploration
+    // shifts one x coordinate over to account for the missed column
     private String getInPos(String rightDir, String leftDir){
         data.setBeforeTurnDir(currentDirection);
         switch (count){
@@ -111,13 +111,10 @@ public class FindIsland {
                 }
                 else if (data.getInitialEastWest().equals("W")){
                     data.setNewDirection(leftDir);
-                    logger.info("Fuck {}", data.getNewDirection());
-                    logger.info("U {}", data.getCurrDirection());
                 }
                 return task.scan();
 
             case 1:
-                logger.info("hey");
                 data.setCounter(2);
                 return task.fly();
 
@@ -127,7 +124,6 @@ public class FindIsland {
                     data.setNewDirection(leftDir);
                 }
                 else if (data.getInitialEastWest().equals("W")){
-                    logger.info("regressed");
                     data.setNewDirection(rightDir);
                 }
                 return task.scan();

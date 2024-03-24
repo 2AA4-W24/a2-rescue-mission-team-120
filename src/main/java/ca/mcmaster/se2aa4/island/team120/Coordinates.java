@@ -5,6 +5,7 @@ public class Coordinates {
     private static int y = 0; 
     private static int grid = 3; 
 
+    // update coordinates of the drone whenever it flies
     public void flyLocation(String currentDirection){
         switch (currentDirection){
             case "N":
@@ -23,6 +24,8 @@ public class Coordinates {
                 throw new IllegalStateException("INVALID DIRECTION");
         }
     } 
+    
+    // update coordinates of the drone whenever drone changes heading based on direction before turn and after
     public void turnLocation(String beforeTurn, String currentDirection){
         if (beforeTurn.equals("N")){
             if (currentDirection.equals("E")){

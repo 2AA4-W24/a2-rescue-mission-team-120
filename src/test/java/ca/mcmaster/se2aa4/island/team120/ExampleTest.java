@@ -186,6 +186,35 @@ public class ExampleTest {
         assertEquals(action.stop(), nav.run(100, 1000));
     }
 
+    @Test
+    public void testTurnLocation(){
+        Coordinates coords = new Coordinates();
+        coords.turnLocation("N","E");
+
+        assertEquals(coords.x_coords(), 3);
+        assertEquals(coords.y_coords(), 3);
+    }
+
+    @Test
+    public void testFlyLocation(){
+        Coordinates coords = new Coordinates();
+        coords.flyLocation("E");
+        assertEquals(coords.x_coords(), 6);
+    }
+
+
+    @Test
+    public void testX(){
+        Coordinates coords = new Coordinates();
+        assertEquals(6, coords.x_coords());
+    }
+
+    @Test
+    public void testY(){
+        Coordinates coords = new Coordinates();
+        assertEquals(3, coords.y_coords());
+    }
+
     @Test 
     public void testNavSystem() {
         NavigationSystem navigationSystem = new NavigationSystem();

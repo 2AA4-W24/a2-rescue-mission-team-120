@@ -1,14 +1,9 @@
 package ca.mcmaster.se2aa4.island.team120;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-
 public class GridSearch implements SearchIsland{
     Actions action= new Actions();
     Direction direction= new Direction();
     Data data= new Data();
-    private final Logger logger = LogManager.getLogger();
     private int changeDir;
     private int south;
     private int north;
@@ -151,18 +146,13 @@ public class GridSearch implements SearchIsland{
             data.setBeforeTurnDir(currentDirection);
             //moves onto next turning cycle step
             data.setChangeDirAlgo(4);
-            logger.info("HAM");
-
             return action.changeDirection("E");
         }
         //if drone is searching from righ to left, drone turns west
         else{
             data.setBeforeTurnDir(currentDirection);
             //moves onto next turning cycle step
-            
-            logger.info("DID FIRST TURN");
             data.setChangeDirAlgo(4);
-            logger.info("FISH");
 
             return action.changeDirection("W");
         }
@@ -173,15 +163,12 @@ public class GridSearch implements SearchIsland{
     private String secondTurn(String currentDirection){
         //moves onto next turning cycle step
         data.setChangeDirAlgo(5);
-        logger.info("DID SECOND TURN");
         //if drone was originally facing south, it turns north
         if ((currentDirection.equals("E")|| currentDirection.equals("W"))  && south==1){
             data.setBeforeTurnDir(currentDirection);
             //updates which direction the drone is currently facing
             data.setNorthAlgo(1);
             data.setSouthAlgo(0);
-            logger.info("PANCAKE");
-
             return action.changeDirection("N");
         }
         //if drone was originally facing north, it faces south
@@ -190,7 +177,6 @@ public class GridSearch implements SearchIsland{
             //updates which direction the drone is currently facing
             data.setNorthAlgo(0);
             data.setSouthAlgo(1);
-            logger.info("LOBSTER");
             return action.changeDirection("S");
         }
     }
@@ -229,8 +215,6 @@ public class GridSearch implements SearchIsland{
 
     //sets/resets variables to end island in current direction
     private String beyondMapBounds(String currentDirection, boolean hasChangedDir){
-        logger.info(data.getChangeDirAlgo());
-        logger.info("Loser i snuck here");
         data.setInterTurn(true);
         data.setOnGround(false);
         data.setPhase(0);

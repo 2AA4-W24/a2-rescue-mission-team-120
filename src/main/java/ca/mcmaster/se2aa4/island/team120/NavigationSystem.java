@@ -15,41 +15,38 @@ public class NavigationSystem implements MissionType{
     Coordinates coords = new Coordinates();
     Actions action= new Actions();
 
+    // navigation algorithm system which decides when to initiate which phase of
+    // island exploration; begin by checking drones initial position and begins moving to get into the
+    // correct starting position. continue running so long as the battery is above threshold level
     public String run(int batteryLevel, int startingBatteryLevel){ 
-        logger.info("CURRENT DIRECTION: "+ data.getCurrDirection());
         while(batteryLevel>= 0.175*startingBatteryLevel){
             if(!(data.getTop())){
                 return start.fourCorners();
             }
+            // once drone is in position, initiate island locating algorithm until drone is on ground
             else if (!(data.getOnGround()) && !(data.getNoIsland()) && !(data.getInterTurn())){
-                logger.info("GORILLA {}", data.getNewDirection());
-
-                logger.info("GORILLA {}", data.getCurrDirection());
-
-                logger.info("running finder");
                 return island.finder(); 
             }
+            // if the drone has finished the initial interlacing pattern, drone must initiate turn
+            // to get into position to begin second interlacing pattern
             else if(data.getInterTurn()){
-                logger.info("interlace");
                 data.setHasChangedDir(true);
                 return interlace.turn();
             }
+            // once drone is on ground after finding the island, begin island traversal algorithm 
+            // using grid search and an interlacing pattern
             else if (!(data.getInterTurn()) && !(data.getHasChangedDir())){
                 data.setNoIsland(true);
-                logger.info("algo search");
                 return algoRun.search(batteryLevel, startingBatteryLevel); 
             }
             else if(!(data.getInterTurn()) && data.getHasChangedDir()){
-                logger.info("algo search backwards");
                 return algoRun.search(batteryLevel, startingBatteryLevel); 
             }
-
             else{
-                logger.info("stop");
                 return action.stop();
             }
         }
-        //battery below set threshold
+        // once battery is below set threshold
         return action.stop();
     }
 }
