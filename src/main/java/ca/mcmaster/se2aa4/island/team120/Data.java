@@ -29,7 +29,7 @@ public class Data {
     private static boolean hasChangedDir=false;
     private static boolean inPos = true;
     private static int counting = 0;
-    private static String beforeTurn;
+    private static String beforeTurn = "";
     private static int rangeChecker = -1;
     private static boolean groundLocated;
     private static int phase = 0;
