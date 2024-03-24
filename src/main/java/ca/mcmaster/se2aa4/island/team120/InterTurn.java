@@ -48,7 +48,7 @@ public class InterTurn{
                 return initTurning(lastChecked, currentDirection, goNorth, goSouth);
 
             default:
-                throw new IllegalArgumentException("nope.");
+                throw new IllegalArgumentException("Invalid Phase");
         }
     }
     
@@ -154,7 +154,7 @@ public class InterTurn{
                 return task.scan();
 
             default:
-                throw new IllegalArgumentException("nope.");
+                throw new IllegalArgumentException("Invalid Counter");
         }
     }
 }

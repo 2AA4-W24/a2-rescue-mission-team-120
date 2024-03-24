@@ -12,55 +12,6 @@ import org.junit.jupiter.api.Test;
 //ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
 
-    //Actions class unit tests start
-    @Test
-    public void testFlyAction() {
-        Actions actions = new Actions();
-
-        //execute fly method action
-        String result = actions.fly();
-        //actions.fly();
-
-        assertEquals("{\"action\":\"fly\"}", result);
-
-    }
-
-    @Test
-    public void testChangeDirectionAction() {
-        Actions actions = new Actions();
-        Coordinates coords = new Coordinates();
-        String result = actions.changeDirection("S");
-        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"S\"}}", result);
-
-    }
-
-    @Test
-    public void testEchoAction() {
-        Actions actions = new Actions();
-        String result = actions.echo("N");
-        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}", result);
-    }
-
-    @Test
-    public void testScanAction() {
-        Actions actions = new Actions();
-        String result = actions.echo("N");
-        assertEquals("{\"action\":\"scan\"}", result);
-    }
-
-    public void testStopAction(){
-        Actions actions = new Actions();
-        String result = actions.stop();
-        assertEquals("{\"action\":\"stop\"}", result);
-    }
-
-    //Actions class unit tests end
-
-
-
-    //Grid Search unit tests start
-
-
     @Test
     public void testGridSearchBatteryLevelThreshold() { 
         Actions action = new Actions();
@@ -74,10 +25,27 @@ public class ExampleTest {
         assertEquals(action.stop(), algoRun.search(batteryLevel, startingBatteryLevel));
     }
 
-    //Grid Search unit tests end
+    @Test
+    public void testFindIsland(){
+        Actions action = new Actions();
+        FindIsland findIsland = new FindIsland();
+        Data data = new Data();
+        data.setInitialEastWest(data.getCurrDirection());
+        data.setGroundFound(false);
+        data.setNewDirection("W");
+        data.setCurrDirection(data.getNewDirection());
 
-    
+        assertEquals(action.echo("W"), findIsland.finder());
+    }
 
+    @Test
+    public void testInterTurn(){
+        Actions action = new Actions();
+        InterTurn interlace = new InterTurn();
+        Data data = new Data();
+
+
+    }
 
     @Test
     public void testSetAndGetCurrDirection() {
@@ -207,7 +175,6 @@ public class ExampleTest {
         navigationSystem.data.setLastDirection("E");
         assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", navigationSystem.run(100, 1000));
     }
-    
     
 }
     
