@@ -106,8 +106,6 @@ public class StartPoint{
         
         start_dir = data.getStart_dir(); 
 
-        logger.info("Tiles up: "+ range_y_above);
-        logger.info("Tiles to the left: " + range_x_left);
         if ((range_y_above == 0) && (range_x_left==0)){//if already in corner 
             return Inwards(range_x_left,range_x_right, range_y_above, range_y_below);
         }else{ 
@@ -118,7 +116,6 @@ public class StartPoint{
                 return RFL(range_x_left, start_dir);
             }
         }
-        logger.info("im going here");
         return null;
     }
   
@@ -163,12 +160,10 @@ public class StartPoint{
         logger.info(range_y_below);
 
         if ((range_y_below == 0) && (range_x_right ==0)){//already in corner 
-            logger.info("corner");
             return Inwards(range_x_left,range_x_right, range_y_above, range_y_below);
         }else{ 
             logger.info(start_dir);
             if (data.getStart_dir().charAt(0) == 'W'){
-                logger.info("West baby");
                 return LFR(range_y_below, start_dir);
 
             }else if(data.getStart_dir().charAt(0) == 'N'){//repeated 
@@ -207,7 +202,6 @@ public class StartPoint{
 
         if(((range_x_left ==0) && (range_y_above ==0)) || ((range_x_left ==0) && (range_y_below ==0))){
             if(data.getCurrDirection().charAt(0) != 'E'){
-                logger.info("I AM HERE"); 
                 data.setTop();
                 data.setBeforeTurnDir(data.getCurrDirection()); 
                 data.setInitialEastWest("E");
@@ -227,7 +221,6 @@ public class StartPoint{
                 return action.changeDirection("W");
 
             }else{
-                logger.info("I AM HERE 2");
                 data.setTop();
                 data.setInitialEastWest("W");
                 return action.scan();
