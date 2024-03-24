@@ -62,17 +62,18 @@ public class InterTurn{
     
     // method for drone to check if land is land is to the right or left and if land is found,
     // then through goal direction, sets the end direction based on the direction of the land found
+
     public String firstPhase(String leftDir, String rightDir){
         if(data.getGroundFound()){
             data.setPhase(1);
             goalDirection(leftDir, rightDir);
             return task.fly();
         }
-        else if(lastChecked == leftDir){
+        else if(lastChecked.equals(leftDir)){
             data.setLastDirection(rightDir);
             return task.echo(rightDir);
         }
-        else if (lastChecked == rightDir){
+        else if (lastChecked.equals(rightDir)){
             data.setLastDirection(leftDir);
             return task.echo(leftDir);
         }
