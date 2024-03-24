@@ -16,10 +16,20 @@ public class NavigationSystem implements MissionType{
     Actions action= new Actions();
 
     public String run(int batteryLevel, int startingBatteryLevel){ 
+        logger.info("ball{}",data.getIsStartingLeft());
+        logger.info("xpos {}", coords.x_coords());
+        logger.info("north algo {}", data.getNorthAlgo());
+        logger.info("south algo {}", data.getSouthAlgo());
+        logger.info("INIT {}", data.getInitialEastWest());
+
         if(!(data.getTop())){
             return start.fourCorners();
         }
-        else if (!(data.getOnGround()) && !(data.getInterTurn())){
+        else if (!(data.getOnGround()) && !(data.getNoIsland()) && !(data.getInterTurn())){
+            logger.info("GORILLA {}", data.getNewDirection());
+
+            logger.info("GORILLA {}", data.getCurrDirection());
+
             logger.info("running finder");
             return island.finder(); 
         }
@@ -29,6 +39,7 @@ public class NavigationSystem implements MissionType{
             return interlace.turn();
         }
         else if (!(data.getInterTurn()) && !(data.getHasChangedDir())){
+            data.setNoIsland(true);
             logger.info("algo search");
             return algoRun.search(batteryLevel, startingBatteryLevel); 
         }

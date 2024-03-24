@@ -37,7 +37,7 @@ public class Data {
     private static String initDir;
     private static boolean Corner = false; 
     private static boolean notFound = true;
-
+    private static boolean noIsland = false;
 
     public void setLastDirection(String lastDirection){
         last = lastDirection;
@@ -349,5 +349,13 @@ public class Data {
 
     public void setNotFound(boolean checkFound){
         notFound = checkFound;
+    }
+
+    public boolean getNoIsland(){
+        return noIsland;
+    }
+
+    public void setNoIsland(boolean noMoreIsland){
+        noIsland = noMoreIsland;
     }
 }

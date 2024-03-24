@@ -111,10 +111,13 @@ public class FindIsland {
                 }
                 else if (data.getInitialEastWest().equals("W")){
                     data.setNewDirection(leftDir);
+                    logger.info("Fuck {}", data.getNewDirection());
+                    logger.info("U {}", data.getCurrDirection());
                 }
                 return task.scan();
 
             case 1:
+                logger.info("hey");
                 data.setCounter(2);
                 return task.fly();
 
@@ -124,6 +127,7 @@ public class FindIsland {
                     data.setNewDirection(leftDir);
                 }
                 else if (data.getInitialEastWest().equals("W")){
+                    logger.info("regressed");
                     data.setNewDirection(rightDir);
                 }
                 return task.scan();

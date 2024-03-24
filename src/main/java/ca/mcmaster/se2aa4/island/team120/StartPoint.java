@@ -28,9 +28,9 @@ public class StartPoint{
     //run through count casses to scan intial surrondings and make a decision based o nthat 
     public String fourCorners(){
         range = data.getRange();
-        logger.info(range);
+
         int count = data.getStage(); 
-        logger.info("Count: "+ count);  
+
 
         if(count==0){//scan east 
 
@@ -64,7 +64,7 @@ public class StartPoint{
         }else if (count ==3){//scan south
             if((data.getCurrDirection().charAt(0) != 'S')){
                 data.setRange_y_above(range);
-                logger.info(range);
+
             }
             if((data.getCurrDirection().charAt(0) != 'N')){
                 return action.echo("S");
@@ -74,7 +74,7 @@ public class StartPoint{
 
         }else if (count == 4){//setting last range 
             if((data.getCurrDirection().charAt(0) != 'N')){
-                logger.info(range);
+
                 data.setRange_y_below(range);
             }
             return action.scan();
@@ -85,10 +85,6 @@ public class StartPoint{
             int range_y_below = data.getRange_y_below(); 
             int range_y_above = data.getRange_y_above(); 
 
-            logger.info(range_x_right);
-            logger.info(range_x_left);
-            logger.info(range_y_below);
-            logger.info(range_y_above);
             //choosing corner to go to 
             return corners(range_x_right, range_x_left, range_y_above, range_y_below);
         }
@@ -98,7 +94,7 @@ public class StartPoint{
     private String topLeft(){//top left logic 
         //top left
         data.setIsStartingLeft(true);
-        logger.info("Top Left");
+
 
         int range_x_right = data.getRange_x_right();
         int range_x_left = data.getRange_x_left();
@@ -122,7 +118,7 @@ public class StartPoint{
     
     private String topRight(){//top right logic 
         data.setIsStartingLeft(false);
-        logger.info("Top right");
+  
         
         int range_x_right = data.getRange_x_right();
         int range_x_left = data.getRange_x_left();
@@ -130,9 +126,6 @@ public class StartPoint{
         int range_y_above = data.getRange_y_above(); 
         
         start_dir = data.getStart_dir(); 
-
-        logger.info(range_x_right);
-        logger.info(range_y_above);
 
         if ((range_y_above == 0) && (range_x_right ==0)){//already in corner 
             return Inwards(range_x_left,range_x_right, range_y_above, range_y_below);
@@ -148,8 +141,9 @@ public class StartPoint{
     }
 
     private String botRight(){//bottom right logic 
-        logger.info("Bot right");
         data.setIsStartingLeft(false);
+        data.setNorthAlgo(1);
+        data.setSouthAlgo(0);
         int range_x_right = data.getRange_x_right();
         int range_x_left = data.getRange_x_left();
         int range_y_below = data.getRange_y_below(); 
@@ -157,13 +151,10 @@ public class StartPoint{
         
         start_dir = data.getStart_dir(); 
 
-        logger.info(range_x_right);
-        logger.info(range_y_below);
-
         if ((range_y_below == 0) && (range_x_right ==0)){//already in corner 
             return Inwards(range_x_left,range_x_right, range_y_above, range_y_below);
         }else{ 
-            logger.info(start_dir);
+
             if (data.getStart_dir().charAt(0) == 'W'){
                 return LFR(range_y_below, start_dir);
 
@@ -176,9 +167,9 @@ public class StartPoint{
 
     private String botLeft(){//bottom left logic 
         //top right
-        logger.info("Bot left");
         data.setIsStartingLeft(true);
-
+        data.setNorthAlgo(1);
+        data.setSouthAlgo(0);
         int range_x_right = data.getRange_x_right();
         int range_x_left = data.getRange_x_left();
         int range_y_below = data.getRange_y_below(); 
@@ -207,10 +198,12 @@ public class StartPoint{
                 data.setTop();
                 data.setBeforeTurnDir(data.getCurrDirection()); 
                 data.setInitialEastWest("E");
+                data.setGroundFound(false);
                 return action.changeDirection("E");
             }else{
                 data.setTop();
                 data.setInitialEastWest("E");
+                data.setGroundFound(false);
                 return action.scan();
             }
         }else if (((range_x_right ==0) && (range_y_above ==0)) || ((range_x_right ==0) && (range_y_below ==0))){
@@ -219,11 +212,13 @@ public class StartPoint{
                 data.setTop();
                 data.setBeforeTurnDir(data.getCurrDirection()); 
                 data.setInitialEastWest("W");
+                data.setGroundFound(false);
                 return action.changeDirection("W");
 
             }else{
                 data.setTop();
                 data.setInitialEastWest("W");
+                data.setGroundFound(false);
                 return action.scan();
             }
         }
@@ -252,7 +247,7 @@ public class StartPoint{
 
 //right, fly (while loop), left turn (+condition for ending E/W)
     private String RFL(int range, String start_dir){
-        logger.info("RFL");
+
         int count = data.getStage(); 
 
         if (count==5){
@@ -260,7 +255,6 @@ public class StartPoint{
                 String Current = data.getCurrDirection();
                 return action.changeDirection(Direction.right(Current));
         }else{
-            logger.info(range);
             while(range > 3){
                 int update = range-1; 
                 if (data.getCurrDirection().charAt(0) == 'N'){
@@ -268,7 +262,6 @@ public class StartPoint{
                     return action.fly(); 
                 }else if(data.getCurrDirection().charAt(0) == 'S'){
                     data.setRange_y_below((update)); 
-                    logger.info(range);
                     return action.fly(); 
                 }else if(data.getCurrDirection().charAt(0) == 'W'){
                     data.setRange_x_left(update); 
@@ -286,23 +279,25 @@ public class StartPoint{
             }
             data.setTop();
             data.setInitialEastWest(data.getCurrDirection());
+            data.setGroundFound(false);
+
             data.setBeforeTurnDir(data.getCurrDirection()); 
             String Current = data.getCurrDirection();
-            logger.info(Current);
+
             return action.changeDirection(Direction.left(Current));
         }
     }
 
 //left, fly (while loop), right turn (+condition for ending E/W)
     private String LFR(int range, String start_dir){
-        logger.info("LFR");
+
         int count = data.getStage(); 
         if (count == 5){
             data.setBeforeTurnDir(data.getCurrDirection()); 
             String Current = data.getCurrDirection();
             return action.changeDirection(Direction.left(Current));
         }else{
-            logger.info(range);
+
             while(range > 3){
                 int update = range-1; 
                 if (data.getCurrDirection().charAt(0) == 'N'){
@@ -310,7 +305,7 @@ public class StartPoint{
                     return action.fly(); 
                 }else if(data.getCurrDirection().charAt(0) == 'S'){
                     data.setRange_y_below((update)); 
-                    logger.info(range);
+
                     return action.fly(); 
                 }else if(data.getCurrDirection().charAt(0) == 'W'){
                     data.setRange_x_left(update); 
@@ -329,9 +324,10 @@ public class StartPoint{
             data.setTop();
             //checks if initially going 
             data.setInitialEastWest(data.getCurrDirection());
+            data.setGroundFound(false);
             data.setBeforeTurnDir(data.getCurrDirection()); 
             String Current = data.getCurrDirection();
-            logger.info(Current);
+
             return action.changeDirection(Direction.right(Current));
         }
     }
