@@ -105,7 +105,7 @@ public class ExampleTest {
 
     @Test
 
-    public void NavSystemCheck() {
+    public void TestNavSystem() {
         NavigationSystem navigationSystem = new NavigationSystem();
         StartPoint startPoint = new StartPoint();
 
@@ -120,6 +120,22 @@ public class ExampleTest {
         navigationSystem.data.setInterTurn(false);
         navigationSystem.data.setLastDirection("E");
         assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", navigationSystem.run(100, 1000));
+
     }
 
+    @Test    
+    public void testTracker() {
+        Tracker tracker = new Tracker();
+        
+        // Test adding a Creek
+        tracker.POI("Creek", "creek1");
+
+        assertEquals(1, Tracker.getNumCreeks());
+        assertTrue(Tracker.x_coords.containsKey("creek1"));
+        assertTrue(Tracker.y_coords.containsKey("creek1"));
+
+        // Test adding an Emergency site
+        tracker.POI("Emergency", "emergency1");
+        assertEquals("Emergency X coordinate: 0        Emergency y coordinate: 0", Tracker.getEmergencySite());
+    }
 }
