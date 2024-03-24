@@ -149,13 +149,14 @@ public class ExampleTest {
         assertTrue(scanner.isScanned());
 
         //is creek test 
-        JSONObject NoCreeks = new JSONObject();
-        PhotoScanner isCreek= new PhotoScanner(NoCreeks);
+        JSONObject creeks = new JSONObject();
+
+        PhotoScanner isCreek= new PhotoScanner(creeks);
         assertFalse(isCreek.isCreek());
 
         //is site test
-        JSONObject NoSites = new JSONObject();
-        PhotoScanner isSite = new PhotoScanner(NoSites);
+        JSONObject sites= new JSONObject();
+        PhotoScanner isSite = new PhotoScanner(sites);
         assertFalse(isSite.isSite());
 
     }
@@ -185,12 +186,16 @@ public class ExampleTest {
     }
 
     @Test 
-    public void NavSystemCheck() {
+    public void testNavSystem() {
         NavigationSystem navigationSystem = new NavigationSystem();
         StartPoint startPoint = new StartPoint();
 
         // Simulate different scenarios by setting data flags
-      
+        /*navigationSystem.data.getTop();
+        startPoint.data.setStage(0);
+        startPoint.data.setCurrDirection("E");
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}", navigationSystem.run(900, 1000));*/
+
         navigationSystem.data.setTop();
         navigationSystem.data.setOnGround(false);
         navigationSystem.data.setInterTurn(false);
