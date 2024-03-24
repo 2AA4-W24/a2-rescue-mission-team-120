@@ -13,17 +13,31 @@ import org.junit.jupiter.api.Test;
 public class ExampleTest {
 
     @Test
-    public void testGridSearchBatteryLevelThreshold() { 
-        Actions action = new Actions();
-        GridSearch algoRun= new GridSearch(); 
-        //test for battery level above 17.5% of starting battery level
-        int batteryLevel = 300;
-        int startingBatteryLevel = 1000;
-        
-        assertEquals(action.fly(), algoRun.search(batteryLevel, startingBatteryLevel));
-        //test for battery level below 17.5% of starting battery level
-        batteryLevel = 100;
-        assertEquals(action.stop(), algoRun.search(batteryLevel, startingBatteryLevel));
+    public void testChangeDirectionAction() {
+        Actions actions = new Actions();
+        Coordinates coords = new Coordinates();
+        String result = actions.changeDirection("S");
+        assertEquals("{\"action\":\"heading\",\"parameters\":{\"direction\":\"S\"}}", result);
+    }
+
+    @Test
+    public void testEchoAction() {
+        Actions actions = new Actions();
+        String result = actions.echo("N");
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"N\"}}", result);
+    }
+
+    @Test
+    public void testScanAction() {
+        Actions actions = new Actions();
+        String result = actions.scan();
+        assertEquals("{\"action\":\"scan\"}", result);
+    }
+
+    public void testStopAction(){
+        Actions actions = new Actions();
+        String result = actions.stop();
+        assertEquals("{\"action\":\"stop\"}", result);
     }
 
     @Test
@@ -159,22 +173,58 @@ public class ExampleTest {
         assertTrue(radarTest.isEchoed());//checks if returns true
     }
 
+    @Test
+    public void testNavigationSystemBatteryLevelThreshold() { 
+        Actions action = new Actions();
+        //test for battery level above 17.5% of starting battery level
+        NavigationSystem nav= new NavigationSystem();
+       
+        //test for battery level below 17.5% of starting battery level
+       
+        assertEquals(action.stop(), nav.run(100, 1000));
+    }
+
     @Test 
     public void NavSystemCheck() {
         NavigationSystem navigationSystem = new NavigationSystem();
         StartPoint startPoint = new StartPoint();
 
         // Simulate different scenarios by setting data flags
-        navigationSystem.data.getTop();
-        startPoint.data.setStage(0);
-        startPoint.data.setCurrDirection("E");
-        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"E\"}}", navigationSystem.run(100, 1000));
-
+      
         navigationSystem.data.setTop();
         navigationSystem.data.setOnGround(false);
         navigationSystem.data.setInterTurn(false);
         navigationSystem.data.setLastDirection("E");
-        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", navigationSystem.run(100, 1000));
+        assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", navigationSystem.run(900, 1000));
+    }
+
+    @Test
+    public void testGridSearchIslandCycle() { 
+        Actions action = new Actions();
+        GridSearch algoRun= new GridSearch();
+        Data data= new Data(); 
+        //test for battery level above 17.5% of starting battery level
+        int batteryLevel = 300;
+        int startingBatteryLevel = 1000;
+        data.setRangeCheck(10);
+        data.setCheckDone(true);
+        data.setCountAlgo(0);
+        //since range>=0, checkDone is true, count algo count is 0, should execute fly action
+        assertEquals(action.fly(), algoRun.search(batteryLevel, startingBatteryLevel));
+    }
+
+    @Test
+    public void testGridSearchTurnCycle() { 
+        Actions action = new Actions();
+        GridSearch algoRun= new GridSearch();
+        Data data= new Data(); 
+        //test for battery level above 17.5% of starting battery level
+        int batteryLevel = 300;
+        int startingBatteryLevel = 1000;
+        data.setRangeCheck(-1);
+        data.setChangeDirAlgo(0);
+        //since range<0, checkDone is true, change dir algo count is 0, should execute fly action since firstDirStep() executes
+        assertEquals(action.scan(), algoRun.search(batteryLevel, startingBatteryLevel));
     }
 }
     
