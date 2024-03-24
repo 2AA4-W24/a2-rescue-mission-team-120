@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 //ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
-/*
     @Test
     public void testGridSearch() { 
         Actions action = new Actions();
@@ -30,7 +29,6 @@ public class ExampleTest {
         //execute fly method action
         String result = actions.fly();
         //actions.fly();
-
         assertEquals("{\"action\":\"fly\"}", result);
 
     }
@@ -209,7 +207,7 @@ public class ExampleTest {
         navigationSystem.data.setLastDirection("E");
         assertEquals("{\"action\":\"echo\",\"parameters\":{\"direction\":\"S\"}}", navigationSystem.run(100, 1000));
     }
-    */
+    
 }
     
 
