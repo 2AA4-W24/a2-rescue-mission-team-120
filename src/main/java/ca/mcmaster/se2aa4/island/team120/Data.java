@@ -36,6 +36,7 @@ public class Data {
     private static String start_dir; 
     private static String initDir;
     private static boolean Corner = false; 
+    private static boolean notFound = true;
 
 
     public void setLastDirection(String lastDirection){
@@ -340,5 +341,13 @@ public class Data {
 
     public void setPhase(int newPhase){
         phase = newPhase;
+    }
+
+    public boolean getNotFound(){
+        return notFound;
+    }
+
+    public void setNotFound(boolean checkFound){
+        notFound = checkFound;
     }
 }

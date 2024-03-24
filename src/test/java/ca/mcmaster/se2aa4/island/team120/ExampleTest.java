@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 //ACTIONS, COORDINATES, DATA, DIRECTION, GRIDSEARCH TESTING DONE
 public class ExampleTest {
- /*
+    /*
     @Test
     public void testGridSearch() { 
         Actions action = new Actions();
@@ -96,7 +96,7 @@ public class ExampleTest {
         assertEquals(leftDir, findIsland.data.getLastDirection());
 
         findIsland.checkGround(rightDir, leftDir);
-        assertEquals(findIsland.currentDirection, findIsland.data.getLastDirection());
+        assertEquals(findIsland.data.getCurrDirection(), findIsland.data.getLastDirection());
     }
 
     @Test
@@ -169,6 +169,5 @@ public class ExampleTest {
 
         Radar radarTest = new Radar(groundResponse);
         assertTrue(radarTest.isGround());//checks if returns true
-    }
-    */
+    }*/
 }
