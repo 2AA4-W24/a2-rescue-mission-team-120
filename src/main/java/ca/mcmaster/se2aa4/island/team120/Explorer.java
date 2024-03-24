@@ -71,9 +71,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        logger.info(Tracker.getNumCreeks());
-        logger.info(Tracker.getEmergencySite());
-        logger.info(Tracker.CurrentClosest());
+        //logger.info(Tracker.getNumCreeks());
+        //logger.info(Tracker.getEmergencySite());
+        logger.info("Closest Creek:"+ Tracker.CurrentClosest());
         logger.info(Tracker.getClosetCreekCoords());
         return Tracker.getClosetCreekCoords();
     }
